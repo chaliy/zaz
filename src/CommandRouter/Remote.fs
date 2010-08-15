@@ -8,12 +8,12 @@ module Contract =
 
     [<DataContract(Namespace="urn:org:mir:command-rounter:command-bus-v1.0")>]
     type CommandEnvelope() =      
-        let mutable _type : string = null
+        let mutable key : string = null
         let mutable data : XElement = null
         let mutable tags : string list = []
     
-        [<DataMember(Name = "Type", IsRequired = false, Order = 0)>]
-        member x.Type with get() = _type and set(v) = _type <- v
+        [<DataMember(Name = "Key", IsRequired = false, Order = 0)>]
+        member x.Key with get() = key and set(v) = key <- v
         [<DataMember(Name = "Data", IsRequired = false, Order = 1)>]
         member x.Data with get() = data and set(v) = data <- v
         [<DataMember(Name = "Tags", IsRequired = false, Order = 2)>]
@@ -45,7 +45,7 @@ module Client =
         interface CommandRouter.ICommandBus with
             member this.Post(cmd) =
                 let envelope = CommandEnvelope()
-                envelope.Type <- cmd.GetType().Name
+                envelope.Key <- cmd.GetType().Name
                 envelope.Data <- serialize cmd
                 envelope.Tags <- List.empty
                 
@@ -54,9 +54,26 @@ module Client =
                 channel.Post(envelope)
                 ()
 
-
 module Server =
+    open System.IO
+    open System.Xml
+    open System.Xml.Linq
+    open System.Runtime.Serialization
     open Contract
-    type CommandBusService =
+
+    [<AbstractClass>] 
+    type CommandBusService() =
+        let deserialize (xml : XElement) cmdType =                     
+            let ser = new DataContractSerializer(cmdType)
+            ser.ReadObject(xml.CreateReader())
+
         interface CommandBus with
-            member this.Post(env) = ()    
+            member this.Post(env) = 
+                let cmdType = this.ResolveCommand(env.Key)
+                let cmd = deserialize env.Data cmdType
+                let bus = this.CreateCommandBus()
+                bus.Post(cmd)
+
+        
+        abstract member CreateCommandBus : unit -> CommandRouter.ICommandBus
+        abstract member ResolveCommand : key : string -> System.Type
