@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleHandlers", "SampleHandlers\SampleHandlers.csproj", "{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{7D640DFC-9D7C-4831-BBE6-5722862B5723}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2} = {4BE7BEF6-3334-406F-965B-DBBFD690D6A2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleRemoteApp", "SampleRemoteApp\SampleRemoteApp.csproj", "{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}"
 EndProject

@@ -1,12 +1,13 @@
 ﻿using System;
 using CommandRouter;
-using CommandRouter.Remote;
+using CommandRouter.Local;
+using CommandRouter.Remote.Server;
 using SampleCommands;
 using SampleHandlers;
 
 namespace SampleRemoteApp
 {
-    public class SampleCommandBusService : Server.CommandBusService
+    public class SampleCommandBusService : CommandBusService
     {
         public override ICommandBus CreateCommandBus()
         {
