@@ -1,6 +1,6 @@
-﻿namespace CommandRouter.Local
+﻿namespace Zaz.Local
 
-open CommandRouter
+open Zaz
 
 type LocalCommandBus(resolver : System.Type -> obj -> unit) =
    interface ICommandBus with

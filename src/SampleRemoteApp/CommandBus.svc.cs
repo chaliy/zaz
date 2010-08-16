@@ -1,7 +1,7 @@
 ﻿using System;
-using CommandRouter;
-using CommandRouter.Local;
-using CommandRouter.Remote.Server;
+using Zaz;
+using Zaz.Local;
+using Zaz.Remote.Server;
 using SampleCommands;
 using SampleHandlers;
 

@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommandRouter\CommandRouter.fsproj">
+    <ProjectReference Include="..\Core\Core.fsproj">
       <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
       <Name>CommandRouter</Name>
     </ProjectReference>

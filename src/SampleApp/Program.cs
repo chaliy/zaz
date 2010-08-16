@@ -1,5 +1,5 @@
-﻿using CommandRouter;
-using CommandRouter.Remote.Client;
+﻿using Zaz;
+using Zaz.Remote.Client;
 using SampleCommands;
 
 namespace SampleApp

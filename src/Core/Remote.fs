@@ -1,10 +1,10 @@
-﻿namespace CommandRouter.Remote.Contract
+﻿namespace Zaz.Remote.Contract
 
 open System.Xml.Linq
 open System.ServiceModel
 open System.Runtime.Serialization
 
-[<DataContract(Namespace="urn:org:mir:command-rounter:command-bus-v1.0")>]
+[<DataContract(Namespace="urn:org:zaz:command-bus-v1.0")>]
 type CommandEnvelope() =      
     let mutable key : string = null
     let mutable data : XElement = null
@@ -18,19 +18,19 @@ type CommandEnvelope() =
     member x.Tags with get() = tags and set(v) = tags <- v
 
 
-[<ServiceContract(Namespace = "urn:org:mir:command-rounter:command-bus-v1.0")>]
+[<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0")>]
 type CommandBus =    
     [<OperationContract(IsOneWay = true)>]
     abstract member Post : env : CommandEnvelope -> unit
 
-namespace CommandRouter.Remote.Client
+namespace Zaz.Remote.Client
 
     open System.IO
     open System.Xml
     open System.Xml.Linq
     open System.Runtime.Serialization
     open System.ServiceModel
-    open CommandRouter.Remote.Contract    
+    open Zaz.Remote.Contract    
 
     type RemoteCommandBus(url) =
         let serialize cmd = 
@@ -39,7 +39,7 @@ namespace CommandRouter.Remote.Client
             ser.WriteObject(mem, cmd)
             mem.Position <- int64 0
             XElement.Load(new XmlTextReader(mem))    
-        interface CommandRouter.ICommandBus with
+        interface Zaz.ICommandBus with
             member this.Post(cmd) =
                 let envelope = CommandEnvelope()
                 envelope.Key <- cmd.GetType().Name
@@ -51,13 +51,13 @@ namespace CommandRouter.Remote.Client
                 channel.Post(envelope)
                 ()
 
-namespace CommandRouter.Remote.Server
+namespace Zaz.Remote.Server
 
     open System.IO
     open System.Xml
     open System.Xml.Linq
     open System.Runtime.Serialization
-    open CommandRouter.Remote.Contract
+    open Zaz.Remote.Contract
 
     [<AbstractClass>] 
     type CommandBusService() =
@@ -73,5 +73,5 @@ namespace CommandRouter.Remote.Server
                 bus.Post(cmd)
 
         
-        abstract member CreateCommandBus : unit -> CommandRouter.ICommandBus
+        abstract member CreateCommandBus : unit -> Zaz.ICommandBus
         abstract member ResolveCommand : key : string -> System.Type
