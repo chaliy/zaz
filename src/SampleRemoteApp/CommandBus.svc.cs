@@ -11,7 +11,7 @@ namespace SampleRemoteApp
     {
         public override ICommandBus CreateCommandBus()
         {
-            return new LocalCommandBus(CommandHandlerResolvers.FromAssembly(typeof(SampleHandlersMarker).Assembly));            
+			return DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly);            
         }
 
         public override Type ResolveCommand(string key)

@@ -51,7 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.fsproj">
       <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
-      <Name>CommandRouter</Name>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SampleCommands\SampleCommands.csproj">
       <Project>{DC0CB69F-9280-4D9C-8C01-4677F9291624}</Project>
@@ -61,9 +61,6 @@
       <Project>{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}</Project>
       <Name>SampleHandlers</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

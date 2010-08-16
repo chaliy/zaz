@@ -75,7 +75,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.fsproj">
       <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
-      <Name>CommandRouter</Name>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SampleCommands\SampleCommands.csproj">
       <Project>{DC0CB69F-9280-4D9C-8C01-4677F9291624}</Project>
