@@ -8,7 +8,7 @@
     <ProjectGuid>{3b0b7881-116a-4779-b876-2675579dc38a}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>CommandRouter</RootNamespace>
-    <AssemblyName>CommandRouter</AssemblyName>
+    <AssemblyName>Zaz</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Name>CommandRouter</Name>
   </PropertyGroup>

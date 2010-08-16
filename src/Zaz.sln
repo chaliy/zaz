@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandRouter", "CommandRouter\CommandRouter.fsproj", "{3B0B7881-116A-4779-B876-2675579DC38A}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core", "Core\Core.fsproj", "{3B0B7881-116A-4779-B876-2675579DC38A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCommands", "SampleCommands\SampleCommands.csproj", "{DC0CB69F-9280-4D9C-8C01-4677F9291624}"
 EndProject
@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\Samp
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleRemoteApp", "SampleRemoteApp\SampleRemoteApp.csproj", "{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82BF8-FB04-4B92-A2ED-3727DC0766EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,5 +79,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF7B8BC2-21A7-4022-8B94-6353BB4B154C} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
+		{7D640DFC-9D7C-4831-BBE6-5722862B5723} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
+		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
+		{DC0CB69F-9280-4D9C-8C01-4677F9291624} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
 	EndGlobalSection
 EndGlobal
