@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core", "Core\Core.fsproj", "{3B0B7881-116A-4779-B876-2675579DC38A}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Zaz", "Zaz\Zaz.fsproj", "{3B0B7881-116A-4779-B876-2675579DC38A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCommands", "SampleCommands\SampleCommands.csproj", "{DC0CB69F-9280-4D9C-8C01-4677F9291624}"
 EndProject

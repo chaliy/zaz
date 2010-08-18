@@ -10,7 +10,7 @@
     <RootNamespace>CommandRouter</RootNamespace>
     <AssemblyName>Zaz</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <Name>CommandRouter</Name>
+    <Name>Core</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
