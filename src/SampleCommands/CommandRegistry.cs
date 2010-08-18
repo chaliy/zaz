@@ -6,7 +6,7 @@ namespace SampleCommands
     {
         public static Type GetCommand(string key)
         {
-            return Type.GetType("Inventory.Domain.Commands." + key + ", Inventory.Domain");
+            return Type.GetType("SampleCommands." + key + ", SampleCommands");
         }
     }
 }
