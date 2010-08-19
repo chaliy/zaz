@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Zaz;
 using Zaz.Local;
 using Zaz.Remote.Server;
@@ -14,9 +15,9 @@ namespace SampleRemoteApp
 			return DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly);            
         }
 
-        public override Type ResolveCommand(string key)
+        public override IEnumerable<Type> ResolveCommand(string key)
         {
-            return CommandRegistry.GetCommand(key);
+            return CommandRegistry.ResolveCommand(key);
         }
     }
 }

@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SampleCommands
 {
     public static class CommandRegistry
     {
-        public static Type GetCommand(string key)
+        public static IEnumerable<Type> ResolveCommand(string key)
         {
-            return Type.GetType("SampleCommands." + key + ", SampleCommands");
+            var commandType = Type.GetType("SampleCommands." + key + ", SampleCommands", false);
+            if (commandType != null)
+            {
+                yield return commandType;
+            }        
         }
     }
 }

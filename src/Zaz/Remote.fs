@@ -67,12 +67,11 @@ namespace Zaz.Remote.Server
 
         interface CommandBus with
             member this.Post(env) = 
-                let cmdType = this.ResolveCommand(env.Key)
-                if cmdType = null then failwithf "Command for key %s was not found" (env.Key)
-                let cmd = deserialize env.Data cmdType
                 let bus = this.CreateCommandBus()
-                bus.Post(cmd)
-
+                let cmdTypes = this.ResolveCommand(env.Key)
+                cmdTypes
+                |> Seq.map(fun t -> deserialize env.Data t)
+                |> Seq.iter(bus.Post)
         
         abstract member CreateCommandBus : unit -> Zaz.ICommandBus
-        abstract member ResolveCommand : key : string -> System.Type
+        abstract member ResolveCommand : key : string -> System.Type seq
