@@ -71,7 +71,7 @@ namespace Zaz.Remote.Server
                 let cmdTypes = this.ResolveCommand(env.Key)
                 cmdTypes
                 |> Seq.map(fun t -> deserialize env.Data t)
-                |> Seq.iter(bus.Post)
+                |> Seq.iter(bus.Post)   
         
         abstract member CreateCommandBus : unit -> Zaz.ICommandBus
         abstract member ResolveCommand : key : string -> System.Type seq
