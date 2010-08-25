@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SampleHandlers</RootNamespace>
     <AssemblyName>SampleHandlers</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +36,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -45,10 +45,6 @@
     <Compile Include="SampleHandlersMarker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zaz\Zaz.fsproj">
-      <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
-      <Name>Zaz</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SampleCommands\SampleCommands.csproj">
       <Project>{DC0CB69F-9280-4D9C-8C01-4677F9291624}</Project>
       <Name>SampleCommands</Name>

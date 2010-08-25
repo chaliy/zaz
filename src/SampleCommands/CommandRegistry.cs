@@ -7,7 +7,7 @@ namespace SampleCommands
     {
         public static IEnumerable<Type> ResolveCommand(string key)
         {
-            var commandType = Type.GetType("SampleCommands." + key + ", SampleCommands", false);
+            var commandType = Type.GetType(key + ", SampleCommands", false);
             if (commandType != null)
             {
                 yield return commandType;

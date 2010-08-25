@@ -17,10 +17,9 @@ type CommandEnvelope() =
     [<DataMember(Name = "Tags", IsRequired = false, Order = 2)>]
     member x.Tags with get() = tags and set(v) = tags <- v
 
-
 [<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0")>]
 type CommandBus =    
-    [<OperationContract(IsOneWay = true)>]
+    [<OperationContract>]
     abstract member Post : env : CommandEnvelope -> unit
 
 namespace Zaz.Remote.Client
@@ -41,15 +40,17 @@ namespace Zaz.Remote.Client
             XElement.Load(new XmlTextReader(mem))    
         interface Zaz.ICommandBus with
             member this.Post(cmd) =
-                let envelope = CommandEnvelope()
-                envelope.Key <- cmd.GetType().Name
-                envelope.Data <- serialize cmd
-                envelope.Tags <- List.empty
+                let cmdKey = cmd.GetType().FullName
+                printfn "Posting command %s" cmdKey
+                let envelope = CommandEnvelope(
+                                    Key = cmdKey,
+                                    Data = serialize cmd,
+                                    Tags = List.empty
+                                )
                 
                 let factory = new ChannelFactory<CommandBus>(WSHttpBinding())
                 let channel = factory.CreateChannel(EndpointAddress(url)) 
                 channel.Post(envelope)
-                ()
 
 namespace Zaz.Remote.Server
 
@@ -61,7 +62,7 @@ namespace Zaz.Remote.Server
 
     [<AbstractClass>] 
     type CommandBusService() =
-        let deserialize (xml : XElement) cmdType =                     
+        let deserialize (xml : XElement) cmdType =
             let ser = new DataContractSerializer(cmdType)
             ser.ReadObject(xml.CreateReader())
 
@@ -71,7 +72,7 @@ namespace Zaz.Remote.Server
                 let cmdTypes = this.ResolveCommand(env.Key)
                 cmdTypes
                 |> Seq.map(fun t -> deserialize env.Data t)
-                |> Seq.iter(bus.Post)   
+                |> Seq.iter(bus.Post)
         
         abstract member CreateCommandBus : unit -> Zaz.ICommandBus
         abstract member ResolveCommand : key : string -> System.Type seq
