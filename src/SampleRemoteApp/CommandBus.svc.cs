@@ -8,11 +8,11 @@ using SampleHandlers;
 
 namespace SampleRemoteApp
 {
-    public class SampleCommandBusService : CommandBusService
+    public class SimpleCommandBusService : CommandBusService
     {
         public override ICommandBus CreateCommandBus()
         {
-			return DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly);            
+			return DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);
         }
 
         public override IEnumerable<Type> ResolveCommand(string key)

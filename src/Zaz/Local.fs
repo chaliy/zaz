@@ -28,10 +28,10 @@ module Types =
         |> Seq.filter( fun m -> m.GetParameters().Length = 1 
                                  && m.GetParameters().[0].ParameterType.IsAssignableFrom(cmd) )
 
-    let toExecutable (mm : MethodInfo seq) =
+    let toExecutable (act : Type -> obj) (mm : MethodInfo seq) =
         mm 
         |> Seq.map(fun m -> fun (c : obj) ->                         
-                                let handler = System.Activator.CreateInstance(m.ReflectedType)
+                                let handler = act m.ReflectedType
                                 let xpr = System.Linq.Expressions.Expression.Call(                            
                                                 System.Linq.Expressions.Expression.Constant(handler, m.ReflectedType), m,
                                                 System.Linq.Expressions.Expression.Constant(c, c.GetType())) 
@@ -42,11 +42,29 @@ module Types =
                                     System.Linq.Expressions.Expression.Lambda<System.Func<System.Object>>(xpr).Compile().Invoke() |> ignore                            
                                 () )
       
-type DefaultBuses =    
+type DefaultBuses =        
+    static member LocalBus(asm : System.Reflection.Assembly, ?activator : System.Type -> obj) =
+        let handlersFromAssembly(asm : System.Reflection.Assembly) =
+            fun cmd -> Types.ofAssembly(asm)
+                        |> Types.filter( fun t -> t.Name.EndsWith("Handler") )
+                        |> Types.chooseHandlerMethods (fun m -> m.Name = "Handle") cmd
+                        |> Types.toExecutable (defaultArg activator System.Activator.CreateInstance)
+        new LocalCommandBus(handlersFromAssembly(asm))
+
+    static member LocalBus(asm : System.Reflection.Assembly, activator : System.Func<System.Type, obj>) =
+        let handlersFromAssembly(asm : System.Reflection.Assembly) =
+            fun cmd -> Types.ofAssembly(asm)
+                        |> Types.filter( fun t -> t.Name.EndsWith("Handler") )
+                        |> Types.chooseHandlerMethods (fun m -> m.Name = "Handle") cmd
+                        |> Types.toExecutable (fun t -> activator.Invoke(t))
+        new LocalCommandBus(handlersFromAssembly(asm))
+
     static member LocalBus(asm : System.Reflection.Assembly) =
         let handlersFromAssembly(asm : System.Reflection.Assembly) =
             fun cmd -> Types.ofAssembly(asm)
                         |> Types.filter( fun t -> t.Name.EndsWith("Handler") )
                         |> Types.chooseHandlerMethods (fun m -> m.Name = "Handle") cmd
-                        |> Types.toExecutable
+                        |> Types.toExecutable (System.Activator.CreateInstance)
         new LocalCommandBus(handlersFromAssembly(asm))
+
+   

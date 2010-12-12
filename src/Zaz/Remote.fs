@@ -10,17 +10,27 @@ type CommandEnvelope() =
     let mutable data : XElement = null
     let mutable tags : string list = []
     
-    [<DataMember(Name = "Key", IsRequired = false, Order = 0)>]
+    [<DataMember(Name = "Key", IsRequired = true, Order = 0)>]
     member x.Key with get() = key and set(v) = key <- v
-    [<DataMember(Name = "Data", IsRequired = false, Order = 1)>]
+    [<DataMember(Name = "Data", IsRequired = true, Order = 1)>]
     member x.Data with get() = data and set(v) = data <- v
     [<DataMember(Name = "Tags", IsRequired = false, Order = 2)>]
     member x.Tags with get() = tags and set(v) = tags <- v
+
+[<DataContract(Namespace="urn:org:zaz:command-bus-v1.1")>]
+type BatchEnvelope() =      
+    let mutable commands : CommandEnvelope list = []
+    
+    [<DataMember(Name = "Commands", IsRequired = true, Order = 0)>]
+    member x.Commands with get() = commands and set(v) = commands <- v
 
 [<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0")>]
 type CommandBus =    
     [<OperationContract>]
     abstract member Post : env : CommandEnvelope -> unit
+
+    [<OperationContract>]
+    abstract member PostBatch : b : BatchEnvelope -> unit
 
 namespace Zaz.Remote.Client
 
@@ -48,9 +58,17 @@ namespace Zaz.Remote.Client
                                     Tags = List.empty
                                 )
                 
-                let factory = new ChannelFactory<CommandBus>(WSHttpBinding())
+                let timeout = System.TimeSpan.FromMinutes(60.0)
+                //let timeout = System.TimeSpan.FromSeconds(60.0)
+                let binding = WSHttpBinding(
+                                SendTimeout = timeout,
+                                ReceiveTimeout = timeout )
+                
+                use factory = new ChannelFactory<CommandBus>(binding)
                 let channel = factory.CreateChannel(EndpointAddress(url)) 
                 channel.Post(envelope)
+                //let dis = factory :> System.IDisposable
+                //dis.Dispose()
 
 namespace Zaz.Remote.Server
 
@@ -73,6 +91,14 @@ namespace Zaz.Remote.Server
                 cmdTypes
                 |> Seq.map(fun t -> deserialize env.Data t)
                 |> Seq.iter(bus.Post)
+
+            member this.PostBatch(b) = 
+                let bus = this.CreateCommandBus()
+                b.Commands
+                |> Seq.iter(fun c ->
+                    this.ResolveCommand(c.Key)
+                    |> Seq.map(fun t -> deserialize c.Data t)
+                    |> Seq.iter(bus.Post))
         
         abstract member CreateCommandBus : unit -> Zaz.ICommandBus
         abstract member ResolveCommand : key : string -> System.Type seq
