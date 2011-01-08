@@ -24,6 +24,13 @@ type BatchEnvelope() =
     [<DataMember(Name = "Commands", IsRequired = true, Order = 0)>]
     member x.Commands with get() = commands and set(v) = commands <- v
 
+[<DataContract(Namespace="urn:org:zaz:command-bus-v1.2")>]
+type NaiveCommandEnvelope() =      
+    let mutable commands : CommandEnvelope list = []
+    
+    [<DataMember(Name = "Commands", IsRequired = true, Order = 0)>]
+    member x.Commands with get() = commands and set(v) = commands <- v
+
 [<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0")>]
 type CommandBus =    
     [<OperationContract>]
@@ -60,15 +67,22 @@ namespace Zaz.Remote.Client
                 
                 let timeout = System.TimeSpan.FromMinutes(60.0)
                 //let timeout = System.TimeSpan.FromSeconds(60.0)
-                let binding = WSHttpBinding(
+                let binding = BasicHttpBinding(
                                 SendTimeout = timeout,
                                 ReceiveTimeout = timeout )
                 
                 use factory = new ChannelFactory<CommandBus>(binding)
                 let channel = factory.CreateChannel(EndpointAddress(url)) 
-                channel.Post(envelope)
-                //let dis = factory :> System.IDisposable
-                //dis.Dispose()
+                channel.Post(envelope)                
+
+//                try
+//                    if factory.State <> CommunicationState.Faulted then factory.Close();                    
+//                    else factory.Abort();
+//                with
+//                | :? FaultException -> factory.Abort();
+//                | :? System.TimeoutException -> factory.Abort();
+//
+//                ()
 
 namespace Zaz.Remote.Server
 

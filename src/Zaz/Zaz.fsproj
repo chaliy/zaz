@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CommandRouter</RootNamespace>
     <AssemblyName>Zaz</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Name>Core</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="FSharp.Core">
       <HintPath>..\..\lib\FSharp\FSharp.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -49,6 +50,7 @@
     <Compile Include="Zaz.fs" />
     <Compile Include="Local.fs" />
     <Compile Include="Remote.fs" />
+    <Compile Include="Commander.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />

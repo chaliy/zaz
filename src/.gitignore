@@ -8,3 +8,5 @@ _ReSharper.*
 *.resharper.user
 *.resharper
 ~$*
+*.vs10x
+*.t4properties
