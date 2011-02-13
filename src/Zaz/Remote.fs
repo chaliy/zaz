@@ -66,14 +66,13 @@ namespace Zaz.Remote.Client
                                 )
                 
                 let timeout = System.TimeSpan.FromMinutes(60.0)
-                //let timeout = System.TimeSpan.FromSeconds(60.0)
                 let binding = BasicHttpBinding(
                                 SendTimeout = timeout,
                                 ReceiveTimeout = timeout )
                 
                 use factory = new ChannelFactory<CommandBus>(binding)
                 let channel = factory.CreateChannel(EndpointAddress(url)) 
-                channel.Post(envelope)                
+                channel.Post(envelope)
 
 //                try
 //                    if factory.State <> CommunicationState.Faulted then factory.Close();                    
