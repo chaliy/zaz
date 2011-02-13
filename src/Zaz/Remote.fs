@@ -31,7 +31,13 @@ type NaiveCommandEnvelope() =
     [<DataMember(Name = "Commands", IsRequired = true, Order = 0)>]
     member x.Commands with get() = commands and set(v) = commands <- v
 
-[<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0")>]
+[<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.3")>]
+type CommandBusPostCallback =    
+    [<OperationContract(IsOneWay = true)>]
+    abstract member Info : msg : string -> unit    
+
+[<ServiceContract(Namespace = "urn:org:zaz:command-bus-v1.0", 
+    CallbackContract = typeof<CommandBusPostCallback>)>]
 type CommandBus =    
     [<OperationContract>]
     abstract member Post : env : CommandEnvelope -> unit
@@ -66,12 +72,20 @@ namespace Zaz.Remote.Client
                                 )
                 
                 let timeout = System.TimeSpan.FromMinutes(60.0)
-                let binding = BasicHttpBinding(
+                
+                let binding = WSDualHttpBinding(
                                 SendTimeout = timeout,
                                 ReceiveTimeout = timeout )
-                
-                use factory = new ChannelFactory<CommandBus>(binding)
-                let channel = factory.CreateChannel(EndpointAddress(url)) 
+
+                let callback = { new CommandBusPostCallback with
+                                   member this.Info(msg) = printfn "Info: %s" msg }
+                                             
+                use factory = new DuplexChannelFactory<CommandBus>(callback, binding)                
+//                let callback = { new CommandBusPostCallback with
+//                                   member this.Info(msg) = printfn "Info: %s" msg }
+//                let ctx = new InstanceContext(callback)
+//ctx, 
+                let channel = factory.CreateChannel(EndpointAddress(url))                 
                 channel.Post(envelope)
 
 //                try
@@ -96,7 +110,7 @@ namespace Zaz.Remote.Server
         let deserialize (xml : XElement) cmdType =
             let ser = new DataContractSerializer(cmdType)
             ser.ReadObject(xml.CreateReader())
-
+        
         interface CommandBus with
             member this.Post(env) = 
                 let bus = this.CreateCommandBus()
@@ -104,6 +118,10 @@ namespace Zaz.Remote.Server
                 cmdTypes
                 |> Seq.map(fun t -> deserialize env.Data t)
                 |> Seq.iter(bus.Post)
+
+                let callback = System.ServiceModel.OperationContext.Current.GetCallbackChannel<CommandBusPostCallback>()
+                callback.Info("Test")
+
 
             member this.PostBatch(b) = 
                 let bus = this.CreateCommandBus()
