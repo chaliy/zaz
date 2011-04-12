@@ -33,27 +33,56 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\CommandRouter.XML</DocumentationFile>
   </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
+  <ItemGroup>
+    <Compile Include="Zaz.fs" />
+    <Compile Include="Local.fs" />
+    <Compile Include="CommandUtils.fs" />
+    <Compile Include="EasyRemote.fs" />
+    <Compile Include="Commander.fs" />
+    <Compile Include="Remote.fs" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
       <HintPath>..\..\lib\FSharp\FSharp.Core.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Http">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Http.Extensions">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QueryComposition">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.QueryComposition.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Runtime.Serialization.Json">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Http">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Http.Client">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.Http.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Resource">
+      <HintPath>..\..\packages\WcfResource.1.0.0.0\lib\40\Microsoft.ServiceModel.Resource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.WebHttp">
+      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.WebHttp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Zaz.fs" />
-    <Compile Include="Local.fs" />
-    <Compile Include="Remote.fs" />
-    <Compile Include="Commander.fs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
 	<Target Name="BeforeBuild">
