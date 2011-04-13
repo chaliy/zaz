@@ -14,7 +14,7 @@ type CommandLineCommandBuilder(resolver : string -> System.Type seq, ?argv : str
                             )
                 |> Map.ofList
     
-    let materializeCmd (t : System.Type) = Zaz.Utils.buildCommand(t, args)           
+    let materializeCmd (t : System.Type) = Zaz.Utils.BuildCommand(t, args)           
            
     let buildCmd() =        
         if argv.Length <= 1 then                   

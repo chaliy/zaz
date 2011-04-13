@@ -6,7 +6,13 @@ module Utils =
     | Success of obj
     | Failure of string
 
-    let buildCommand(cmdType : System.Type, args : Map<string, string>) = 
+    let BuildArgs(cmd) =
+        let cmdType = cmd.GetType()   
+        cmdType.GetProperties()
+        |> Array.map(fun pi -> (pi.Name, pi.GetValue(cmd, null).ToString()))
+        |> Map.ofArray
+
+    let BuildCommand(cmdType : System.Type, args : Map<string, string>) = 
     
         let getArg key =    
                  

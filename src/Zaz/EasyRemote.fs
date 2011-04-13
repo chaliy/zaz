@@ -34,7 +34,7 @@
                 let cmdId = form.["Zaz-Command-Id"]
                 match resolver cmdId with
                 | Some cmdType -> 
-                        match Zaz.Utils.buildCommand(cmdType, form) with
+                        match Zaz.Utils.BuildCommand(cmdType, form) with
                         | Success cmd -> 
                             bus.Post cmd
                             response.StatusCode <- HttpStatusCode.Accepted                
