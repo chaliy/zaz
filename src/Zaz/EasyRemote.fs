@@ -35,10 +35,15 @@
                 match resolver cmdId with
                 | Some cmdType -> 
                         match Zaz.Utils.BuildCommand(cmdType, form) with
-                        | Success cmd -> 
-                            bus.Post cmd
-                            response.StatusCode <- HttpStatusCode.Accepted                
-                            response.Content <- HttpContent.Create("Command " + cmdId + " accepted")
+                        | Success cmd ->
+                            try 
+                                bus.Post cmd
+                                response.StatusCode <- HttpStatusCode.Accepted                
+                                response.Content <- HttpContent.Create("Command " + cmdId + " accepted")
+                            with
+                                | x -> 
+                                    response.StatusCode <- HttpStatusCode.BadRequest                
+                                    response.Content <- HttpContent.Create(x.ToString())
                         | Failure error -> 
                             response.StatusCode <- HttpStatusCode.BadRequest                
                             response.Content <- HttpContent.Create(error)
