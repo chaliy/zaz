@@ -55,33 +55,35 @@ namespace Zaz.Remote.Client
             ser.WriteObject(mem, cmd)
             mem.Position <- int64 0
             XElement.Load(new XmlTextReader(mem))    
-        interface Zaz.ICommandBus with
-            member this.Post(cmd) =
-                let cmdKey = cmd.GetType().FullName
-                printfn "Posting command %s" cmdKey
-                let envelope = CommandEnvelope(
-                                    Key = cmdKey,
-                                    Data = serialize cmd,
-                                    Tags = List.empty
-                                )
-                
-                let timeout = System.TimeSpan.FromMinutes(60.0)
-                let binding = BasicHttpBinding(
-                                SendTimeout = timeout,
-                                ReceiveTimeout = timeout )
-                
-                use factory = new ChannelFactory<CommandBus>(binding)
-                let channel = factory.CreateChannel(EndpointAddress(url)) 
-                channel.Post(envelope)
+        interface Zaz.ICommandBus with            
+            member this.Post(cmd) = this.Post(cmd, Array.empty)
 
-//                try
-//                    if factory.State <> CommunicationState.Faulted then factory.Close();                    
-//                    else factory.Abort();
-//                with
-//                | :? FaultException -> factory.Abort();
-//                | :? System.TimeoutException -> factory.Abort();
-//
-//                ()
+        member this.Post(cmd, tags) =
+            let cmdKey = cmd.GetType().FullName
+            printfn "Posting command %s" cmdKey
+            let envelope = CommandEnvelope(
+                                Key = cmdKey,
+                                Data = serialize cmd,
+                                Tags = (tags |> Array.toList)
+                            )
+                
+            let timeout = System.TimeSpan.FromMinutes(60.0)
+            let binding = BasicHttpBinding(
+                            SendTimeout = timeout,
+                            ReceiveTimeout = timeout )
+                
+            use factory = new ChannelFactory<CommandBus>(binding)
+            let channel = factory.CreateChannel(EndpointAddress(url)) 
+            channel.Post(envelope)
+
+            try
+                if factory.State <> CommunicationState.Faulted then factory.Close();                    
+                else factory.Abort();
+            with
+            | :? FaultException -> factory.Abort();
+            | :? System.TimeoutException -> factory.Abort();
+
+            ()
 
 namespace Zaz.Remote.Server
 
@@ -94,7 +96,7 @@ namespace Zaz.Remote.Server
     open System.Threading.Tasks
 
     type ICommandBrokerContext =
-        abstract Tags : string list with get
+        abstract Tags : string array with get
     
     type ICommandBroker =
         abstract member Handle : obj -> ICommandBrokerContext -> Task
@@ -114,7 +116,7 @@ namespace Zaz.Remote.Server
             member this.Post(env) =            
                 let broker = this.CreateCommandBroker()
                 let ctx = { new ICommandBrokerContext with
-                                member this.Tags with get() = env.Tags }
+                                member this.Tags with get() = env.Tags |> List.toArray }
                 let cmdTypes = this.ResolveCommand(env.Key)
                
                 cmdTypes
@@ -124,7 +126,7 @@ namespace Zaz.Remote.Server
             member this.PostBatch(b) =                 
                 let broker = this.CreateCommandBroker()
                 let ctx = { new ICommandBrokerContext with
-                                member this.Tags with get() = [] }
+                                member this.Tags with get() = Array.empty }
                 b.Commands
                 |> Seq.iter(fun c ->
                     this.ResolveCommand(c.Key)

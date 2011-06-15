@@ -21,38 +21,43 @@
              |> Map.ofSeq
 
         [<WebGet(UriTemplate = "")>]
-        member this.Get(response : HttpResponseMessage) = 
-            response.Content <- new StringContent("Endpoint for commands.")
+        member this.Get() = 
+            new HttpResponseMessage(Content = new StringContent("Endpoint for commands."))
 
         [<WebInvoke(Method = "POST", UriTemplate = "")>]
-        member this.Post(request : HttpRequestMessage, response : HttpResponseMessage) = 
+        member this.Post(request : HttpRequestMessage) = 
             let body = request.Content.ReadAsString()
             let form = parseQueryString(body)
             if form.ContainsKey("Zaz-Command-Id") = false then
-                response.StatusCode <- HttpStatusCode.BadRequest                
-                response.Content <- new StringContent("Required value 'Zaz-Command-Id' was not found.")
+                new HttpResponseMessage(
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Content = new StringContent("Required value 'Zaz-Command-Id' was not found."))
             else
                 let cmdId = form.["Zaz-Command-Id"]
                 let ctx = { new Zaz.Remote.Server.ICommandBrokerContext with
-                                member this.Tags with get() = [] }
+                                member this.Tags with get() = Array.empty }
                 match resolver cmdId with
                 | Some cmdType -> 
                         match Zaz.Utils.BuildCommand(cmdType, form) with
                         | Success cmd ->
                             try 
                                 (broker.Handle cmd ctx).Wait()
-                                response.StatusCode <- HttpStatusCode.Accepted                
-                                response.Content <- new StringContent("Command " + cmdId + " accepted")
+                                new HttpResponseMessage(
+                                    StatusCode = HttpStatusCode.Accepted,
+                                    Content = new StringContent("Command " + cmdId + " accepted"))
                             with
                                 | x -> 
-                                    response.StatusCode <- HttpStatusCode.BadRequest                
-                                    response.Content <- new StringContent(x.ToString())
+                                    new HttpResponseMessage(
+                                        StatusCode = HttpStatusCode.BadRequest,
+                                        Content = new StringContent(x.ToString()))
                         | Failure error -> 
-                            response.StatusCode <- HttpStatusCode.BadRequest                
-                            response.Content <- new StringContent(error)
+                            new HttpResponseMessage(
+                                StatusCode = HttpStatusCode.BadRequest,                
+                                Content = new StringContent(error))
                 | None -> 
-                    response.StatusCode <- HttpStatusCode.NotFound                
-                    response.Content <- new StringContent("Cannot find command for command ID " + cmdId)                
+                    new HttpResponseMessage(
+                        StatusCode = HttpStatusCode.NotFound,
+                        Content = new StringContent("Cannot find command for command ID " + cmdId))
                  
     open Microsoft.ApplicationServer.Http.Activation
     open Microsoft.ApplicationServer.Http.Description
