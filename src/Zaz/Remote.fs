@@ -90,8 +90,10 @@ namespace Zaz.Remote.Server
     open System.Xml.Linq
     open System.Runtime.Serialization
     open Zaz.Remote.Contract
+    open System.ServiceModel.Activation
 
     [<AbstractClass>] 
+    [<AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)>]
     type CommandBusService() =
         let deserialize (xml : XElement) cmdType =
             let ser = new DataContractSerializer(cmdType)

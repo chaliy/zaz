@@ -30,7 +30,12 @@ module Utils =
                 System.Boolean.Parse(v) |> box
             else if t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<System.Nullable<_>> then            
                 convertArgVal v (System.Nullable.GetUnderlyingType(t))
-            else v |> box
+            else 
+                let converter = System.ComponentModel.TypeDescriptor.GetConverter(t)                
+                if converter <> null && converter.CanConvertFrom(typeof<string>) then
+                    converter.ConvertFromString(v)
+                else 
+                    v |> box
                     
         let getArgVal key (t : System.Type) : obj = 
             let v = getArg key

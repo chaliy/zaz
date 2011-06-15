@@ -53,9 +53,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Zaz">
-      <HintPath>..\Zaz\bin\Debug\Zaz.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -83,6 +80,10 @@
     <ProjectReference Include="..\SampleHandlers\SampleHandlers.csproj">
       <Project>{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}</Project>
       <Name>SampleHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zaz\Zaz.fsproj">
+      <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
+      <Name>Zaz</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
