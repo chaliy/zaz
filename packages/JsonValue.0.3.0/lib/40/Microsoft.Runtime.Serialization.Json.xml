@@ -4,6 +4,11 @@
         <name>Microsoft.Runtime.Serialization.Json</name>
     </assembly>
     <members>
+        <member name="T:System.Json.SG">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
         <member name="T:System.Json.SR">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
@@ -27,12 +32,17 @@
         </member>
         <member name="P:System.Json.SR.CannotReadAsType">
             <summary>
-              Looks up a localized string similar to Cannot cast JsonPrimitive value &apos;{0}&apos; as &apos;{1}&apos;..
+              Looks up a localized string similar to Cannot read &apos;{0}&apos; as &apos;{1}&apos; type..
             </summary>
         </member>
-        <member name="P:System.Json.SR.ExpectUrlEncodedOrJson">
+        <member name="P:System.Json.SR.CannotReadPrimitiveAsType">
             <summary>
-              Looks up a localized string similar to Expected either to receive JSON in the message body or the content-type to be application/x-www-form-urlencoded..
+              Looks up a localized string similar to Cannot read JsonPrimitive value &apos;{0}&apos; as &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:System.Json.SR.DynamicPropertyNotDefined">
+            <summary>
+              Looks up a localized string similar to &apos;{0}&apos; does not contain a definition for property &apos;{1}&apos;..
             </summary>
         </member>
         <member name="P:System.Json.SR.IncorrectJsonFormat">
@@ -40,9 +50,9 @@
               Looks up a localized string similar to The input source is not correctly formatted..
             </summary>
         </member>
-        <member name="P:System.Json.SR.IndexTypeNotSupported">
+        <member name="P:System.Json.SR.IndexerNotSupportedOnJsonType">
             <summary>
-              Looks up a localized string similar to The type of the index is not supported by this indexer; use &apos;int&apos; or &apos;string&apos; for array and object indexing respectively..
+              Looks up a localized string similar to &apos;{0}&apos; type indexer is not supported on JsonValue of &apos;JsonType.{1}&apos; type..
             </summary>
         </member>
         <member name="P:System.Json.SR.InvalidCastNonNullable">
@@ -52,7 +62,12 @@
         </member>
         <member name="P:System.Json.SR.InvalidDateFormat">
             <summary>
-              Looks up a localized string similar to Cannot cast JsonPrimitive value &apos;{0}&apos; as &apos;{1}&apos;. It is not in a valid date format. Using .NET Custom Date format strings notation (http://msdn.microsoft.com/en-us/library/8kb3ddd4.aspx), accepted formats are &apos;{2}&apos;, &apos;{3}&apos;, &apos;{4}&apos;, &apos;{5}&apos;, &apos;{6}&apos;, &apos;{7}&apos;, &apos;{8}&apos;, &apos;{9}&apos; and &apos;{10}&apos;..
+              Looks up a localized string similar to Cannot cast JsonPrimitive value &apos;{0}&apos; as &apos;{1}&apos;. It is not in a valid date format. Using .NET Custom Date format strings notation (http://msdn.microsoft.com/en-us/library/8kb3ddd4.aspx), accepted formats are &apos;{2}&apos;, &apos;{3}&apos;, &apos;{4}&apos;, &apos;{5}&apos;, &apos;{6}&apos;, &apos;{7}&apos;, &apos;{8}&apos;, &apos;{9}&apos;, &apos;{10} and &apos;{11}&apos;..
+            </summary>
+        </member>
+        <member name="P:System.Json.SR.InvalidIndexType">
+            <summary>
+              Looks up a localized string similar to Invalid &apos;{0}&apos; index type; only &apos;System.String&apos; and non-negative &apos;System.Int32&apos; types are supported..
             </summary>
         </member>
         <member name="P:System.Json.SR.InvalidJsonPrimitive">
@@ -63,11 +78,6 @@
         <member name="P:System.Json.SR.InvalidUriFormat">
             <summary>
               Looks up a localized string similar to Cannot cast JsonPrimitive value &apos;{0}&apos; as a type of &apos;Uri&apos;. The provided string is not in a valid relative or absolute URI format..
-            </summary>
-        </member>
-        <member name="P:System.Json.SR.JsonInvalidBytes">
-            <summary>
-              Looks up a localized string similar to Invalid byte encoding..
             </summary>
         </member>
         <member name="P:System.Json.SR.JsonStringCannotBeEmpty">
@@ -85,9 +95,29 @@
               Looks up a localized string similar to The JsonObject does not contain a key named {0}..
             </summary>
         </member>
+        <member name="P:System.Json.SR.NonSingleNonNullIndexNotSupported">
+            <summary>
+              Looks up a localized string similar to Null index or multidimensional indexing is not supported by this indexer; use &apos;System.Int32&apos; or &apos;System.String&apos; for array and object indexing respectively..
+            </summary>
+        </member>
         <member name="P:System.Json.SR.OperationNotAllowedOnDefault">
             <summary>
               Looks up a localized string similar to Default JsonValue cannot perform this operation..
+            </summary>
+        </member>
+        <member name="P:System.Json.SR.OperationNotSupportedOnJsonType">
+            <summary>
+              Looks up a localized string similar to Operation not supported on JsonValue instance of &apos;JsonType.{0}&apos; type..
+            </summary>
+        </member>
+        <member name="P:System.Json.SR.OperatorNotAllowedOnOperands">
+            <summary>
+              Looks up a localized string similar to Operation &apos;{0}&apos; cannot be applied on operands of type &apos;{1}&apos; and &apos;{2}&apos;..
+            </summary>
+        </member>
+        <member name="P:System.Json.SR.OperatorNotDefinedForJsonType">
+            <summary>
+              Looks up a localized string similar to Operation &apos;{0}&apos; is not defined for JsonValue instances of &apos;JsonType.{1}&apos; type..
             </summary>
         </member>
         <member name="P:System.Json.SR.OverflowReadAs">
@@ -100,20 +130,87 @@
               Looks up a localized string similar to Object type not supported..
             </summary>
         </member>
-        <member name="P:System.Json.SR.TypeNotSupportedOnJsonPrimitive">
-            <summary>
-              Looks up a localized string similar to Objects of type &apos;{0}&apos; cannot be converted to JSON primitives..
-            </summary>
-        </member>
-        <member name="P:System.Json.SR.UnsupportedOnThisJsonValue">
-            <summary>
-              Looks up a localized string similar to This method or property is not supported on a JSON value of type &apos;{0}&apos;. Some operations may only be performed on JSON Arrays and some may only be performed on JSON Objects..
-            </summary>
-        </member>
         <member name="P:System.Json.SR.UseOfDefaultNotAllowed">
             <summary>
-              Looks up a localized string similar to Default JsonValue cannot be used in this operation..
+              Looks up a localized string similar to Operation not supported on JsonValue instances of &apos;JsonType.Default&apos; type..
             </summary>
+        </member>
+        <member name="T:System.Json.JsonValueChange">
+            <summary>
+            Specifies the event type when an event is raised for a <see cref="T:System.Json.JsonValue"/>.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueChange.Add">
+            <summary>
+            An element has been or will be added to the collection.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueChange.Remove">
+            <summary>
+            An element has been or will be removed from the collection.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueChange.Replace">
+            <summary>
+            An element has been or will be replaced in the collection. Used on indexers.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueChange.Clear">
+            <summary>
+            All elements of the collection have been or will be removed.
+            </summary>
+        </member>
+        <member name="T:System.Json.JsonValueChangeEventArgs">
+            <summary>
+            Provide data for the <see cref="E:System.Json.JsonValue.Changing"/> and <see cref="E:System.Json.JsonValue.Changed"/> events.
+            </summary>
+        </member>
+        <member name="M:System.Json.JsonValueChangeEventArgs.#ctor(System.Json.JsonValue,System.Json.JsonValueChange,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Json.JsonValueChangeEventArgs"/> class for
+            changes in a <see cref="T:System.Json.JsonArray"/>.
+            </summary>
+            <param name="child">The <see cref="T:System.Json.JsonValue"/> instance which will be or has been modified.</param>
+            <param name="change">The type of change of the <see cref="T:System.Json.JsonValue"/> event.</param>
+            <param name="index">The index of the element being changed in a <see cref="T:System.Json.JsonArray"/>.</param>
+        </member>
+        <member name="M:System.Json.JsonValueChangeEventArgs.#ctor(System.Json.JsonValue,System.Json.JsonValueChange,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Json.JsonValueChangeEventArgs"/> class for
+            changes in a <see cref="T:System.Json.JsonObject"/>.
+            </summary>
+            <param name="child">The <see cref="T:System.Json.JsonValue"/> instance which will be or has been modified.</param>
+            <param name="change">The type of change of the <see cref="T:System.Json.JsonValue"/> event.</param>
+            <param name="key">The key of the element being changed in a <see cref="T:System.Json.JsonObject"/>.</param>
+        </member>
+        <member name="P:System.Json.JsonValueChangeEventArgs.Child">
+            <summary>
+            Gets the child which will be or has been modified.
+            </summary>
+            <remarks><p>This property is <code>null</code> for <see cref="F:System.Json.JsonValueChange.Clear"/> event types
+            raised by <see cref="T:System.Json.JsonValue"/> instances.</p>
+            <p>For <see cref="T:System.Json.JsonValueChange">Replace</see> events, this property contains the new value in
+            the <see cref="E:System.Json.JsonValue.Changing"/> event, and the old value (the one being replaced) in the
+            <see cref="E:System.Json.JsonValue.Changed"/> event.</p></remarks>
+        </member>
+        <member name="P:System.Json.JsonValueChangeEventArgs.Change">
+            <summary>
+            Gets the type of change.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonValueChangeEventArgs.Index">
+            <summary>
+            Gets the index in the <see cref="T:System.Json.JsonArray"/> where the change happened, or
+            <code>-1</code> if the change happened in a <see cref="T:System.Json.JsonValue"/> of a different type.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonValueChangeEventArgs.Key">
+            <summary>
+            Gets the key in the <see cref="T:System.Json.JsonObject"/> where the change happened, or
+            <code>null</code> if the change happened in a <see cref="T:System.Json.JsonValue"/> of a different type.
+            </summary>
+            <remarks>This property can also be <code>null</code> if the event type is
+            <see cref="T:System.Json.JsonValueChange">Clear</see>.</remarks>
         </member>
         <member name="T:System.Json.JsonObjectValidation">
             <summary>
@@ -232,6 +329,415 @@
             <returns>This object, so that other validation operations can be chained.</returns>
             <exception cref="T:System.ComponentModel.DataAnnotations.ValidationException">If the validation failed.</exception>
         </member>
+        <member name="T:System.Json.JsonValueDynamicMetaObject">
+            <summary>
+            This class provides dynamic behavior support for the JsonValue types.
+            </summary>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.#ctor(System.Linq.Expressions.Expression,System.Json.JsonValue)">
+            <summary>
+            Class constructor.
+            </summary>
+            <param name="parameter">The expression representing this <see cref="T:System.Dynamic.DynamicMetaObject"/> during the dynamic binding process.</param>
+            <param name="value">The runtime value represented by the <see cref="T:System.Dynamic.DynamicMetaObject"/>.</param>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindUnaryOperation(System.Dynamic.UnaryOperationBinder)">
+            <summary>
+            Performs the binding of the dynamic unary operation.
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.UnaryOperationBinder"/> that represents the details of the dynamic operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindBinaryOperation(System.Dynamic.BinaryOperationBinder,System.Dynamic.DynamicMetaObject)">
+            <summary>
+            Performs the binding of the dynamic binary operation.
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.BinaryOperationBinder"/> that represents the details of the dynamic operation.</param>
+            <param name="arg">An instance of the <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the right hand side of the binary operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindConvert(System.Dynamic.ConvertBinder)">
+            <summary>
+            Implements dynamic cast for JsonValue types.
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.ConvertBinder"/> that represents the details of the dynamic operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindGetIndex(System.Dynamic.GetIndexBinder,System.Dynamic.DynamicMetaObject[])">
+            <summary>
+            Implements setter for dynamic indexer by index (JsonArray)
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.GetIndexBinder"/> that represents the details of the dynamic operation.</param>
+            <param name="indexes">An array of <see cref="T:System.Dynamic.DynamicMetaObject"/> instances - indexes for the get index operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindSetIndex(System.Dynamic.SetIndexBinder,System.Dynamic.DynamicMetaObject[],System.Dynamic.DynamicMetaObject)">
+            <summary>
+            Implements getter for dynamic indexer by index (JsonArray).
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.SetIndexBinder"/> that represents the details of the dynamic operation.</param>
+            <param name="indexes">An array of <see cref="T:System.Dynamic.DynamicMetaObject"/> instances - indexes for the set index operation.</param>
+            <param name="value">The <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the value for the set index operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindGetMember(System.Dynamic.GetMemberBinder)">
+            <summary>
+            Implements getter for dynamic indexer by key (JsonObject).
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.GetMemberBinder"/> that represents the details of the dynamic operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindSetMember(System.Dynamic.SetMemberBinder,System.Dynamic.DynamicMetaObject)">
+            <summary>
+            Implements setter for dynamic indexer by key (JsonObject).
+            </summary>
+            <param name="binder">An instance of the <see cref="T:System.Dynamic.SetMemberBinder"/> that represents the details of the dynamic operation.</param>
+            <param name="value">The <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the value for the set member operation.</param>
+            <returns>The new <see cref="T:System.Dynamic.DynamicMetaObject"/> representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.BindInvokeMember(System.Dynamic.InvokeMemberBinder,System.Dynamic.DynamicMetaObject[])">
+            <summary>
+            Performs the binding of the dynamic invoke member operation.
+            Implemented to support extension methods defined in <see cref="T:System.Runtime.Serialization.Json.JsonValueExtensions"/> type.
+            </summary>
+            <param name="binder">An instance of the InvokeMemberBinder that represents the details of the dynamic operation.</param>
+            <param name="args">An array of DynamicMetaObject instances - arguments to the invoke member operation.</param>
+            <returns>The new DynamicMetaObject representing the result of the binding.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetDynamicMemberNames">
+            <summary>
+            Returns the enumeration of all dynamic member names.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of string reprenseting the dynamic member names.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetUnaryOperationSupport(System.Linq.Expressions.ExpressionType,System.Json.JsonValue)">
+            <summary>
+            Gets the operation support value for the specified operation on the specified operand.
+            </summary>
+            <param name="operation">The operation type.</param>
+            <param name="thisValue">The JsonValue instance to check operation for.</param>
+            <returns>An <see cref="T:System.Json.JsonValueDynamicMetaObject.OperationSupport"/> value.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetBinaryOperationSupport(System.Linq.Expressions.ExpressionType,System.Json.JsonValue,System.Object)">
+            <summary>
+            Gets the operation support value for the specified operation and operands.
+            </summary>
+            <param name="operation">The operation type.</param>
+            <param name="thisValue">The JsonValue instance to check operation for.</param>
+            <param name="operand">The second operand instance.</param>
+            <returns>An <see cref="T:System.Json.JsonValueDynamicMetaObject.OperationSupport"/> value.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetUnaryOperationExpression(System.Linq.Expressions.ExpressionType,System.Linq.Expressions.Expression)">
+            <summary>
+            Returns an expression representing a unary operation based on the specified operation type.
+            </summary>
+            <param name="operation">The operation type.</param>
+            <param name="thisExpression">The operand.</param>
+            <returns>The expression representing the unary operation.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetBinaryOperandExpressions(System.Linq.Expressions.ExpressionType,System.Dynamic.DynamicMetaObject,System.Dynamic.DynamicMetaObject,System.Linq.Expressions.Expression@,System.Linq.Expressions.Expression@)">
+            <summary>
+            Updates the <see cref="T:System.Linq.Expressions.Expression"/> tree for the operands of the specified operation.
+            </summary>
+            <param name="operation">The operation to evalutes.</param>
+            <param name="thisOperand">The first operand.</param>
+            <param name="otherOperand">The second operand.</param>
+            <param name="thisExpression">The <see cref="T:System.Linq.Expressions.Expression"/> for the first operand.</param>
+            <param name="otherExpression">The <see cref="T:System.Linq.Expressions.Expression"/> for the second operand.</param>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetBinaryOperationExpression(System.Linq.Expressions.ExpressionType,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)">
+            <summary>
+            Returns an Expression representing a binary operation based on the specified operation type.
+            </summary>
+            <param name="operation">The operation type.</param>
+            <param name="thisExpression">An expression representing the left operand.</param>
+            <param name="otherExpression">An expression representing the right operand.</param>
+            <returns>The expression representing the binary operation.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetOperationErrorExpression(System.Json.JsonValueDynamicMetaObject.OperationSupport,System.Linq.Expressions.ExpressionType,System.Json.JsonValue,System.Object)">
+            <summary>
+            Returns an expression representing a 'throw' instruction based on the specified <see cref="T:System.Json.JsonValueDynamicMetaObject.OperationSupport"/> value.
+            </summary>
+            <param name="supportValue">The <see cref="T:System.Json.JsonValueDynamicMetaObject.OperationSupport"/> value.</param>
+            <param name="operation">The operation type.</param>
+            <param name="thisValue">The operation left operand.</param>
+            <param name="operand">The operation right operand.</param>
+            <returns>A <see cref="T:System.Linq.Expressions.Expression"/> representing a 'throw' instruction.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetExtensionMethod(System.Type,System.String,System.Type[])">
+            <summary>
+            Gets a <see cref="T:System.Reflection.MethodInfo"/> instance for the specified method name in the specified type.
+            </summary>
+            <param name="extensionProviderType">The extension provider type.</param>
+            <param name="methodName">The name of the method to get the info for.</param>
+            <param name="argTypes">The types of the method arguments.</param>
+            <returns>A <see cref="T:System.Reflection.MethodInfo"/>instance or null if the method cannot be resolved.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.TryGetIndexExpression(System.Dynamic.DynamicMetaObject[],System.Linq.Expressions.Expression@)">
+            <summary>
+            Attempts to get an expression for an index parameter.
+            </summary>
+            <param name="indexes">The operation indexes parameter.</param>
+            <param name="expression">A <see cref="T:System.Linq.Expressions.Expression"/> to be initialized to the index expression if the operation is successful, otherwise an error expression.</param>
+            <returns>true the operation is successful, false otherwise.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.TryCoerceSpecialTypes(System.Dynamic.DynamicMetaObject,System.Dynamic.DynamicMetaObject,System.Type@)">
+            <summary>
+            Attempts to coerce the operand types on a binary operation for some special type and value cases as treated by JsonValue:
+            "true" and "false" can be converted to boolean.
+            Guid, DateTime and other types can be converted to string.
+            </summary>
+            <param name="thisOperand">The first operand.</param>
+            <param name="otherOperand">The second operand</param>
+            <param name="coercedType">On success, this parameter contains the coerced type.</param>
+            <returns>true if the coercion is performed, false otherwise.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.TryCoerceType(System.Linq.Expressions.ExpressionType,System.Type,System.Type,System.Type@)">
+            <summary>
+            Attempts to coerce one of the specified types to the other if needed and if possible.
+            </summary>
+            <param name="operation">The operation for the type coercion.</param>
+            <param name="thisType">The type of the first operand.</param>
+            <param name="otherType">The type of the second operand.</param>
+            <param name="coercedType">The coerced type.</param>
+            <returns>true if the type is coerced, false otherwise.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetUnaryOperationReturnType(System.Dynamic.UnaryOperationBinder)">
+            <summary>
+            Gets the return type for unary operations.
+            </summary>
+            <param name="binder">The unary operation binder.</param>
+            <returns>The type representing the operation return type.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.GetMethodMetaObject(System.Reflection.MethodInfo,System.Linq.Expressions.Expression[])">
+            <summary>
+            Gets a <see cref="T:System.Dynamic.DynamicMetaObject"/> for a method call.
+            </summary>
+            <param name="methodInfo">Info for the method to be performed.</param>
+            <param name="args">expression array representing the method arguments</param>
+            <returns>A meta object for the method call.</returns>
+        </member>
+        <member name="P:System.Json.JsonValueDynamicMetaObject.DefaultRestrictions">
+            <summary>
+            Gets the default binding restrictions for this type.
+            </summary>
+        </member>
+        <member name="T:System.Json.JsonValueDynamicMetaObject.OperationSupport">
+            <summary>
+            Represents the level of support for operations.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.OperationSupport.Supported">
+            <summary>
+            Operation fully supported on operands.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.OperationSupport.NotSupported">
+            <summary>
+            Operation not supported on operand.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.OperationSupport.NotSupportedOnJsonType">
+            <summary>
+            Operation not supported on a <see cref="T:System.Json.JsonValue"/> instance of certain <see cref="T:System.Json.JsonType"/> type.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.OperationSupport.NotSupportedOnOperand">
+            <summary>
+            Operation not supported on second operand type.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.OperationSupport.NotSupportedOnValueType">
+            <summary>
+             Operation not supported on second operand's value type.
+            </summary>
+        </member>
+        <member name="T:System.Json.JsonValueDynamicMetaObject.ImplicitNumericTypeConverter">
+            <summary>
+            Helper class for numeric type coercion support.
+            </summary>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.ImplicitNumericTypeConverter.partialConversionTable">
+            <summary>
+            Table of implicit conversion types, the 'values' in the dictionary represent the type values the 'key' type
+            can be converted to.
+            </summary>
+            <remarks>
+            Observe that this table is not the full conversion table, for storage optimization some types have been factored
+            out into a list; the algorithm that uses this table knows about this optimization.
+            For reference see Implicit Conversion table in the MSDN http://msdn.microsoft.com/en-us/library/y5b434w4.aspx
+                sbyte   -> short, int, long, float, double, or decimal
+                byte    -> short, ushort, int, uint, long, ulong, float, double, or decimal
+                short   -> int, long, float, double, or decimal
+                ushort  -> int, uint, long, ulong, float, double, or decimal
+                int     -> long, float, double, or decimal
+                uint    -> long, ulong, float, double, or decimal
+                long    -> float, double, or decimal
+                char    -> ushort, int, uint, long, ulong, float, double, or decimal
+                float   -> double
+                ulong   -> float, double, or decimal
+            </remarks>
+        </member>
+        <member name="F:System.Json.JsonValueDynamicMetaObject.ImplicitNumericTypeConverter.universalCoercionTypes">
+            <summary>
+            List of types most other types can be coerced to.
+            </summary>
+        </member>
+        <member name="M:System.Json.JsonValueDynamicMetaObject.ImplicitNumericTypeConverter.TryGetCoercionType(System.Type,System.Type,System.Type@)">
+            <summary>
+            Attempts to coerce one type to another.
+            </summary>
+            <param name="thisType">The first type to be evaluated.</param>
+            <param name="otherType">The second type to be evaluated.</param>
+            <param name="coercedType">The coerced resulting type to be used.</param>
+            <returns>true if the coercion exists, false otherwise.</returns>
+        </member>
+        <member name="T:System.Json.JsonValueLinqExtensions">
+            <summary>
+            This class extends the funcionality of the <see cref="T:System.Json.JsonValue"/> type for better Linq support . 
+            </summary>
+        </member>
+        <member name="M:System.Json.JsonValueLinqExtensions.ToJsonArray(System.Collections.Generic.IEnumerable{System.Json.JsonValue})">
+            <summary>
+            Extension method for creating a <see cref="T:System.Json.JsonValue"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> collection of <see cref="T:System.Json.JsonValue"/> types.
+            </summary>
+            <param name="items">The enumerable instance.</param>
+            <returns>A <see cref="T:System.Json.JsonArray"/> created from the specified items.</returns>
+        </member>
+        <member name="M:System.Json.JsonValueLinqExtensions.ToJsonObject(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Json.JsonValue}})">
+            <summary>
+            Extension method for creating a <see cref="T:System.Json.JsonValue"/> from an <see cref="T:System.Collections.Generic.IEnumerable`1"/> collection of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> of <see cref="T:System.String"/> and <see cref="T:System.Json.JsonValue"/> types.
+            </summary>
+            <param name="items">The enumerable instance.</param>
+            <returns>A <see cref="T:System.Json.JsonValue"/> created from the specified items.</returns>
+        </member>
+        <member name="T:System.Runtime.Serialization.Json.JsonValueExtensions">
+            <summary>
+            This class extends the funcionality of the <see cref="T:System.Json.JsonValue"/> type. 
+            </summary>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.CreateFrom(System.Object)">
+            <summary>
+            Creates a <see cref="T:System.Json.JsonValue"/> object based on an arbitrary CLR object.
+            </summary>
+            <param name="value">The object to be converted to <see cref="T:System.Json.JsonValue"/>.</param>
+            <returns>The <see cref="T:System.Json.JsonValue"/> which represents the given object.</returns>
+            <remarks>The conversion is done through the <see cref="T:System.Runtime.Serialization.Json.DataContractJsonSerializer"/>;
+            the object is first serialized into JSON using the serializer, then parsed into a <see cref="T:System.Json.JsonValue"/>
+            object.</remarks>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.Load(System.Xml.XmlDictionaryReader)">
+            <summary>
+            Deserializes JSON from a XML reader which implements the
+            <a href="http://msdn.microsoft.com/en-us/library/bb924435.aspx">mapping between JSON and XML</a>.
+            </summary>
+            <param name="jsonReader">The <see cref="T:System.Xml.XmlDictionaryReader"/> which
+            exposes JSON as XML.</param>
+            <returns>The <see cref="T:System.Json.JsonValue"/> that represents the parsed
+            JSON/XML as a CLR type.</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.Save(System.Json.JsonValue,System.Xml.XmlDictionaryWriter)">
+            <summary>
+            Serializes this <see cref="T:System.Json.JsonValue"/> CLR type into a JSON/XML writer using the
+            <a href="http://msdn.microsoft.com/en-us/library/bb924435.aspx">mapping between JSON and XML</a>.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <param name="jsonWriter">The JSON/XML writer used to serialize this instance.</param>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.TryReadAsType``1(System.Json.JsonValue,``0@)">
+            <summary>
+            Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T.
+            </summary>
+            <typeparam name="T">The type to which the conversion is being performed.</typeparam>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <param name="valueOfT">An instance of T initialized with this instance, or the default
+            value of T, if the conversion cannot be performed.</param>
+            <returns>true if this <see cref="T:System.Json.JsonValue"/> instance can be read as type T; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ReadAsType``1(System.Json.JsonValue)">
+            <summary>
+            Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T.
+            </summary>
+            <typeparam name="T">The type to which the conversion is being performed.</typeparam>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <returns>An instance of T initialized with the <see cref="T:System.Json.JsonValue"/> value
+            specified if the conversion.</returns>
+            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be
+            converted into the type T.</exception>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ReadAsType``1(System.Json.JsonValue,``0)">
+            <summary>
+            Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T, returning a fallback value
+            if the conversion fails.
+            </summary>
+            <typeparam name="T">The type to which the conversion is being performed.</typeparam>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <param name="fallback">A fallback value to be retuned in case the conversion cannot be performed.</param>
+            <returns>An instance of T initialized with the <see cref="T:System.Json.JsonValue"/> value
+            specified if the conversion succeeds or the specified fallback value if it fails.</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ReadAsType(System.Json.JsonValue,System.Type)">
+            <summary>
+            Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into an instance of the specified type.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <param name="type">The type to which the conversion is being performed.</param>
+            <returns>An object instance initialized with the <see cref="T:System.Json.JsonValue"/> value
+            specified if the conversion.</returns>
+            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be
+            converted into the type T.</exception>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.TryReadAsType(System.Json.JsonValue,System.Type,System.Object@)">
+            <summary>
+            Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into an instance of the specified type.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance this method extension is to be applied to.</param>
+            <param name="type">The type to which the conversion is being performed.</param>
+            <param name="value">An object to be initialized with this instance or null if the conversion cannot be performed.</param>
+            <returns>true if this <see cref="T:System.Json.JsonValue"/> instance can be read as the specified type; otherwise, false.</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ToObjectArray(System.Json.JsonValue)">
+            <summary>
+            Extension method for converting a <see cref="T:System.Json.JsonValue"/> collection into an array of objects.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance to be converted to an object array.</param>
+            <returns>An array of objects represented by the specified <see cref="T:System.Json.JsonValue"/> instance.</returns>
+            <remarks>The <see cref="T:System.Json.JsonType"/> value of the specified <see cref="T:System.Json.JsonValue"/> instance must be <see cref="F:System.Json.JsonType.Array"/>.</remarks>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ToDictionary(System.Json.JsonValue)">
+            <summary>
+            Extension method for converting a <see cref="T:System.Json.JsonValue"/> collection into a dictionary of <see cref="T:System.String"/>/<see cref="T:System.Object"/> key/value pairs.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance to be converted to a dictionary of <see cref="T:System.String"/>/<see cref="T:System.Object"/> key/value pairs.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IDictionary`2"/> of <see cref="T:System.String"/>/<see cref="T:System.Object"/> key/value pairs represented by the specified <see cref="T:System.Json.JsonValue"/> instance.</returns>
+            <remarks>The <see cref="T:System.Json.JsonType"/> value of the specified <see cref="T:System.Json.JsonValue"/> instance must be <see cref="F:System.Json.JsonType.Object"/>.</remarks>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.CanConvertToClrCollection(System.Json.JsonValue,System.Type)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Json.JsonValue"/> instance can be converted to the specified collection <see cref="T:System.Type"/>.
+            </summary>
+            <param name="jsonValue">The instance to be converted.</param>
+            <param name="collectionType">The collection type to convert the instance to.</param>
+            <returns>true if the instance can be converted, false otherwise</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ToClrCollection``1(System.Json.JsonValue)">
+            <summary>
+            Converts this instance to a collection containing <see cref="T:System.Object"/> type instances corresponding to the underlying
+            elements of this instance.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance to convert to the object collection.</param>
+            <typeparam name="T">The type of the collection to convert this instance to.</typeparam>
+            <returns>An object representing a CLR collection depending on the <see cref="T:System.Json.JsonType"/> value of this instance and the specified type value.</returns>
+        </member>
+        <member name="M:System.Runtime.Serialization.Json.JsonValueExtensions.ToClrCollection(System.Json.JsonValue,System.Type)">
+            <summary>
+            Converts this instance to a collection containing <see cref="T:System.Object"/> type instances corresponding to the underlying
+            elements of this instance.
+            </summary>
+            <param name="jsonValue">The <see cref="T:System.Json.JsonValue"/> instance to convert to the object collection.</param>
+            <param name="type">The <see cref="T:System.Type"/> of the collection to convert this instance to.</param>
+            <returns>An object representing a CLR collection depending on the <see cref="T:System.Json.JsonType"/> value of this instance and the specified type value.</returns>
+        </member>
         <member name="T:System.Json.JsonArray">
             <summary>
             A JsonArray is an ordered sequence of zero or more <see cref="T:System.Json.JsonValue"/> objects.
@@ -278,26 +784,6 @@
             <remarks>The result will be an instance of either <see cref="T:System.Json.JsonArray"/>,
             <see cref="T:System.Json.JsonObject"/> or <see cref="T:System.Json.JsonPrimitive"/>,
             depending on the text-based JSON supplied to the method.</remarks>
-        </member>
-        <member name="M:System.Json.JsonValue.Load(System.Xml.XmlDictionaryReader)">
-            <summary>
-            Deserializes JSON from a XML reader which implements the
-            <a href="http://msdn.microsoft.com/en-us/library/bb924435.aspx">mapping between JSON and XML</a>.
-            </summary>
-            <param name="jsonReader">The <see cref="T:System.Xml.XmlDictionaryReader"/> which
-            exposes JSON as XML.</param>
-            <returns>The <see cref="T:System.Json.JsonValue"/> that represents the parsed
-            JSON/XML as a CLR type.</returns>
-        </member>
-        <member name="M:System.Json.JsonValue.CreateFrom(System.Object)">
-            <summary>
-            Creates a <see cref="T:System.Json.JsonValue"/> object based on an arbitrary CLR object.
-            </summary>
-            <param name="value">The object to be converted to <see cref="T:System.Json.JsonValue"/>.</param>
-            <returns>The <see cref="T:System.Json.JsonValue"/> which represents the given object.</returns>
-            <remarks>The conversion is done through the <see cref="T:System.Runtime.Serialization.Json.DataContractJsonSerializer"/>;
-            the object is first serialized into JSON using the serializer, then parsed into a <see cref="T:System.Json.JsonValue"/>
-            object.</remarks>
         </member>
         <member name="M:System.Json.JsonValue.op_Explicit(System.Json.JsonValue)~System.String">
             <summary>
@@ -585,8 +1071,7 @@
             Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T.
             </summary>
             <typeparam name="T">The type to which the conversion is being performed.</typeparam>
-            <param name="valueOfT">An instance of T initialized with this instance, or the default
-            value of T, if the conversion cannot be performed.</param>
+            <param name="valueOfT">An instance of T initialized with this instance, or the default value of T if the conversion cannot be performed.</param>
             <returns>true if this <see cref="T:System.Json.JsonValue"/> instance can be read as type T; otherwise, false.</returns>
         </member>
         <member name="M:System.Json.JsonValue.ReadAs``1">
@@ -594,38 +1079,32 @@
             Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T.
             </summary>
             <typeparam name="T">The type to which the conversion is being performed.</typeparam>
-            <returns>An instance of T initialized with the <see cref="T:System.Json.JsonValue"/> value
-            specified if the conversion.</returns>
-            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be
-            converted into the type T.</exception>
+            <returns>An instance of T initialized with the value from the conversion of this instance.</returns>
+            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be converted into the type T.</exception>
         </member>
         <member name="M:System.Json.JsonValue.ReadAs``1(``0)">
             <summary>
             Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into the type T.
             </summary>
             <typeparam name="T">The type to which the conversion is being performed.</typeparam>
-            <param name="fallback">The fallback value to be returned, if the conversion cannot be made.</param>
-            <returns>An instance of T initialized with the <see cref="T:System.Json.JsonValue"/> value
-            specified if the conversion, or the fallback value, if the conversion cannot be made.</returns>
+            <param name="fallback">The fallback value to be returned if the conversion cannot be made.</param>
+            <returns>An instance of T initialized with the value from the conversion of this instance, or the specified fallback value if the conversion cannot be made.</returns>
         </member>
         <member name="M:System.Json.JsonValue.ReadAs(System.Type,System.Object)">
             <summary>
             Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance to an instance of the specified type.
             </summary>
             <param name="type">The type to which the conversion is being performed.</param>
-            <param name="fallback">The fallback value to be returned, if the conversion cannot be made.</param>
-            <returns>An object instance initialized with the <see cref="T:System.Json.JsonValue"/> value
-            specified if the conversion, or the fallback value, if the conversion cannot be made.</returns>
+            <param name="fallback">The fallback value to be returned if the conversion cannot be made.</param>
+            <returns>An instance of the specified type initialized with the value from the conversion of this instance, or the specified fallback value if the conversion cannot be made.</returns>
         </member>
         <member name="M:System.Json.JsonValue.ReadAs(System.Type)">
             <summary>
             Attempts to convert this <see cref="T:System.Json.JsonValue"/> instance into an instance of the specified type.
             </summary>
             <param name="type">The type to which the conversion is being performed.</param>
-            <returns>An object instance initialized with the <see cref="T:System.Json.JsonValue"/> value
-            specified if the conversion.</returns>
-            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be
-            converted into the type T.</exception>
+            <returns>An instance of the specified type initialized with the value from the conversion of this instance.</returns>
+            <exception cref="T:System.NotSupportedException">If this <see cref="T:System.Json.JsonValue"/> value cannot be converted into the type T.</exception>
         </member>
         <member name="M:System.Json.JsonValue.TryReadAs(System.Type,System.Object@)">
             <summary>
@@ -646,13 +1125,6 @@
             Serializes the <see cref="T:System.Json.JsonValue"/> CLR type into text-based JSON using a text writer.
             </summary>
             <param name="textWriter">The <see cref="T:System.IO.TextWriter"/> used to write text-based JSON.</param>
-        </member>
-        <member name="M:System.Json.JsonValue.Save(System.Xml.XmlDictionaryWriter)">
-            <summary>
-            Serializes this <see cref="T:System.Json.JsonValue"/> CLR type into a JSON/XML writer using the
-            <a href="http://msdn.microsoft.com/en-us/library/bb924435.aspx">mapping between JSON and XML</a>.
-            </summary>
-            <param name="jsonWriter">The JSON/XML writer used to serialize this instance.</param>
         </member>
         <member name="M:System.Json.JsonValue.ToString">
             <summary>
@@ -677,7 +1149,7 @@
             <returns>If this is an instance of <see cref="T:System.Json.JsonObject"/>, it contains
             the given key and the value corresponding to the key is not null, then it will return that value.
             Otherwise it will return a <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
         </member>
         <member name="M:System.Json.JsonValue.GetValue(System.Int32)">
             <summary>
@@ -687,7 +1159,7 @@
             <returns>If this is an instance of <see cref="T:System.Json.JsonArray"/>, the index is within the array
             bounds, and the value corresponding to the index is not null, then it will return that value.
             Otherwise it will return a <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
         </member>
         <member name="M:System.Json.JsonValue.SetValue(System.String,System.Object)">
             <summary>
@@ -715,7 +1187,7 @@
             <returns>If this is an instance of <see cref="T:System.Json.JsonObject"/>, it contains
             the given key and the value corresponding to the key is not null, then it will return that value.
             Otherwise it will return a <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
         </member>
         <member name="M:System.Json.JsonValue.ValueOrDefault(System.Int32)">
             <summary>
@@ -725,7 +1197,53 @@
             <returns>If this is an instance of <see cref="T:System.Json.JsonArray"/>, the index is within the array
             bounds, and the value corresponding to the index is not null, then it will return that value.
             Otherwise it will return a <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
+        </member>
+        <member name="M:System.Json.JsonValue.ValueOrDefault(System.Object[])">
+            <summary>
+            Safe deep indexer for the <see cref="T:System.Json.JsonValue"/> type.
+            </summary>
+            <param name="indexes">The indices to index this type. The indices can be
+            of type <see cref="T:System.Int32"/> or <see cref="T:System.String"/>.</param>
+            <returns>A <see cref="T:System.Json.JsonValue"/> which is equivalent to calling<see cref="M:System.Json.JsonValue.ValueOrDefault(System.Int32)"/> or
+            <see cref="M:System.Json.JsonValue.ValueOrDefault(System.String)"/> on the first index, then calling it again on the result
+            for the second index and so on.</returns>
+            <exception cref="T:System.ArgumentException">If any of the indices is not of type
+            <see cref="T:System.Int32"/> or <see cref="T:System.String"/>.</exception>
+        </member>
+        <member name="M:System.Json.JsonValue.ResolveObject(System.Object)">
+            <summary>
+            Resolves the specified object to an approprite JsonValue instance.
+            </summary>
+            <param name="value">The object to resolve.</param>
+            <returns>A <see cref="T:System.Json.JsonValue"/> instance resolved from the specified object.</returns>
+        </member>
+        <member name="M:System.Json.JsonValue.IsSupportedExplicitCastType(System.Type)">
+            <summary>
+            Determines whether an explicit cast to JsonValue is provided from the specified type.
+            </summary>
+            <param name="type">The type to check.</param>
+            <returns>true if an explicit cast exists for the specified type, false otherwise.</returns>
+        </member>
+        <member name="M:System.Json.JsonValue.Read">
+            <summary>
+            Returns the value this object wraps (if any).
+            </summary>
+            <returns>The value wrapped by this instance or null if none.</returns>
+        </member>
+        <member name="M:System.Json.JsonValue.Save(System.Xml.XmlDictionaryWriter)">
+            <summary>
+            Serializes this object into the specified <see cref="T:System.Xml.XmlDictionaryWriter"/> instance.
+            </summary>
+            <param name="jsonWriter">An <see cref="T:System.Xml.XmlDictionaryWriter"/> instance to serialize this instance into.</param>
+        </member>
+        <member name="M:System.Json.JsonValue.GetKeyValuePairEnumerator">
+            <summary>
+            Returns an enumerator which iterates through the values in this object.
+            </summary>
+            <returns>An <see cref="T:System.Collections.IEnumerator"/> which iterates through the values in this object.</returns>
+            <remarks>This method is the virtual version of the IEnumerator.GetEnumerator method and is provided to allow derived classes to implement the 
+            appropriate version of the generic interface (enumerator of values or key/value pairs).</remarks>
         </member>
         <member name="M:System.Json.JsonValue.WriteStartElementAndGetNext(System.Xml.XmlDictionaryWriter,System.Int32)">
             <summary>
@@ -753,6 +1271,50 @@
             Callback method called when a Save operation is finished for this instance.
             </summary>
         </member>
+        <member name="M:System.Json.JsonValue.RaiseChangingEvent(System.Object,System.Json.JsonValueChangeEventArgs)">
+            <summary>
+            Called internally to raise the <see cref="E:System.Json.JsonValue.Changing"/> event.
+            </summary>
+            <param name="sender">The object which caused the event to be raised.</param>
+            <param name="eventArgs">The arguments to the event.</param>
+        </member>
+        <member name="M:System.Json.JsonValue.RaiseChangedEvent(System.Object,System.Json.JsonValueChangeEventArgs)">
+            <summary>
+            Called internally to raise the <see cref="E:System.Json.JsonValue.Changed"/> event.
+            </summary>
+            <param name="sender">The object which caused the event to be raised.</param>
+            <param name="eventArgs">The arguments to the event.</param>
+        </member>
+        <member name="E:System.Json.JsonValue.Changing">
+            <summary>
+            Raised when this <see cref="T:System.Json.JsonValue"/> or any of its members are about to be changed.
+            </summary>
+            <remarks><p>Events are raised when elements are added or removed to <see cref="T:System.Json.JsonValue"/>
+            instances. It applies to both complex descendants of <see cref="T:System.Json.JsonValue"/>: <see cref="T:System.Json.JsonArray"/>
+            and <see cref="T:System.Json.JsonObject"/>.</p>
+            <p>You should be careful when modifying a <see cref="T:System.Json.JsonValue"/> tree within one of these events,
+            because doing this might lead to unexpected results. For example, if you receive a Changing event, and while
+            the event is being processed you remove the node from the tree, you might not receive the Changed event. When
+            an event is being processed, it is valid to modify a tree other than the one that contains the node that is
+            receiving the event; it is even valid to modify the same tree provided the modifications do not affect the
+            specific nodes on which the event was raised. However, if you modify the area of the tree that contains the
+            node receiving the event, the events that you receive and the impact to the tree are undefined.</p></remarks>
+        </member>
+        <member name="E:System.Json.JsonValue.Changed">
+            <summary>
+            Raised when this <see cref="T:System.Json.JsonValue"/> or any of its members have changed.
+            </summary>
+            <remarks><p>Events are raised when elements are added or removed to <see cref="T:System.Json.JsonValue"/>
+            instances. It applies to both complex descendants of <see cref="T:System.Json.JsonValue"/>: <see cref="T:System.Json.JsonArray"/>
+            and <see cref="T:System.Json.JsonObject"/>.</p>
+            <p>You should be careful when modifying a <see cref="T:System.Json.JsonValue"/> tree within one of these events,
+            because doing this might lead to unexpected results. For example, if you receive a Changing event, and while
+            the event is being processed you remove the node from the tree, you might not receive the Changed event. When
+            an event is being processed, it is valid to modify a tree other than the one that contains the node that is
+            receiving the event; it is even valid to modify the same tree provided the modifications do not affect the
+            specific nodes on which the event was raised. However, if you modify the area of the tree that contains the
+            node receiving the event, the events that you receive and the impact to the tree are undefined.</p></remarks>
+        </member>
         <member name="P:System.Json.JsonValue.JsonType">
             <summary>
             Gets the JSON CLR type represented by this instance.
@@ -761,6 +1323,23 @@
         <member name="P:System.Json.JsonValue.Count">
             <summary>
             Gets the number of items in this object.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonValue.ChangingListenersCount">
+            <summary>
+            Gets the number of listeners to the <see cref="E:System.Json.JsonValue.Changing"/> event for this instance.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonValue.ChangedListenersCount">
+            <summary>
+            Gets the number of listeners to the <see cref="E:System.Json.JsonValue.Changed"/> event for this instance.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonValue.DefaultInstance">
+            <summary>
+            Gets the default JsonValue instance.  
+            This instance enables safe-chaining of JsonValue operations and resolves to 'null'
+            when this instance is used as dynamic, mapping to the JavaScript 'null' value.
             </summary>
         </member>
         <member name="P:System.Json.JsonValue.Item(System.String)">
@@ -795,7 +1374,7 @@
             <exception cref="T:System.ArgumentNullException">If items is null.</exception>
             <exception cref="T:System.ArgumentException">If any of the items in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.#ctor(System.Json.JsonValue[])">
             <summary>
@@ -805,7 +1384,7 @@
             JavaScript Object Notation (JSON) array.</param>
             <exception cref="T:System.ArgumentException">If any of the items in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.AddRange(System.Collections.Generic.IEnumerable{System.Json.JsonValue})">
             <summary>
@@ -815,7 +1394,7 @@
             <exception cref="T:System.ArgumentNullException">If items is null.</exception>
             <exception cref="T:System.ArgumentException">If any of the items in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.AddRange(System.Json.JsonValue[])">
             <summary>
@@ -825,7 +1404,7 @@
             <exception cref="T:System.ArgumentNullException">If items is null.</exception>
             <exception cref="T:System.ArgumentException">If any of the items in the array
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.IndexOf(System.Json.JsonValue)">
             <summary>
@@ -846,7 +1425,7 @@
             the size of the array.</exception>
             <exception cref="T:System.ArgumentException">If the object to insert has a
             <see cref="P:System.Json.JsonValue.JsonType"/> property of value
-            <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.RemoveAt(System.Int32)">
             <summary>
@@ -863,7 +1442,7 @@
             <param name="item">The <see cref="T:System.Json.JsonValue"/> object to add.</param>
             <exception cref="T:System.ArgumentException">If the object to add has a
             <see cref="P:System.Json.JsonValue.JsonType"/> property of value
-            <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonArray.Clear">
             <summary>
@@ -895,22 +1474,6 @@
             <returns>true if item is successfully removed; otherwise, false. This method
             also returns false if item was not found in the <see cref="T:System.Json.JsonArray"/>.</returns>
         </member>
-        <member name="M:System.Json.JsonArray.GetEnumerator">
-            <summary>
-            Returns an enumerator which iterates through the values in this object.
-            </summary>
-            <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1"/> which iterates through the values in this object.</returns>
-            <remarks>The enumerator returned by this class contains one pair for each element
-            in this array, whose key is the element index (as a string), and the value is the
-            element itself.</remarks>
-        </member>
-        <member name="M:System.Json.JsonArray.System#Collections#Generic#IEnumerable{System#Json#JsonValue}#GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through the <see cref="T:System.Json.JsonValue"/> objects in the array.
-            </summary>
-            <returns>Returns an <see cref="T:System.Collections.Generic.IEnumerator`1"/> object that
-            iterates through the <see cref="T:System.Json.JsonValue"/> elements in this <see cref="T:System.Json.JsonArray"/>.</returns>
-        </member>
         <member name="M:System.Json.JsonArray.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             Returns an enumerator that iterates through the <see cref="T:System.Json.JsonValue"/> objects in the array.
@@ -926,7 +1489,23 @@
             <returns>If the index is within the array bounds and the value corresponding to the
             index is not null, then it will return that value. Otherwise it will return a
             <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
+        </member>
+        <member name="M:System.Json.JsonArray.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:System.Json.JsonValue"/> objects in the array.
+            </summary>
+            <returns>Returns an <see cref="T:System.Collections.Generic.IEnumerator`1"/> object that
+            iterates through the <see cref="T:System.Json.JsonValue"/> elements in this <see cref="T:System.Json.JsonArray"/>.</returns>
+        </member>
+        <member name="M:System.Json.JsonArray.GetKeyValuePairEnumerator">
+            <summary>
+            Returns an enumerator which iterates through the values in this object.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1"/> which iterates through the values in this object.</returns>
+            <remarks>The enumerator returned by this class contains one pair for each element
+            in this array, whose key is the element index (as a string), and the value is the
+            element itself.</remarks>
         </member>
         <member name="M:System.Json.JsonArray.WriteAttributeString(System.Xml.XmlDictionaryWriter)">
             <summary>
@@ -947,7 +1526,7 @@
         <member name="P:System.Json.JsonArray.JsonType">
             <summary>
             Gets the JSON type of this <see cref="T:System.Json.JsonArray"/>. The return value
-            is always <see cref="T:System.Json.JsonType">Array</see>.
+            is always <see cref="F:System.Json.JsonType.Array"/>.
             </summary>
         </member>
         <member name="P:System.Json.JsonArray.IsReadOnly">
@@ -969,7 +1548,7 @@
             <exception cref="T:System.ArgumentOutOfRangeException">If index is not a valid index for this array.</exception>
             <exception cref="T:System.ArgumentException">The property is set and the value is a
             <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/>
-            property of value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            property of value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="T:System.Json.JsonObject">
             <summary>
@@ -990,7 +1569,7 @@
             <exception cref="T:System.ArgumentNullException">If items is null.</exception>
             <exception cref="T:System.ArgumentException">If any of the values in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.#ctor(System.Collections.Generic.KeyValuePair{System.String,System.Json.JsonValue}[])">
             <summary>
@@ -999,7 +1578,7 @@
             <param name="items">The <see cref="T:System.Collections.Generic.KeyValuePair`2"/> objects used to initialize the key/value pairs.</param>
             <exception cref="T:System.ArgumentException">If any of the values in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.ValueOrDefault(System.String)">
             <summary>
@@ -1009,7 +1588,7 @@
             <returns>If this instance contains the given key and the value corresponding to
             the key is not null, then it will return that value. Otherwise it will return a
             <see cref="T:System.Json.JsonValue"/> instance with <see cref="P:System.Json.JsonValue.JsonType"/>
-            equals to <see cref="T:System.Json.JsonType">Default</see>.</returns>
+            equals to <see cref="F:System.Json.JsonType.Default"/>.</returns>
         </member>
         <member name="M:System.Json.JsonObject.AddRange(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Json.JsonValue}})">
             <summary>
@@ -1019,7 +1598,7 @@
             <exception cref="T:System.ArgumentNullException">If items is null.</exception>
             <exception cref="T:System.ArgumentException">If the value of any of the items in the collection
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.AddRange(System.Collections.Generic.KeyValuePair{System.String,System.Json.JsonValue}[])">
             <summary>
@@ -1028,7 +1607,7 @@
             <param name="items">The array of key/value paris to be added to this instance.</param>
             <exception cref="T:System.ArgumentException">If the value of any of the items in the array
             is a <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.Add(System.String,System.Json.JsonValue)">
             <summary>
@@ -1038,7 +1617,7 @@
             <param name="value">The <see cref="T:System.Json.JsonValue"/> for the element added.</param>
             <exception cref="T:System.ArgumentException">If the value is a <see cref="T:System.Json.JsonValue"/>
             with <see cref="P:System.Json.JsonValue.JsonType"/> property of
-            value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.Add(System.Collections.Generic.KeyValuePair{System.String,System.Json.JsonValue})">
             <summary>
@@ -1047,7 +1626,7 @@
             <param name="item">The key/value pair to be added.</param>
             <exception cref="T:System.ArgumentException">If the value of the pair is a
             <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/>
-            property of value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            property of value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="M:System.Json.JsonObject.ContainsKey(System.String)">
             <summary>
@@ -1090,7 +1669,7 @@
             <param name="arrayIndex">The zero-based index at which to begin the insertion of the
             contents from this <see cref="T:System.Json.JsonObject"/> instance.</param>
         </member>
-        <member name="M:System.Json.JsonObject.GetEnumerator">
+        <member name="M:System.Json.JsonObject.GetKeyValuePairEnumerator">
             <summary>
             Returns an enumerator over the key/value pairs contained in this <see cref="T:System.Json.JsonObject"/> instance.
             </summary>
@@ -1126,7 +1705,7 @@
         <member name="P:System.Json.JsonObject.JsonType">
             <summary>
             Gets the JSON type of this <see cref="T:System.Json.JsonObject"/>. The return value
-            is always <see cref="T:System.Json.JsonType">Object</see>.
+            is always <see cref="F:System.Json.JsonType.Object"/>.
             </summary>
         </member>
         <member name="P:System.Json.JsonObject.Keys">
@@ -1158,7 +1737,7 @@
             <exception cref="T:System.ArgumentNullException">If key is null.</exception>
             <exception cref="T:System.ArgumentException">The property is set and the value is a
             <see cref="T:System.Json.JsonValue"/> with <see cref="P:System.Json.JsonValue.JsonType"/>
-            property of value <see cref="T:System.Json.JsonType">Default</see>.</exception>
+            property of value <see cref="F:System.Json.JsonType.Default"/>.</exception>
         </member>
         <member name="T:System.Json.JsonPrimitive">
             <summary>
@@ -1171,7 +1750,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Boolean"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Boolean"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Boolean</see>, which can be
+            When initialized with a <see cref="T:System.Boolean"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Boolean"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Boolean"/>.</remarks>
         </member>
@@ -1181,7 +1760,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Byte"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Byte"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Byte"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Byte"/>.</remarks>
         </member>
@@ -1191,7 +1770,7 @@
             </summary>
             <param name="value">The <see cref="T:System.SByte"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.SByte"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.SByte"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.SByte"/>.</remarks>
         </member>
@@ -1201,7 +1780,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Decimal"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Decimal"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Decimal"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Decimal"/>.</remarks>
         </member>
@@ -1211,7 +1790,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Int16"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Int16"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Int16"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Int16"/>.</remarks>
         </member>
@@ -1221,7 +1800,7 @@
             </summary>
             <param name="value">The <see cref="T:System.UInt16"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.UInt16"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.UInt16"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.UInt16"/>.</remarks>
         </member>
@@ -1231,7 +1810,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Int32"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Int32"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Int32"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Int32"/>.</remarks>
         </member>
@@ -1241,7 +1820,7 @@
             </summary>
             <param name="value">The <see cref="T:System.UInt32"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.UInt32"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.UInt32"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.UInt32"/>.</remarks>
         </member>
@@ -1251,7 +1830,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Int64"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Int64"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Int64"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Int64"/>.</remarks>
         </member>
@@ -1261,7 +1840,7 @@
             </summary>
             <param name="value">The <see cref="T:System.UInt64"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.UInt64"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.UInt64"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.UInt64"/>.</remarks>
         </member>
@@ -1271,7 +1850,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Single"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Single"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Single"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Single"/>.</remarks>
         </member>
@@ -1281,7 +1860,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Double"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Double"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">Number</see>, which can be
+            When initialized with a <see cref="T:System.Double"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.Number"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Double"/>.</remarks>
         </member>
@@ -1291,7 +1870,7 @@
             </summary>
             <param name="value">The <see cref="T:System.String"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.String"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.String"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.String"/>.</remarks>
             <exception cref="T:System.ArgumentNullException">value is null.</exception>
@@ -1302,7 +1881,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Char"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Char"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.Char"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Char"/>.</remarks>
         </member>
@@ -1312,7 +1891,7 @@
             </summary>
             <param name="value">The <see cref="T:System.DateTime"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.DateTime"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.DateTime"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.DateTime"/>.</remarks>
         </member>
@@ -1322,7 +1901,7 @@
             </summary>
             <param name="value">The <see cref="T:System.DateTimeOffset"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.DateTimeOffset"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.DateTimeOffset"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.DateTimeOffset"/>.</remarks>
         </member>
@@ -1332,7 +1911,7 @@
             </summary>
             <param name="value">The <see cref="T:System.Uri"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Uri"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.Uri"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Uri"/>.</remarks>
             <exception cref="T:System.ArgumentNullException">value is null.</exception>
@@ -1343,9 +1922,17 @@
             </summary>
             <param name="value">The <see cref="T:System.Guid"/> object that initializes the new instance.</param>
             <remarks>A <see cref="T:System.Json.JsonPrimitive"/> object stores a <see cref="T:System.Json.JsonType"/> and the value used to initialize it.
-            When initialized with a <see cref="T:System.Guid"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="T:System.Json.JsonType">String</see>, which can be
+            When initialized with a <see cref="T:System.Guid"/> object, the <see cref="T:System.Json.JsonType"/> is a <see cref="F:System.Json.JsonType.String"/>, which can be
             recovered using the <see cref="P:System.Json.JsonPrimitive.JsonType"/> property. The value used to initialize the <see cref="T:System.Json.JsonPrimitive"/>
             object can be recovered by casting the <see cref="T:System.Json.JsonPrimitive"/> to <see cref="T:System.Guid"/>.</remarks>
+        </member>
+        <member name="M:System.Json.JsonPrimitive.TryCreate(System.Object,System.Json.JsonPrimitive@)">
+            <summary>
+            Attemps to create a <see cref="T:System.Json.JsonPrimitive"/> instance from the specified <see cref="T:System.Object"/> value.
+            </summary>
+            <param name="value">The <see cref="T:System.Object"/> value to create the <see cref="T:System.Json.JsonPrimitive"/> instance.</param>
+            <param name="result">The resulting <see cref="T:System.Json.JsonPrimitive"/> instance on success, null otherwise.</param>
+            <returns>true if the operation is successful, false otherwise.</returns>
         </member>
         <member name="M:System.Json.JsonPrimitive.ReadAs(System.Type)">
             <summary>
@@ -1372,9 +1959,20 @@
             <param name="value">An object instance to be initialized with this instance or null if the conversion cannot be performed.</param>
             <returns>true if this <see cref="T:System.Json.JsonPrimitive"/> instance can be read as the specified type; otherwise, false.</returns>
         </member>
+        <member name="M:System.Json.JsonPrimitive.Read">
+            <summary>
+            Returns the value this object wraps (if any).
+            </summary>
+            <returns>The value wrapped by this instance or null if none.</returns>
+        </member>
         <member name="P:System.Json.JsonPrimitive.JsonType">
             <summary>
             Gets the JsonType that is associated with this <see cref="T:System.Json.JsonPrimitive"/> object.
+            </summary>
+        </member>
+        <member name="P:System.Json.JsonPrimitive.Value">
+            <summary>
+            Gets the value represented by this instance.
             </summary>
         </member>
         <member name="T:System.Json.JsonType">

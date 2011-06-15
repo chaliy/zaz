@@ -18,7 +18,7 @@ type CommandLineCommandBuilder(resolver : string -> System.Type seq, ?argv : str
            
     let buildCmd() =        
         if argv.Length <= 1 then                   
-            Failure("Icorrect arguments:
+            Failure("Incorrect arguments:
         USAGE:
 
         Commander COMMAND_NAME Arg1:Val1 Arg2:Val2")

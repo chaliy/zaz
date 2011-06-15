@@ -49,35 +49,48 @@
       <HintPath>..\..\lib\FSharp\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Http">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Http.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationServer.Common">
+      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Http.Extensions">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Http.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationServer.Http">
+      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+      <HintPath>..\..\packages\WebApi.Enhancements.0.3.0\lib\40\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Serialization">
+      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Serialization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
+      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\packages\HttpClient.0.3.0\lib\40\Microsoft.Net.Http.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.QueryComposition">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.QueryComposition.dll</HintPath>
+      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.QueryComposition.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Runtime.Serialization.Json">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Http">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceModel.Http.Client">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.Http.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceModel.Resource">
-      <HintPath>..\..\packages\WcfResource.1.0.0.0\lib\40\Microsoft.ServiceModel.Resource.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ServiceModel.WebHttp">
-      <HintPath>..\..\packages\WcfWebApis.1.0.0.0\lib\40\Microsoft.ServiceModel.WebHttp.dll</HintPath>
+    <Reference Include="Microsoft.ServiceModel.Web.jQuery">
+      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />

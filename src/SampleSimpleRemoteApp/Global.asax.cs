@@ -6,7 +6,7 @@ using SampleHandlers;
 using Zaz.EasyRemote.Server;
 using Zaz.Local;
 
-namespace SampleSimpleRemoteApp
+namespace SampleEasyRemoteApp
 {
     public class Global : HttpApplication
     {

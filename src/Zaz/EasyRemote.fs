@@ -4,7 +4,8 @@
     open System.Net
     open System.ServiceModel
     open System.ServiceModel.Web
-    open Microsoft.Http
+    open System.Net.Http
+    open Microsoft.ApplicationServer.Http
     open Zaz.Utils    
 
     [<ServiceContract>]     
@@ -21,7 +22,7 @@
 
         [<WebGet(UriTemplate = "")>]
         member this.Get(response : HttpResponseMessage) = 
-            response.Content <- HttpContent.Create("Endpoint for commands.")
+            response.Content <- new StringContent("Endpoint for commands.")
 
         [<WebInvoke(Method = "POST", UriTemplate = "")>]
         member this.Post(request : HttpRequestMessage, response : HttpResponseMessage) = 
@@ -29,7 +30,7 @@
             let form = parseQueryString(body)
             if form.ContainsKey("Zaz-Command-Id") = false then
                 response.StatusCode <- HttpStatusCode.BadRequest                
-                response.Content <- HttpContent.Create("Required value 'Zaz-Command-Id' was not found.")
+                response.Content <- new StringContent("Required value 'Zaz-Command-Id' was not found.")
             else
                 let cmdId = form.["Zaz-Command-Id"]
                 match resolver cmdId with
@@ -39,31 +40,33 @@
                             try 
                                 bus.Post cmd
                                 response.StatusCode <- HttpStatusCode.Accepted                
-                                response.Content <- HttpContent.Create("Command " + cmdId + " accepted")
+                                response.Content <- new StringContent("Command " + cmdId + " accepted")
                             with
                                 | x -> 
                                     response.StatusCode <- HttpStatusCode.BadRequest                
-                                    response.Content <- HttpContent.Create(x.ToString())
+                                    response.Content <- new StringContent(x.ToString())
                         | Failure error -> 
                             response.StatusCode <- HttpStatusCode.BadRequest                
-                            response.Content <- HttpContent.Create(error)
+                            response.Content <- new StringContent(error)
                 | None -> 
                     response.StatusCode <- HttpStatusCode.NotFound                
-                    response.Content <- HttpContent.Create("Cannot find command for command ID " + cmdId)                
-             
-    open Microsoft.ServiceModel.Http
-    open Microsoft.ServiceModel.Resource
+                    response.Content <- new StringContent("Cannot find command for command ID " + cmdId)                
+                 
+    open Microsoft.ApplicationServer.Http.Activation
+    open Microsoft.ApplicationServer.Http.Description
 
     type Registration =        
         static member Register(resolver : string -> (Type option), 
                                bus : Zaz.ICommandBus) =
             let routes = System.Web.Routing.RouteTable.Routes
-            let config =  { new ResourceConfiguration() with
-                                override this.RegisterRequestProcessorsForOperation(operation, processors, node) = ()
-                                override this.RegisterResponseProcessorsForOperation(operation, processors, node) = ()                                
-                                override this.GetInstance(serviceType, instanceContext, message) =
-                                        new CommandBus(resolver, bus) |> unbox }
-            RouteCollectionExtensions.AddResourceRoute<CommandBus>(routes, "Commands", config)            
+            let commandBusFactory = { new IResourceFactory with
+                                        member this.GetInstance(serviceType, instanceContext, request) =
+                                            new CommandBus(resolver, bus) |> unbox
+                                        member this.ReleaseInstance(instanceContext, service) = () }
+
+            let config = HttpHostConfiguration.Create().SetResourceFactory(commandBusFactory)
+                                                    
+            RouteCollectionExtensions.MapServiceRoute<CommandBus>(routes, "Commands", config)            
 
         static member Register(resolver : System.Func<string, Type>, 
                                bus : Zaz.ICommandBus) =
