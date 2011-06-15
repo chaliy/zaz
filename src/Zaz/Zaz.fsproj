@@ -39,9 +39,9 @@
     <Compile Include="Zaz.fs" />
     <Compile Include="Local.fs" />
     <Compile Include="CommandUtils.fs" />
+    <Compile Include="Remote.fs" />
     <Compile Include="EasyRemote.fs" />
     <Compile Include="Commander.fs" />
-    <Compile Include="Remote.fs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using SampleCommands;
 using SampleHandlers;
 using Zaz.EasyRemote.Server;
 using Zaz.Local;
+using Zaz.Remote.Server;
 
 namespace SampleEasyRemoteApp
 {
@@ -12,8 +13,9 @@ namespace SampleEasyRemoteApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            var bus = DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);
-            Registration.Register(key => CommandRegistry.ResolveCommand(key).FirstOrDefault(), bus);
+            var bus = DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);            
+            var broker = new CommandBusBroker(bus);
+            Registration.Register(key => CommandRegistry.ResolveCommand(key).FirstOrDefault(), broker);
         }        
     }
 }

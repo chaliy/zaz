@@ -11,7 +11,7 @@
     [<ServiceContract>]     
     type CommandBus(
                     resolver : string -> (Type option), 
-                    bus : Zaz.ICommandBus) =
+                    broker : Zaz.Remote.Server.ICommandBroker) =
 
         let parseQueryString query = 
              let nvc = Web.HttpUtility.ParseQueryString(query)
@@ -33,12 +33,14 @@
                 response.Content <- new StringContent("Required value 'Zaz-Command-Id' was not found.")
             else
                 let cmdId = form.["Zaz-Command-Id"]
+                let ctx = { new Zaz.Remote.Server.ICommandBrokerContext with
+                                member this.Tags with get() = [] }
                 match resolver cmdId with
                 | Some cmdType -> 
                         match Zaz.Utils.BuildCommand(cmdType, form) with
                         | Success cmd ->
                             try 
-                                bus.Post cmd
+                                (broker.Handle cmd ctx).Wait()
                                 response.StatusCode <- HttpStatusCode.Accepted                
                                 response.Content <- new StringContent("Command " + cmdId + " accepted")
                             with
@@ -57,11 +59,11 @@
 
     type Registration =        
         static member Register(resolver : string -> (Type option), 
-                               bus : Zaz.ICommandBus) =
+                               broker : Zaz.Remote.Server.ICommandBroker) =
             let routes = System.Web.Routing.RouteTable.Routes
             let commandBusFactory = { new IResourceFactory with
                                         member this.GetInstance(serviceType, instanceContext, request) =
-                                            new CommandBus(resolver, bus) |> unbox
+                                            new CommandBus(resolver, broker) |> unbox
                                         member this.ReleaseInstance(instanceContext, service) = () }
 
             let config = HttpHostConfiguration.Create().SetResourceFactory(commandBusFactory)
@@ -69,12 +71,12 @@
             RouteCollectionExtensions.MapServiceRoute<CommandBus>(routes, "Commands", config)            
 
         static member Register(resolver : System.Func<string, Type>, 
-                               bus : Zaz.ICommandBus) =
+                               broker : Zaz.Remote.Server.ICommandBroker) =
 
             let resolver2 = fun key -> match resolver.Invoke(key) with
                                         | null -> None
                                         | x -> Some x
-            Registration.Register(resolver2, bus)
+            Registration.Register(resolver2, broker)
 
 
         

@@ -91,6 +91,17 @@ namespace Zaz.Remote.Server
     open System.Runtime.Serialization
     open Zaz.Remote.Contract
     open System.ServiceModel.Activation
+    open System.Threading.Tasks
+
+    type ICommandBrokerContext =
+        abstract Tags : string list with get
+    
+    type ICommandBroker =
+        abstract member Handle : obj -> ICommandBrokerContext -> Task
+
+    type CommandBusBroker(bus : Zaz.ICommandBus) =
+        interface ICommandBroker with
+            member this.Handle cmd ctx = System.Threading.Tasks.Task.Factory.StartNew(fun () -> bus.Post(cmd))
 
     [<AbstractClass>] 
     [<AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)>]
@@ -100,20 +111,25 @@ namespace Zaz.Remote.Server
             ser.ReadObject(xml.CreateReader())
 
         interface CommandBus with
-            member this.Post(env) = 
-                let bus = this.CreateCommandBus()
+            member this.Post(env) =            
+                let broker = this.CreateCommandBroker()
+                let ctx = { new ICommandBrokerContext with
+                                member this.Tags with get() = env.Tags }
                 let cmdTypes = this.ResolveCommand(env.Key)
+               
                 cmdTypes
                 |> Seq.map(fun t -> deserialize env.Data t)
-                |> Seq.iter(bus.Post)
+                |> Seq.iter(fun c -> (broker.Handle c ctx).Wait())
 
-            member this.PostBatch(b) = 
-                let bus = this.CreateCommandBus()
+            member this.PostBatch(b) =                 
+                let broker = this.CreateCommandBroker()
+                let ctx = { new ICommandBrokerContext with
+                                member this.Tags with get() = [] }
                 b.Commands
                 |> Seq.iter(fun c ->
                     this.ResolveCommand(c.Key)
                     |> Seq.map(fun t -> deserialize c.Data t)
-                    |> Seq.iter(bus.Post))
-        
-        abstract member CreateCommandBus : unit -> Zaz.ICommandBus
+                    |> Seq.iter(fun c -> (broker.Handle c ctx).Wait()) )
+                
+        abstract member CreateCommandBroker : unit -> ICommandBroker
         abstract member ResolveCommand : key : string -> System.Type seq

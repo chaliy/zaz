@@ -10,9 +10,11 @@ namespace SampleRemoteApp
 {
     public class SimpleCommandBusService : CommandBusService
     {
-        public override ICommandBus CreateCommandBus()
+        
+        public override ICommandBroker CreateCommandBroker()
         {
-			return DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);
+            var bus = DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);
+            return new CommandBusBroker(bus);
         }
 
         public override IEnumerable<Type> ResolveCommand(string key)
