@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ZazClient")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Client for Zaz Command Bus. Super simple REST Command Bus. Uses WCF Web API as main transport.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mike Chaliy")]
 [assembly: AssemblyProduct("Zaz")]
