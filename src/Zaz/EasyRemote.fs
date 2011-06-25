@@ -25,7 +25,7 @@
             new HttpResponseMessage(Content = new StringContent("Endpoint for commands."))
 
         [<WebInvoke(Method = "POST", UriTemplate = "")>]
-        member this.Post(request : HttpRequestMessage) = 
+        member this.Post(request : HttpRequestMessage) =             
             let body = request.Content.ReadAsString()
             let form = parseQueryString(body)
             if form.ContainsKey("Zaz-Command-Id") = false then
