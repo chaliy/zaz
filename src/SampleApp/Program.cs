@@ -1,5 +1,4 @@
-﻿using Zaz;
-using Zaz.Remote.Client;
+﻿using Zaz.Client;
 using SampleCommands;
 
 namespace SampleApp
@@ -8,8 +7,7 @@ namespace SampleApp
     {
         static void Main(string[] args)
         {
-            //ICommandBus bus = new LocalCommandBus(CommandHandlerResolvers.FromAssembly(typeof(SampleHandlersMarker).Assembly));
-            ICommandBus bus = new RemoteCommandBus("http://localhost:9301/CommandBus.svc");
+            var bus = new CommandBus("http://localhost:9302/");            
             bus.Post(new PrintMessage
                         {
                             Message = "Hello world"

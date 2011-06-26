@@ -59,9 +59,9 @@
       <Project>{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}</Project>
       <Name>SampleHandlers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zaz\Zaz.fsproj">
-      <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
-      <Name>Zaz</Name>
+    <ProjectReference Include="..\ZazClient\ZazClient.csproj">
+      <Project>{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}</Project>
+      <Name>ZazClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

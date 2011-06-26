@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\FSharp\FSharp.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -80,9 +76,9 @@
       <Project>{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}</Project>
       <Name>SampleHandlers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zaz\Zaz.fsproj">
-      <Project>{3B0B7881-116A-4779-B876-2675579DC38A}</Project>
-      <Name>Zaz</Name>
+    <ProjectReference Include="..\ZazServer\ZazServer.csproj">
+      <Project>{E8194996-1D59-4D0F-A618-96C0FC6221EE}</Project>
+      <Name>ZazServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

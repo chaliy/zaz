@@ -15,7 +15,7 @@ namespace Zaz.Client.Avanced
 
         public Task Post(CommandEnvelope envelope)
         {
-            return _client.PostAsync("/", new CommandContent(envelope))
+            return _client.PostAsync("/Commands", new CommandContent(envelope))
                 .ContinueWith(x =>
                 {
                     if (!x.Result.IsSuccessStatusCode)

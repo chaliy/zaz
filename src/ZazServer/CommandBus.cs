@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Json;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using Newtonsoft.Json;
@@ -11,6 +10,16 @@ namespace Zaz.Server
     [ServiceContract]
     public class CommandBus
     {
+        private readonly ICommandBroker _broker;
+        private readonly Conventions _conventions;
+
+        public CommandBus(ICommandBroker broker,
+            Conventions conventions)
+        {
+            _broker = broker;
+            _conventions = conventions;
+        }
+
         [WebGet(UriTemplate = "")]
         public HttpResponseMessage Get()
         {
@@ -22,16 +31,22 @@ namespace Zaz.Server
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
         public HttpResponseMessage Post(HttpRequestMessage request)
-        {
-            ICommandBroker broker = null;
+        {            
             var body = request.Content.ReadAsString();
+
             var envelope = JObject.Parse(body);
             var key = envelope["Key"].Value<string>();
-            var cmdType = broker.ResolveCommandType(key);
             var cmdReader = envelope["Command"].CreateReader();
-            var serializer =new JsonSerializer();
+
+            var cmdType = _conventions.CommandResolver(key);
+            if (cmdType == null)
+            {                
+                throw new HttpException("Command was not found");
+            }
+            var serializer = new JsonSerializer();
             var cmd = serializer.Deserialize(cmdReader, cmdType);
-            broker.Handle(cmd).Wait();
+
+            _broker.Handle(cmd).Wait();
             return new HttpResponseMessage
                        {
                            StatusCode = HttpStatusCode.Accepted,
