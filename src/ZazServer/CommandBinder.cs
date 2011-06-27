@@ -10,7 +10,11 @@ namespace Zaz.Server
             var cmd = Activator.CreateInstance(cmdType);            
 
             foreach(var prop in cmdType.GetProperties())
-            {
+            {                
+                if (!data.ContainsKey(prop.Name))
+                {
+                    throw new InvalidOperationException("Value for required property " + prop.Name + " was not found");
+                }
                 var val = NormalizeValue(prop.PropertyType, data[prop.Name]);
                 prop.SetValue(cmd, val, null);
             }            
@@ -18,10 +22,10 @@ namespace Zaz.Server
             return cmd;
         }
 
-        private object NormalizeValue(Type t, string v){
+        private static object NormalizeValue(Type t, string v){
             if (t == typeof(Guid))
             {
-                return new System.Guid(v);                
+                return new Guid(v);                
             }
             else if (t.IsEnum)
             {

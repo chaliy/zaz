@@ -19,11 +19,16 @@ namespace Zaz.Server
         private readonly ICommandBroker _broker;
         private readonly Conventions _conventions;
 
+        public CommandsService(ICommandBroker broker) 
+            : this(broker, null)
+        {
+        }
+
         public CommandsService(ICommandBroker broker,
             Conventions conventions)
         {
             _broker = broker;
-            _conventions = conventions;
+            _conventions = conventions ?? new Conventions();
         }
 
         [WebGet(UriTemplate = "")]
@@ -53,9 +58,8 @@ namespace Zaz.Server
 
                 var cmdKey = form["Zaz-Command-Id"];
                 var cmdType = ResolveCommand(cmdKey);
-
-                var binder = new CommandBinder();
-                var cmd = binder.Build(cmdType, form);
+                
+                var cmd = BindFormToCommand(form, cmdType);
 
                 return HandleCommand(cmdKey, cmd);
             }
@@ -71,6 +75,19 @@ namespace Zaz.Server
 
                 return HandleCommand(cmdKey, cmd);
             }            
+        }
+
+        private static object BindFormToCommand(Dictionary<string, string> form, Type cmdType)
+        {            
+            try
+            {
+                var binder = new CommandBinder();
+                return binder.Build(cmdType, form);                    
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw CreateApiException("Problems with binding command data. " + ex.Message);
+            }
         }
 
         private HttpResponseMessage HandleCommand(string cmdKey, object cmd)
@@ -121,7 +138,8 @@ namespace Zaz.Server
 
         private Type ResolveCommand(string key)
         {
-            var cmdType = _conventions.CommandResolver(key);
+            var cmdType = (_conventions.CommandResolver 
+                           ?? DefaultConventions.CommandResolver)(key);
             if (cmdType == null)
             {
                 throw CreateApiException("Command " + key + " was not found");

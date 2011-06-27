@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Reflection;
+using System.Linq;
 
 namespace Zaz.Server
 {
     public static class DefaultConventions
     {
         public static readonly Func<string, Type> CommandResolver =
-            key => Assembly.GetEntryAssembly().GetType(key, false, true);
+            key => AppDomain.CurrentDomain
+                       .GetAssemblies()
+                       .Select(a => a.GetType(key, false, true))
+                       .Where(x => x != null)
+                       .FirstOrDefault();
     }
 }

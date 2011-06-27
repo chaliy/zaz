@@ -2,7 +2,7 @@
 using Zaz.Client.Avanced;
 using FluentAssertions;
 
-namespace Tests
+namespace Zaz.Tests.Client
 {    
     public class When_deserializing_command_content
     {
@@ -14,7 +14,7 @@ namespace Tests
         }
 
         [TestFixtureSetUp]
-        public void Given_commnd()
+        public void Given_command()
         {
             var envelope = new CommandEnvelope
             {

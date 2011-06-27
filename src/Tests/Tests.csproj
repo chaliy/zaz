@@ -8,8 +8,8 @@
     <ProjectGuid>{F2A863EC-DE60-4368-B996-8D6CCA00E618}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
+    <RootNamespace>Zaz.Tests</RootNamespace>
+    <AssemblyName>ZazTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,8 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="When_deserializing_command_content.cs" />
+    <Compile Include="Client\When_deserializing_command_content.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Stubs\FooCommand.cs" />
+    <Compile Include="Server\When_posting_form_url_encoded_command.cs" />
+    <Compile Include="Server\Stubs\CommandBrokerStub.cs" />
+    <Compile Include="Server\When_access_to_endpoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -65,7 +69,12 @@
       <Project>{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}</Project>
       <Name>ZazClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZazServer\ZazServer.csproj">
+      <Project>{E8194996-1D59-4D0F-A618-96C0FC6221EE}</Project>
+      <Name>ZazServer</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
