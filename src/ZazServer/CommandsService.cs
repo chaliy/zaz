@@ -39,8 +39,9 @@ namespace Zaz.Server
         public HttpResponseMessage Post(HttpRequestMessage request)
         {            
             if (request.Content.Headers
-                .GetValues("Content-Type")
-                .Any(x => x == "application/x-www-form-urlencoded"))
+                .Any(x => x.Key == "Content-Type" 
+                    && x.Value
+                    .Any(xx => xx == "application/x-www-form-urlencoded")))
             {                
                 var body = request.Content.ReadAsString();
                 var form = ParseQueryString(body);
@@ -50,40 +51,72 @@ namespace Zaz.Server
                     throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
                 }
 
-                var key = form["Zaz-Command-Id"];
-                var cmdType = ResolveCommand(key);
+                var cmdKey = form["Zaz-Command-Id"];
+                var cmdType = ResolveCommand(cmdKey);
 
                 var binder = new CommandBinder();
                 var cmd = binder.Build(cmdType, form);
 
-                _broker.Handle(cmd).Wait();
-
-                return new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.Accepted,
-                    Content = new StringContent("Command " + key + " accepted")
-                };
+                return HandleCommand(cmdKey, cmd);
             }
             else
             {
                 var body = request.Content.ReadAsString();
 
-                var envelope = JObject.Parse(body);
-                var key = envelope["Key"].Value<string>();
-                var cmdReader = envelope["Command"].CreateReader();
+                var envelope = ReadValidCommandEnvelope(body);                
+                var cmdKey = envelope["Key"].Value<string>();
+                var cmdType = ResolveCommand(cmdKey);
+                                
+                var cmd = DeserializeCommand(envelope, cmdType);
 
-                var cmdType = ResolveCommand(key);
-
-                var serializer = new JsonSerializer();
-                var cmd = serializer.Deserialize(cmdReader, cmdType);
-
-                _broker.Handle(cmd).Wait();
-                return new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.Accepted,
-                    Content = new StringContent("Command " + key + " accepted")
-                };
+                return HandleCommand(cmdKey, cmd);
             }            
+        }
+
+        private HttpResponseMessage HandleCommand(string cmdKey, object cmd)
+        {         
+            _broker.Handle(cmd).Wait();            
+            return new HttpResponseMessage
+                       {
+                           StatusCode = HttpStatusCode.Accepted,
+                           Content = new StringContent("Command " + cmdKey + " accepted")
+                       };
+        }
+
+        private static JObject ReadValidCommandEnvelope(string body)
+        {
+            try
+            {
+                var envelope = JObject.Parse(body);
+                if (envelope["Key"] == null)
+                {
+                    throw CreateApiException("Required value 'Key' was not found.");                    
+                }
+                return envelope;
+
+            }
+            catch (JsonReaderException ex)
+            {
+                throw CreateApiException("Problems with deserializing command data. " + ex.Message);
+            }            
+        }
+
+        private static object DeserializeCommand(JObject envelope, Type cmdType)
+        {
+            if (envelope["Command"] != null)
+            {
+                var cmdReader = envelope["Command"].CreateReader();
+                try
+                {
+                    var serializer = new JsonSerializer();
+                    return serializer.Deserialize(cmdReader, cmdType);
+                }
+                catch (JsonReaderException ex)
+                {
+                    throw CreateApiException("Problems with deserializing command data. " + ex.Message);
+                }            
+            }
+            return Activator.CreateInstance(cmdType);
         }
 
         private Type ResolveCommand(string key)
@@ -91,7 +124,7 @@ namespace Zaz.Server
             var cmdType = _conventions.CommandResolver(key);
             if (cmdType == null)
             {
-                throw CreateApiException("Command was not found");
+                throw CreateApiException("Command " + key + " was not found");
             }
 
             return cmdType;
