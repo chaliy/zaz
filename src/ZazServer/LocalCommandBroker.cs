@@ -14,7 +14,7 @@ namespace Zaz.Server
             _handlersAssembly = handlersAssembly;
         }
 
-        public Task Handle(object cmd)
+        public Task Handle(dynamic cmd)
         {
             var cmdType = cmd.GetType();
             var handlerType = _handlersAssembly
@@ -32,7 +32,6 @@ namespace Zaz.Server
             }
 
             dynamic handler = Activator.CreateInstance(handlerType);
-
 
             return Task.Factory.StartNew(() =>
             {

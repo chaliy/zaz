@@ -22,7 +22,7 @@ namespace Zaz.Server
 
             public object GetInstance(Type serviceType, InstanceContext instanceContext, HttpRequestMessage request)
             {
-                return new CommandBus(_broker, _conventions);
+                return new CommandsService(_broker, _conventions);
             }
 
             public void ReleaseInstance(InstanceContext instanceContext, object service)
@@ -34,7 +34,7 @@ namespace Zaz.Server
         {
             var config = HttpHostConfiguration.Create()
                 .SetResourceFactory(new CommandBusFactory(broker, conventions));
-            RouteTable.Routes.MapServiceRoute<CommandBus>("Commands", config);
+            RouteTable.Routes.MapServiceRoute<CommandsService>("Commands", config);
         }
     }
 }

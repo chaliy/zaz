@@ -74,7 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBus.cs" />
+    <Compile Include="CommandBinder.cs" />
+    <Compile Include="CommandsService.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="DefaultConventions.cs" />
     <Compile Include="ICommandBroker.cs" />
