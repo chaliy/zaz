@@ -11,7 +11,7 @@ namespace SampleEasyRemoteApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            Registration.Init(
+            ZazRegistration.Init(
                 new LocalCommandBroker(typeof(SampleHandlersMarker).Assembly), 
                 new Conventions
                 {

@@ -7,7 +7,7 @@ using Microsoft.ApplicationServer.Http.Description;
 
 namespace Zaz.Server
 {
-    public class Registration
+    public class ZazRegistration
     {
         private class CommandBusFactory : IResourceFactory
         {

@@ -84,7 +84,7 @@
     <Compile Include="ICommandBroker.cs" />
     <Compile Include="LocalCommandBroker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registration.cs" />
+    <Compile Include="ZazRegistration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
