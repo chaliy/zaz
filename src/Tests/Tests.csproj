@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Client\When_deserializing_command_content.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Stubs\FooCommand.cs" />

@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Avanced\CommandContent.cs" />
     <Compile Include="Avanced\CommandEnvelope.cs" />
     <Compile Include="Avanced\AdvancedCommandBus.cs" />

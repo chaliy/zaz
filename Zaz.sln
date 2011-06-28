@@ -17,6 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82BF8-FB04-4B92-A2ED-3727DC0766EB}"
 	ProjectSection(SolutionItems) = preProject
 		src\SampleAppScript.ps1 = src\SampleAppScript.ps1
+		src\SampleAppScript2.ps1 = src\SampleAppScript2.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleEasyRemoteApp", "src\SampleSimpleRemoteApp\SampleEasyRemoteApp.csproj", "{3D644822-6B05-4F38-B68B-5D2D159DD246}"
