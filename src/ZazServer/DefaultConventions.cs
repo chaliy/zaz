@@ -11,5 +11,8 @@ namespace Zaz.Server
                        .Select(a => a.GetType(key, false, true))
                        .Where(x => x != null)
                        .FirstOrDefault();
+        
+        public static readonly ICommandStateProvider CommandStateProvider =
+        	new MemoryCommandStateProvider();
     }
 }
