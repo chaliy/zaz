@@ -1,7 +1,7 @@
 Zaz Command Bus
 =============
 
-Super simple HTTP Command Bus. Based on simple REST protocol. Very opinionated. Provides minimum configuaration, but maximum extensibility points. REST protocol is implemented with <a href="http://wcf.codeplex.com/wikipage?title=WCF HTTP">WCF Web API</a>. JSON seriazlization provided by JSON.NET.
+Super simple HTTP Command Bus. Based on simple REST protocol. Very opinionated. Provides minimum configuaration, but maximum extensibility points. REST protocol is implemented with <a href="http://wcf.codeplex.com/wikipage?title=WCF HTTP">WCF Web API</a>. JSON serialization provided by JSON.NET.
 
 Features
 ========
@@ -49,3 +49,8 @@ or only Client
 or only Server
 
 	Install-Package ZazServer
+	
+License
+=======
+
+Licensed under the MIT
