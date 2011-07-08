@@ -63,6 +63,7 @@
     <Compile Include="Server\When_posting_form_url_encoded_command.cs" />
     <Compile Include="Server\Stubs\CommandBrokerStub.cs" />
     <Compile Include="Server\When_access_to_endpoint.cs" />
+    <Compile Include="Server\When_posting_json_command.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

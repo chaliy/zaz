@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server;
@@ -9,7 +8,7 @@ using Zaz.Tests.Server.Stubs;
 
 namespace Zaz.Tests.Server
 {
-    public class When_posting_form_url_encoded_command
+    public class When_posting_json_command
     {        
         private HttpResponseMessage _result;
         private CommandBrokerStub _broker;
@@ -19,12 +18,16 @@ namespace Zaz.Tests.Server
         {
             _broker = new CommandBrokerStub();
             var service = new CommandsService(new Conventions { CommandBroker = _broker });
-            var cmdKey = typeof (FooCommand).FullName;
-            var cmdContent = new StringContent("Zaz-Command-Id=" + cmdKey + "&Value1=Foo");            
-            cmdContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            var cmdKey = typeof (FooCommand).FullName;            
             var cmdMessage = new HttpRequestMessage
                 {
-                    Content = cmdContent
+                    Content = new StringContent(@"
+                    { 
+	                    'Key' : '" + cmdKey + @"',			
+	                    'Command' : {
+		                    'Value1' : 'Foo'
+	                    }
+                    }")
                 };
             _result = service.Post(cmdMessage);
         }
