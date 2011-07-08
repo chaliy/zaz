@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Zaz.Server
 {
@@ -14,5 +15,8 @@ namespace Zaz.Server
         
         public static readonly ICommandStateProvider CommandStateProvider =
         	new MemoryCommandStateProvider();
+
+        public static readonly ICommandBroker CommandBroker =
+            new LocalCommandBroker(Assembly.GetEntryAssembly());
     }
 }

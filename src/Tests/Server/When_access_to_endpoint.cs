@@ -13,7 +13,7 @@ namespace Zaz.Tests.Server
         [TestFixtureSetUp]
         public void Given_service_by_default()
         {
-            var service = new CommandsService(new CommandBrokerStub(), new Conventions());
+            var service = new CommandsService(new Conventions { CommandBroker = new CommandBrokerStub() });
             _result = service.Get();            
         }
 

@@ -10,19 +10,17 @@ namespace Zaz.Server
     public class ZazRegistration
     {
         private class CommandBusFactory : IResourceFactory
-        {
-            private readonly ICommandBroker _broker;
+        {            
             private readonly Conventions _conventions;
 
-            public CommandBusFactory(ICommandBroker broker, Conventions conventions)
+            public CommandBusFactory(Conventions conventions)
             {
-                _broker = broker;
                 _conventions = conventions;
             }
 
             public object GetInstance(Type serviceType, InstanceContext instanceContext, HttpRequestMessage request)
             {
-                return new CommandsService(_broker, _conventions);
+                return new CommandsService(_conventions);
             }
 
             public void ReleaseInstance(InstanceContext instanceContext, object service)
@@ -30,11 +28,11 @@ namespace Zaz.Server
             }
         }
 
-        public static void Init(ICommandBroker broker, Conventions conventions)
+        public static void Init(string prefix = "Commands", Conventions conventions = null)
         {
             var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new CommandBusFactory(broker, conventions));
-            RouteTable.Routes.MapServiceRoute<CommandsService>("Commands", config);
+                .SetResourceFactory(new CommandBusFactory(conventions));
+            RouteTable.Routes.MapServiceRoute<CommandsService>(prefix, config);
         }
     }
 }

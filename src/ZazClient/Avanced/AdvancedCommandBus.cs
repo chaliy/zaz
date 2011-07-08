@@ -15,12 +15,12 @@ namespace Zaz.Client.Avanced
 
         public Task Post(CommandEnvelope envelope)
         {
-            return _client.PostAsync("/Commands", new CommandContent(envelope))
+            return _client.PostAsync("", new CommandContent(envelope))
                 .ContinueWith(x =>
                 {
                     if (!x.Result.IsSuccessStatusCode)
                     {
-                        throw new InvalidOperationException("sfd");
+                        throw new InvalidOperationException("Command was not successfully posted.");
                     }
                     return;
                 });                

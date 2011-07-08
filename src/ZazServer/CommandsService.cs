@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,17 +18,11 @@ namespace Zaz.Server
     {
         private readonly ICommandBroker _broker;
         private readonly Conventions _conventions;
-
-        public CommandsService(ICommandBroker broker) 
-            : this(broker, null)
-        {
-        }
-
-        public CommandsService(ICommandBroker broker,
-            Conventions conventions)
-        {
-            _broker = broker;
+        
+        public CommandsService(Conventions conventions)
+        {            
             _conventions = conventions ?? new Conventions();
+            _broker = _conventions.CommandBroker ?? DefaultConventions.CommandBroker;
         }
 
         [WebGet(UriTemplate = "")]
