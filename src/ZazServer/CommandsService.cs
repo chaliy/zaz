@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -43,6 +44,7 @@ namespace Zaz.Server
         [WebInvoke(Method = "POST", UriTemplate = "")]
         public HttpResponseMessage Post(HttpRequestMessage request)
         {            
+            //Debugger.Break();
             if (request.Content.Headers
                 .Any(x => x.Key == "Content-Type" 
                     && x.Value
@@ -61,7 +63,7 @@ namespace Zaz.Server
                 
                 var cmd = BindFormToCommand(form, cmdType);
 
-                return HandleCommand(cmdKey, cmd);
+                return HandleCommand(cmdKey, cmd, new string[0]);
             }
             else
             {
@@ -72,10 +74,10 @@ namespace Zaz.Server
                 var cmdType = ResolveCommand(cmdKey);
                                 
                 var cmd = DeserializeCommand(envelope, cmdType);
-
-                return HandleCommand(cmdKey, cmd);
+                var tags = ReadTags(envelope);
+                return HandleCommand(cmdKey, cmd, tags);
             }            
-        }
+        }        
 
         private static object BindFormToCommand(Dictionary<string, string> form, Type cmdType)
         {            
@@ -90,9 +92,13 @@ namespace Zaz.Server
             }
         }
 
-        private HttpResponseMessage HandleCommand(string cmdKey, object cmd)
-        {         
-            _broker.Handle(cmd).Wait();            
+        private HttpResponseMessage HandleCommand(string cmdKey, object cmd, string[] tags)
+        {
+            _broker.Handle(cmd, new CommandHandlingContext
+                                    {
+                                        Tags = tags ?? new string[0]
+                                    })
+                   .Wait();
             return new HttpResponseMessage
                        {
                            StatusCode = HttpStatusCode.Accepted,
@@ -116,6 +122,24 @@ namespace Zaz.Server
             {
                 throw CreateApiException("Problems with deserializing command data. " + ex.Message);
             }            
+        }
+
+        private static string[] ReadTags(JObject envelope)
+        {
+            if (envelope["Tags"] != null)
+            {
+                var cmdReader = envelope["Tags"].CreateReader();
+                try
+                {
+                    var serializer = new JsonSerializer();
+                    return serializer.Deserialize<string[]>(cmdReader);
+                }
+                catch (JsonReaderException ex)
+                {
+                    throw CreateApiException("Problems with deserializing tags data. " + ex.Message);
+                }
+            }
+            return new string[0];
         }
 
         private static object DeserializeCommand(JObject envelope, Type cmdType)
@@ -158,8 +182,11 @@ namespace Zaz.Server
 
         private static HttpResponseException CreateApiException(string message)
         {
-            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest, message);
+            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest, message)
+                           {
+                               Content = new StringContent(message)
+                           };
             return new HttpResponseException(resp);
-        }
+        }        
     }
 }

@@ -14,7 +14,7 @@ namespace Zaz.Server
             _handlersAssembly = handlersAssembly;
         }
 
-        public Task Handle(dynamic cmd)
+        public Task Handle(dynamic cmd, CommandHandlingContext ctx)
         {
             var cmdType = cmd.GetType();
             var handlerType = _handlersAssembly
@@ -28,7 +28,7 @@ namespace Zaz.Server
 
             if (handlerType == null)
             {
-                throw new InvalidOperationException("Zaz failed to find appropreate handler");
+                throw new InvalidOperationException("Zaz failed to find appropriate handler");
             }
 
             dynamic handler = Activator.CreateInstance(handlerType);

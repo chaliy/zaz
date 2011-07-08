@@ -3,7 +3,7 @@
 namespace Zaz.Server
 {
     public interface ICommandBroker
-    {        
-        Task Handle(object cmd);
+    {
+        Task Handle(object cmd, CommandHandlingContext ctx);
     }
 }
