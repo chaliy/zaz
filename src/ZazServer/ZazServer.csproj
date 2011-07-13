@@ -78,18 +78,36 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CommandBinder.cs" />
-    <Compile Include="CommandsService.cs" />
+    <Compile Include="Service\CommandMeta.cs" />
+    <Compile Include="Service\CommandParameter.cs" />
+    <Compile Include="Service\CommandsService.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="DefaultConventions.cs" />
     <Compile Include="ICommandBroker.cs" />
     <Compile Include="CommandHandlingContext.cs" />
     <Compile Include="ICommandStateProvider.cs" />
     <Compile Include="LocalCommandBroker.cs" />
+    <Compile Include="Portal\PortalContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZazRegistration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ZazServer.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Portal\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Portal\css\style.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Portal\js\app.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Portal\js\vendor\jquery\1.5.1\jquery.js" />
+    <EmbeddedResource Include="Portal\js\vendor\jquery\1.5.1\jquery.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

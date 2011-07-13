@@ -9,8 +9,9 @@ using System.Web;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Zaz.Server.Portal;
 
-namespace Zaz.Server
+namespace Zaz.Server.Service
 {
     [ServiceContract]
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
@@ -25,14 +26,21 @@ namespace Zaz.Server
             _broker = _conventions.CommandBroker ?? DefaultConventions.CommandBroker;
         }
 
-        [WebGet(UriTemplate = "")]
-        public HttpResponseMessage Get()
+        [WebGet(UriTemplate = "Portal/{*path}")]
+        public HttpResponseMessage Portal(string path = "index.html")
         {
             return new HttpResponseMessage
                        {
-                           Content = new StringContent("Endpoint for commands.")
+                           Content = PortalContent.Get(path)
                        };
-        }                
+        }
+
+        [WebGet(UriTemplate = "MetaList")]
+        public IQueryable<CommandMeta> MetaList()
+        {
+            var list = new List<CommandMeta> {new CommandMeta {Key = "Foo1"}, new CommandMeta {Key = "Foo2"}};
+            return list.AsQueryable();
+        }
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
         public HttpResponseMessage Post(HttpRequestMessage request)

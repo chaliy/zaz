@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server;
+using Zaz.Server.Service;
 using Zaz.Tests.Server.Stubs;
 
 namespace Zaz.Tests.Server
@@ -14,7 +15,7 @@ namespace Zaz.Tests.Server
         public void Given_service_by_default()
         {
             var service = new CommandsService(new Conventions { CommandBroker = new CommandBrokerStub() });
-            _result = service.Get();            
+            _result = service.Portal("");            
         }
 
         [Test]
