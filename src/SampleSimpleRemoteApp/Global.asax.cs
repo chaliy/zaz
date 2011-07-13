@@ -11,11 +11,11 @@ namespace SampleEasyRemoteApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ZazRegistration.Init("Commands",                
+            ZazServer.Init("Commands",                
                 new Conventions
                 {
-                    CommandResolver = CommandRegistry.ResolveCommand2,
-                    CommandBroker = new LocalCommandBroker(typeof(SampleHandlersMarker).Assembly)
+                    CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                    CommandBroker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
                 });
         }        
     }

@@ -1,6 +1,6 @@
-﻿namespace Zaz.Server.Service
+﻿namespace Zaz.Server
 {
-    public class CommandParameter
+    public class CommandParameterInfo
     {
         public string Name { get; set; }
         public string Type { get; set; }

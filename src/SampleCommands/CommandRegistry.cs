@@ -12,11 +12,6 @@ namespace SampleCommands
             {
                 yield return commandType;
             }        
-        }
-
-        public static Type ResolveCommand2(string key)
-        {
-            return Type.GetType(key + ", SampleCommands", false);            
-        }
+        }        
     }
 }

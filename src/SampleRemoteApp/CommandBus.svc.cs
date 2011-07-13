@@ -13,7 +13,7 @@ namespace SampleRemoteApp
         
         public override ICommandBroker CreateCommandBroker()
         {
-            var bus = DefaultBuses.LocalBus(typeof(SampleHandlersMarker).Assembly, Activator.CreateInstance);
+            var bus = DefaultBuses.LocalBus(typeof(__SampleHandlersMarker).Assembly, Activator.CreateInstance);
             return new CommandBusBroker(bus);
         }
 

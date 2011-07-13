@@ -9,14 +9,12 @@ $(function () {
     });
 
     $.ajax({
-        url: "../MetaList",
+        url: "../MetaList?v=3",
         context: document.body,
         dataType: "json",
         success: function (data, status, xhr) {
-            //var content = 
-            $("#commandListTemplate").tmpl({ commands: data }).appendTo("#main");
-            //$("#main").replaceWith(content);
-            alert(data);
+            var content = $("#commandListTemplate").tmpl({ commands: data });
+            $("#main").replaceWith(content);
         }
     });
 }); 

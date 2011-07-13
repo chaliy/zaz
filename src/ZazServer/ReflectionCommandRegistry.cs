@@ -1,0 +1,43 @@
+using System;
+using System.Linq;
+using System.Reflection;
+
+namespace Zaz.Server
+{
+    public class ReflectionCommandRegistry : ICommandRegistry
+    {
+        private readonly Assembly[] _commandsAssemblies;
+        private readonly Func<Type, bool> _filter;
+
+        public ReflectionCommandRegistry(params Assembly[] commandsAssemblies)
+            : this(commandsAssemblies, null)
+        {
+        }
+
+        public ReflectionCommandRegistry(Assembly[] commandsAssemblies, Func<Type, bool> filter)
+        {
+            _commandsAssemblies = commandsAssemblies;
+            _filter = filter ?? (t => true);
+        }
+
+        public IQueryable<CommandMeta> Query()
+        {
+            return _commandsAssemblies
+                .SelectMany(x => x.GetTypes())                
+                .Where(x => x.IsClass
+                    && !x.IsGenericType
+                    && !x.IsAutoClass
+                    && x.GetConstructors().Any(xx => xx.GetParameters().Length == 0))
+                .Where(_filter)
+                .Select(x => new CommandMeta
+                                 { 
+                                     CommanType = x,
+                                     Info = new CommandInfo
+                                                {
+                                                    Key = x.FullName
+                                                }
+                                 })
+                .AsQueryable();
+        }
+    }
+}

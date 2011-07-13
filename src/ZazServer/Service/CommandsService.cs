@@ -16,14 +16,12 @@ namespace Zaz.Server.Service
     [ServiceContract]
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     public class CommandsService
-    {
-        private readonly ICommandBroker _broker;
+    {        
         private readonly Conventions _conventions;
         
         public CommandsService(Conventions conventions)
         {            
-            _conventions = conventions ?? new Conventions();
-            _broker = _conventions.CommandBroker ?? DefaultConventions.CommandBroker;
+            _conventions = conventions ?? new Conventions();            
         }
 
         [WebGet(UriTemplate = "Portal/{*path}")]
@@ -36,16 +34,15 @@ namespace Zaz.Server.Service
         }
 
         [WebGet(UriTemplate = "MetaList")]
-        public IQueryable<CommandMeta> MetaList()
+        public IQueryable<CommandInfo> MetaList()
         {
-            var list = new List<CommandMeta> {new CommandMeta {Key = "Foo1"}, new CommandMeta {Key = "Foo2"}};
-            return list.AsQueryable();
+            var registry = (_conventions.CommandRegistry ?? DefaultConventions.CommandRegistry);
+            return registry.Query().Select(x => x.Info);
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
         public HttpResponseMessage Post(HttpRequestMessage request)
         {            
-            //Debugger.Break();
             if (request.Content.Headers
                 .Any(x => x.Key == "Content-Type" 
                     && x.Value
@@ -95,7 +92,8 @@ namespace Zaz.Server.Service
 
         private HttpResponseMessage HandleCommand(string cmdKey, object cmd, string[] tags)
         {
-            _broker.Handle(cmd, new CommandHandlingContext
+            var broker = (_conventions.CommandBroker ?? DefaultConventions.CommandBroker);
+            broker.Handle(cmd, new CommandHandlingContext
                                     {
                                         Tags = tags ?? new string[0]
                                     })
@@ -163,8 +161,13 @@ namespace Zaz.Server.Service
 
         private Type ResolveCommand(string key)
         {
-            var cmdType = (_conventions.CommandResolver 
-                           ?? DefaultConventions.CommandResolver)(key);
+            var cmdType = (_conventions.CommandRegistry
+                           ?? DefaultConventions.CommandRegistry)
+                .Query()
+                .Where(x => x.Info.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
+                .Select(x => x.CommanType)
+                .FirstOrDefault();
+
             if (cmdType == null)
             {
                 throw CreateApiException("Command " + key + " was not found");

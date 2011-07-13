@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Zaz.Server
 {
-    public class LocalCommandBroker : ICommandBroker
+    public class ReflectionCommandBroker : ICommandBroker
     {
         private readonly Assembly _handlersAssembly;
 
-        public LocalCommandBroker(Assembly handlersAssembly)
+        public ReflectionCommandBroker(Assembly handlersAssembly)
         {
             _handlersAssembly = handlersAssembly;
         }

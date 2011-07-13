@@ -8,7 +8,7 @@ using Zaz.Server.Service;
 
 namespace Zaz.Server
 {
-    public class ZazRegistration
+    public class ZazServer
     {
         private class CommandBusFactory : IResourceFactory
         {            
