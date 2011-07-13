@@ -14,14 +14,21 @@ using Zaz.Server.Portal;
 namespace Zaz.Server.Service
 {
     [ServiceContract]
-    [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true, 
+        InstanceContextMode = InstanceContextMode.Single)]
     public class CommandsService
     {        
         private readonly Conventions _conventions;
         
-        public CommandsService(Conventions conventions)
+        public CommandsService(Conventions conventions = null)
         {            
             _conventions = conventions ?? new Conventions();            
+        }
+
+        [WebGet(UriTemplate = "")]
+        public string Get()
+        {
+            return "Zaz Command Bus";
         }
 
         [WebGet(UriTemplate = "Portal/{*path}")]
