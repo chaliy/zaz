@@ -13,6 +13,9 @@ $(function () {
         context: document.body,
         dataType: "json",
         success: function (data, status, xhr) {
+            //var content = 
+            $("#commandListTemplate").tmpl({ commands: data }).appendTo("#main");
+            //$("#main").replaceWith(content);
             alert(data);
         }
     });

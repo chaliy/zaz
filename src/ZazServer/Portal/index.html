@@ -10,16 +10,27 @@
 	<meta name="author" content="Mike Chaliy">
 		    		    
 	<link rel="stylesheet" href="css/style.css?v=2">
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.0.6/modernizr.min.js"></script>
+	
 </head>
 <body>
 
     <header>
         <h1>Zaz: Command Bus Portal</h1>
     </header>
+
+    <div id="main"></div>
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 	<script src="js/app.js"></script>	
+    <script id="commandListTemplate" type="text/x-jquery-tmpl">	
+	<dl>
+    {{each commands}}
+        <dt>${$value.Key}</dt>		
+        <dd>${$value.Description}</dd>		
+	{{/each}}
+    </dl>
+    </script>
+
 </body>
 </html>
