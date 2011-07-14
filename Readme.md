@@ -1,7 +1,9 @@
 Zaz Command Bus
 =============
 
-Super simple HTTP Command Bus. Based on simple REST protocol. Very opinionated. Provides minimum configuaration, but maximum extensibility points. REST protocol is implemented with <a href="http://wcf.codeplex.com/wikipage?title=WCF HTTP">WCF Web API</a>. JSON serialization provided by JSON.NET.
+Super simple HTTP Command Bus. Based on simple REST protocol. Very opinionated. Provides minimum configuaration, but maximum extensibility points. One of the goals is to have multiple clients like .NET client, PowerShell and JavaScript.
+
+REST protocol is implemented with <a href="http://wcf.codeplex.com/wikipage?title=WCF HTTP">WCF Web API</a>. JSON serialization provided by JSON.NET.
 
 Features
 ========
@@ -25,12 +27,12 @@ Server side (more details in SampleEasyRemoteApp):
 	public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
-        {
-            ZazRegistration.Init(
-                new LocalCommandBroker(typeof(SampleHandlersMarker).Assembly), 
+        {            
+            ZazRegistration.Init("Commands",                
                 new Conventions
                 {
-                    CommandResolver = CommandRegistry.ResolveCommand2
+                    CommandResolver = CommandRegistry.ResolveCommand2,
+                    CommandBroker = new LocalCommandBroker(typeof(SampleHandlersMarker).Assembly)
                 });
         }        
     }
