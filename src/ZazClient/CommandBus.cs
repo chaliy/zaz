@@ -1,4 +1,5 @@
-﻿using Zaz.Client.Avanced;
+﻿using System.Threading.Tasks;
+using Zaz.Client.Avanced;
 
 namespace Zaz.Client
 {
@@ -11,13 +12,24 @@ namespace Zaz.Client
             _underlineBus = new AdvancedCommandBus(url);
         }
 
-        public void Post(object cmd)
+        public void Post(object cmd, params string[] tags)
         {
             _underlineBus.Post(new CommandEnvelope
                                    {
                                        Key = cmd.GetType().FullName,
-                                       Command = cmd
+                                       Command = cmd,
+                                       Tags = tags
                                    }).Wait();
+        }
+
+        public Task PostAsync(object cmd, params string[] tags)
+        {
+            return _underlineBus.Post(new CommandEnvelope
+            {
+                Key = cmd.GetType().FullName,
+                Command = cmd,
+                Tags = tags
+            });
         }
     }
 }
