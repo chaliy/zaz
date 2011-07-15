@@ -3,6 +3,7 @@ using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server.Advanced;
+using Zaz.Server.Advanced.Service;
 
 namespace Zaz.Tests.Integration
 {

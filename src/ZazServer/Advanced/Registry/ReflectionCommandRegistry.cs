@@ -29,14 +29,7 @@ namespace Zaz.Server.Advanced.Registry
                     && !x.IsAutoClass
                     && x.GetConstructors().Any(xx => xx.GetParameters().Length == 0))
                 .Where(_filter)
-                .Select(x => new CommandMeta
-                                 { 
-                                     CommanType = x,
-                                     Info = new CommandInfo
-                                                {
-                                                    Key = x.FullName
-                                                }
-                                 })
+                .Select(CommandMetaFactory.Create)
                 .AsQueryable();
         }
     }

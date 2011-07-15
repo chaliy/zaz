@@ -11,34 +11,28 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
-using Zaz.Server.Portal;
+using Zaz.Server.Advanced.Ui;
 
-namespace Zaz.Server.Advanced
+namespace Zaz.Server.Advanced.Service
 {
     [ServiceContract]
-    [ServiceBehavior(IncludeExceptionDetailInFaults = true, 
-        InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true/*, 
+        InstanceContextMode = InstanceContextMode.Single*/)]    
     public class CommandsService
-    {        
+    {
         private readonly Conventions _conventions;
         
         public CommandsService(Conventions conventions = null)
         {            
             _conventions = conventions ?? new Conventions();            
         }
-
-        [WebGet(UriTemplate = "")]
-        public string Get()
-        {
-            return "Zaz Command Bus";
-        }
-
-        [WebGet(UriTemplate = "Portal/{*path}")]
-        public HttpResponseMessage Portal(string path = "index.html")
+        
+        [WebGet(UriTemplate = "/{*path}")]
+        public HttpResponseMessage Get(string path = "index.html")
         {
             return new HttpResponseMessage
                        {
-                           Content = PortalContent.Get(path)
+                           Content = UiContent.Get(path)
                        };
         }
 
@@ -174,7 +168,7 @@ namespace Zaz.Server.Advanced
                            ?? DefaultConventions.CommandRegistry)
                 .Query()
                 .Where(x => x.Info.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.CommanType)
+                .Select(x => x.Type)
                 .FirstOrDefault();
 
             if (cmdType == null)

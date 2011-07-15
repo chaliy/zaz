@@ -4,7 +4,7 @@ using System.ServiceModel;
 using System.Web.Routing;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
-using Zaz.Server.Advanced;
+using Zaz.Server.Advanced.Service;
 
 namespace Zaz.Server
 {
@@ -12,27 +12,33 @@ namespace Zaz.Server
     {
         private class CommandBusFactory : IResourceFactory
         {            
-            private readonly Conventions _conventions;
+            private readonly CommandsService _instance;
 
-            public CommandBusFactory(Conventions conventions)
+            public CommandBusFactory(CommandsService instance)
             {
-                _conventions = conventions;
+                _instance = instance;
             }
 
             public object GetInstance(Type serviceType, InstanceContext instanceContext, HttpRequestMessage request)
-            {
-                return new CommandsService(_conventions);
+            {                
+                return _instance;
             }
 
             public void ReleaseInstance(InstanceContext instanceContext, object service)
-            {               
+            {                
             }
         }
 
-        public static void Init(string prefix = "Commands", Conventions conventions = null)
+        public static void Init(string prefix = "Commands/", Conventions conventions = null)
         {
+            // Add / to the prefix, otherwise UI will not work            
+            prefix = prefix ?? "";
+            if (!prefix.EndsWith("/"))
+            {
+                prefix += "/";
+            }
             var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new CommandBusFactory(conventions));
+                .SetResourceFactory(new CommandBusFactory(new CommandsService(conventions)));
             RouteTable.Routes.MapServiceRoute<CommandsService>(prefix, config);
         }
     }

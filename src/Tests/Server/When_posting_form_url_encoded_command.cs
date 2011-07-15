@@ -6,6 +6,7 @@ using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server;
 using Zaz.Server.Advanced;
+using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
 
 namespace Zaz.Tests.Server

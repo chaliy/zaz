@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
-namespace Zaz.Server.Portal
+namespace Zaz.Server.Advanced.Ui
 {
-    public static class PortalContent
+    public static class UiContent
     {
         public static StreamContent Get(string path)
         {
@@ -18,8 +18,10 @@ namespace Zaz.Server.Portal
             }
 
             var extension = Regex.Match(path, "\\.[^\\.\\?]*[^\\?]*").Value.ToLower();
-            
-            var content = new StreamContent(typeof (PortalContent).Assembly.GetManifestResourceStream("Zaz.Server.Portal." + path.Replace("/", ".")));
+
+            var resourceName = "Zaz.Server.Advanced.Ui." + path.Replace("/", ".");
+            var raw = typeof (UiContent).Assembly.GetManifestResourceStream(resourceName);
+            var content = new StreamContent(raw);
 
             switch (extension)
             {

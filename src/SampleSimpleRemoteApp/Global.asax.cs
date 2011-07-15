@@ -13,7 +13,7 @@ namespace SampleEasyRemoteApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ZazServer.Init("Commands",                
+            ZazServer.Init("Commands/",                
                 new Conventions
                 {
                     CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),

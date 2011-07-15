@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zaz.Server.Advanced
+namespace Zaz.Server.Advanced.Service
 {
     public class CommandBinder
     {

@@ -9,7 +9,7 @@ $(function () {
     });
 
     $.ajax({
-        url: "../MetaList?v=3",
+        url: "MetaList?v=3",
         context: document.body,
         dataType: "json",
         success: function (data, status, xhr) {
