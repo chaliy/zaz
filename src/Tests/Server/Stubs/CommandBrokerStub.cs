@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Zaz.Server;
+using Zaz.Server.Advanced.Broker;
 
 namespace Zaz.Tests.Server.Stubs
 {

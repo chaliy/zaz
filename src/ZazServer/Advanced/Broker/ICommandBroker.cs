@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced.Broker
 {
     public interface ICommandBroker
     {

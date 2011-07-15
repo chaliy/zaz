@@ -9,9 +9,11 @@ using System.Web;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Zaz.Server.Advanced.Broker;
+using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Portal;
 
-namespace Zaz.Server.Service
+namespace Zaz.Server.Advanced
 {
     [ServiceContract]
     [ServiceBehavior(IncludeExceptionDetailInFaults = true, 

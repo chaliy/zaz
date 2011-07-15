@@ -4,7 +4,7 @@ using System.Net.Http;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server;
-using Zaz.Server.Service;
+using Zaz.Server.Advanced;
 using Zaz.Tests.Server.Stubs;
 
 namespace Zaz.Tests.Server

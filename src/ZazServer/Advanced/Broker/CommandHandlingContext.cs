@@ -1,4 +1,4 @@
-﻿namespace Zaz.Server
+﻿namespace Zaz.Server.Advanced.Broker
 {
     public class CommandHandlingContext
     {

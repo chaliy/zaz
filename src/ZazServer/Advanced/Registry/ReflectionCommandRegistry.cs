@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced.Registry
 {
     public class ReflectionCommandRegistry : ICommandRegistry
     {

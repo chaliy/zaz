@@ -4,7 +4,7 @@ using System.ServiceModel;
 using System.Web.Routing;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
-using Zaz.Server.Service;
+using Zaz.Server.Advanced;
 
 namespace Zaz.Server
 {

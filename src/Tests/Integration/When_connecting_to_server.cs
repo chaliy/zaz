@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
-using Zaz.Server.Service;
 using FluentAssertions;
+using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Integration
 {

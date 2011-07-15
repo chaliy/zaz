@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced.Broker
 {
     public class ReflectionCommandBroker : ICommandBroker
     {

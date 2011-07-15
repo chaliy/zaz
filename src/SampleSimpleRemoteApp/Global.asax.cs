@@ -4,6 +4,8 @@ using System.Web;
 using SampleCommands;
 using SampleHandlers;
 using Zaz.Server;
+using Zaz.Server.Advanced.Broker;
+using Zaz.Server.Advanced.Registry;
 
 namespace SampleEasyRemoteApp
 {

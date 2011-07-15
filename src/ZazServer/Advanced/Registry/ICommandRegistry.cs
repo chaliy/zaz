@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced.Registry
 {
     public interface ICommandRegistry
     {

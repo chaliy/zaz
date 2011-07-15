@@ -5,8 +5,10 @@ using SampleCommands;
 using SampleHandlers;
 using Zaz.Client;
 using Zaz.Server;
-using Zaz.Server.Service;
 using FluentAssertions;
+using Zaz.Server.Advanced;
+using Zaz.Server.Advanced.Broker;
+using Zaz.Server.Advanced.Registry;
 
 namespace Zaz.Tests.Integration
 {

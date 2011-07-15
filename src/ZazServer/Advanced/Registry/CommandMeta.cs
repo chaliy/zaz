@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced.Registry
 {
     public class CommandMeta
     {
