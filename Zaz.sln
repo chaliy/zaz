@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82B
 		src\SampleAppScript2.ps1 = src\SampleAppScript2.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleEasyRemoteApp", "src\SampleSimpleRemoteApp\SampleEasyRemoteApp.csproj", "{3D644822-6B05-4F38-B68B-5D2D159DD246}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleEasyRemoteApp", "src\SampleEasyRemoteApp\SampleEasyRemoteApp.csproj", "{3D644822-6B05-4F38-B68B-5D2D159DD246}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZazClient", "src\ZazClient\ZazClient.csproj", "{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}"
 EndProject

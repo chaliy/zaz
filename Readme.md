@@ -15,7 +15,7 @@ Example
 
 Client is simple (more details in SampleApp):
 
-	var bus = new CommandBus("http://localhost:9302/");            
+	var bus = new CommandBus("http://localhost:9302/Commands/");            
 	bus.Post(new PrintMessage
 				{
 					Message = "Hello world"
@@ -28,29 +28,22 @@ Server side (more details in SampleEasyRemoteApp):
     {
         protected void Application_Start(object sender, EventArgs e)
         {            
-            ZazRegistration.Init("Commands",                
-                new Conventions
-                {
-                    CommandResolver = CommandRegistry.ResolveCommand2,
-                    CommandBroker = new LocalCommandBroker(typeof(SampleHandlersMarker).Assembly)
-                });
+            ZazServer.Init("Commands");
         }        
     }
 
 Installation
 ============
-
-To install both Client and Server
-
-	Install-Package Zaz
 	
-or only Client
+To install Client execute:
 
 	Install-Package ZazClient
 	
-or only Server
+To install Server execute:
 
 	Install-Package ZazServer
+	
+If you need other distribution, pls contact me.
 	
 License
 =======
