@@ -5,9 +5,9 @@ using Zaz.Server.Utils;
 
 namespace Zaz.Server.Advanced.Registry
 {
-    public static class CommandMetaFactory
+    public static class CommandInfoFactory
     {
-        public static CommandMeta Create(Type commandType)
+        public static CommandInfo Create(Type commandType)
         {
             var key = commandType.FullName;            
             var description = commandType.GetDescriptionOrNull();
@@ -21,15 +21,12 @@ namespace Zaz.Server.Advanced.Registry
                                  })
                 .ToArray();
 
-            return new CommandMeta
+            return new CommandInfo
                        {
                            Type = commandType,
-                           Info = new CommandInfo
-                                      {
-                                          Key = key,
-                                          Description = description,
-                                          Parameters = parameters
-                                      }
+                           Key = key,
+                           Description = description,
+                           Parameters = parameters
                        };
         }        
     }

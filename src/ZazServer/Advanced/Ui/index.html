@@ -27,7 +27,9 @@
 	<dl>
     {{each commands}}
         <dt>${$value.Key}</dt>		
-        <dd>${$value.Description}</dd>		
+        <dd>
+            <p>${$value.Description}</p>            
+        </dd>		
 	{{/each}}
     </dl>
     </script>

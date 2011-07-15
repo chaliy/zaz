@@ -77,11 +77,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\Service\CommandMeta.cs" />
     <Compile Include="Advanced\Service\CommandBinder.cs" />
-    <Compile Include="Advanced\Registry\CommandMetaFactory.cs" />
+    <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />
+    <Compile Include="Advanced\Service\CommandMetaParameter.cs" />
     <Compile Include="Advanced\State\BaseCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\CommandInfo.cs" />
-    <Compile Include="Advanced\Registry\CommandMeta.cs" />
     <Compile Include="Advanced\State\FileCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\ICommandRegistry.cs" />
     <Compile Include="Advanced\Registry\CommandParameterInfo.cs" />

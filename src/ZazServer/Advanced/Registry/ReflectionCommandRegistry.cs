@@ -20,7 +20,7 @@ namespace Zaz.Server.Advanced.Registry
             _filter = filter ?? (t => true);
         }
 
-        public IQueryable<CommandMeta> Query()
+        public IQueryable<CommandInfo> Query()
         {
             return _commandsAssemblies
                 .SelectMany(x => x.GetTypes())                
@@ -29,7 +29,7 @@ namespace Zaz.Server.Advanced.Registry
                     && !x.IsAutoClass
                     && x.GetConstructors().Any(xx => xx.GetParameters().Length == 0))
                 .Where(_filter)
-                .Select(CommandMetaFactory.Create)
+                .Select(CommandInfoFactory.Create)
                 .AsQueryable();
         }
     }

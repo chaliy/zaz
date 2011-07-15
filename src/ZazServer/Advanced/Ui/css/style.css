@@ -75,7 +75,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold;margin: 10px; }
 a, a:active, a:visited { color: #607890; }
 a:hover { color: #036; }
 
-
+dl { margin: 10px }
+dt { font-weight: bold; margin-top: 10px; }
+dd { font-style: italic; color: gray; }
 
 
 

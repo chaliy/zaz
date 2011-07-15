@@ -37,10 +37,26 @@ namespace Zaz.Server.Advanced.Service
         }
 
         [WebGet(UriTemplate = "MetaList")]
-        public IQueryable<CommandInfo> MetaList()
+        public IQueryable<CommandMeta> MetaList()
         {
             var registry = (_conventions.CommandRegistry ?? DefaultConventions.CommandRegistry);
-            return registry.Query().Select(x => x.Info);
+            return registry
+                .Query()
+                .Select(x => new CommandMeta
+                            {
+                                Key = x.Key,
+                                Description = x.Description,
+                                Aliases = x.Aliases,
+                                Tags = x.Tags,
+                                Parameters = x.Parameters
+                                              .Select(xx => new CommandMetaParameter
+                                                                {
+                                                                    Name = xx.Name,
+                                                                    Description = xx.Description,
+                                                                    Type = xx.Type
+                                                                })
+                                              .ToArray()
+                            });
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
@@ -167,7 +183,7 @@ namespace Zaz.Server.Advanced.Service
             var cmdType = (_conventions.CommandRegistry
                            ?? DefaultConventions.CommandRegistry)
                 .Query()
-                .Where(x => x.Info.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
+                .Where(x => x.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
                 .Select(x => x.Type)
                 .FirstOrDefault();
 

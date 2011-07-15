@@ -1,14 +1,11 @@
-﻿using System;
-
-namespace Zaz.Server.Advanced.Registry
+﻿namespace Zaz.Server.Advanced.Service
 {
-    public class CommandInfo
+    public class CommandMeta
     {
-        public Type Type { get; set; }
         public string Key { get; set; }
         public string[] Aliases { get; set; }
         public string Description { get; set; }
         public string[] Tags { get; set; }
-        public CommandParameterInfo[] Parameters { get; set; }
+        public CommandMetaParameter[] Parameters { get; set; }
     }
 }

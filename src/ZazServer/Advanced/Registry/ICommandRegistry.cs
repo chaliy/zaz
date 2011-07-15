@@ -4,6 +4,6 @@ namespace Zaz.Server.Advanced.Registry
 {
     public interface ICommandRegistry
     {
-        IQueryable<CommandMeta> Query();
+        IQueryable<CommandInfo> Query();
     }
 }
