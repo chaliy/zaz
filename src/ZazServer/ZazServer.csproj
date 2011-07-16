@@ -81,6 +81,7 @@
     <Compile Include="Advanced\Service\CommandBinder.cs" />
     <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />
     <Compile Include="Advanced\Service\CommandMetaParameter.cs" />
+    <Compile Include="Advanced\Service\CommandEnvelope.cs" />
     <Compile Include="Advanced\State\BaseCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\CommandInfo.cs" />
     <Compile Include="Advanced\State\FileCommandStateProvider.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Advanced\State\MemoryCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\ReflectionCommandRegistry.cs" />
     <Compile Include="Advanced\Service\CommandsService.cs" />
+    <Compile Include="Advanced\Service\CommandsServiceResourceFactory.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="Advanced\DefaultConventions.cs" />
     <Compile Include="Advanced\Broker\ICommandBroker.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Advanced\State\TraceEntry.cs" />
     <Compile Include="Advanced\State\TraceKind.cs" />
     <Compile Include="Advanced\State\TraceSeverity.cs" />
+    <Compile Include="Advanced\Service\Temp\JsonNetFormatter.cs" />
     <Compile Include="Utils\TypeExtensions.cs" />
     <Compile Include="ZazServer.cs" />
   </ItemGroup>

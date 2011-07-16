@@ -31,7 +31,7 @@ namespace Zaz.Tests.Server
 	                    }
                     }")
                 };
-            _result = service.Post(cmdMessage);
+            _result = service.LegacyPost(cmdMessage);
         }
 
         [Test]

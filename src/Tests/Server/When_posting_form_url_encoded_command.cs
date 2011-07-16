@@ -28,7 +28,7 @@ namespace Zaz.Tests.Server
                 {
                     Content = cmdContent
                 };
-            _result = service.Post(cmdMessage);
+            _result = service.LegacyPost(cmdMessage);
         }
 
         [Test]

@@ -10,5 +10,10 @@ $cmd = @"
 }
 "@
 
+$cmd = @"
+{ 
+	'Key' : 'SampleCommands.PrintMessage'
+}
+"@
 
-Write-Url "http://localhost.fiddler:9302/Commands" -Content $cmd
+Write-Url "http://localhost.fiddler:9302/Commands/" -Content $cmd

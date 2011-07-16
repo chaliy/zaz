@@ -1,0 +1,1 @@
+curl -v -H "Content-Type: application/json" -H "Accept: application/json" -X POST -d '{"Key":"SampleCommands.PrintMessage"}' http://localhost:9302/Commands/

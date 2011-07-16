@@ -10,7 +10,6 @@ using Microsoft.ApplicationServer.Http.Dispatcher;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Zaz.Server.Advanced.Broker;
-using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Ui;
 
 namespace Zaz.Server.Advanced.Service
@@ -59,55 +58,76 @@ namespace Zaz.Server.Advanced.Service
                             });
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "")]
-        public HttpResponseMessage Post(HttpRequestMessage request)
+        [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
+        public HttpResponseMessage LegacyPost(HttpRequestMessage request)
         {            
-            if (request.Content.Headers
-                .Any(x => x.Key == "Content-Type" 
-                    && x.Value
-                    .Any(xx => xx == "application/x-www-form-urlencoded")))
-            {                
-                var body = request.Content.ReadAsString();
-                var form = ParseQueryString(body);
+            //if (request.Content.Headers
+            //    .Any(x => x.Key == "Content-Type" 
+            //        && x.Value
+            //        .Any(xx => xx == "application/x-www-form-urlencoded")))
+            
+            var body = request.Content.ReadAsString();
+            var form = ParseQueryString(body);
 
-                if (!form.ContainsKey("Zaz-Command-Id"))
-                {
-                    throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
-                }
-
-                var cmdKey = form["Zaz-Command-Id"];
-                var cmdType = ResolveCommand(cmdKey);
-                
-                var cmd = BindFormToCommand(form, cmdType);
-
-                return HandleCommand(cmdKey, cmd, new string[0]);
-            }
-            else
+            if (!form.ContainsKey("Zaz-Command-Id"))
             {
-                var body = request.Content.ReadAsString();
+                throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
+            }
 
-                var envelope = ReadValidCommandEnvelope(body);                
-                var cmdKey = envelope["Key"].Value<string>();
-                var cmdType = ResolveCommand(cmdKey);
-                                
-                var cmd = DeserializeCommand(envelope, cmdType);
-                var tags = ReadTags(envelope);
-                return HandleCommand(cmdKey, cmd, tags);
-            }            
-        }        
+            var cmdKey = form["Zaz-Command-Id"];
+            var cmdType = ResolveCommand(cmdKey);
+                
+            var cmd = BindFormToCommand(form, cmdType);
 
-        private static object BindFormToCommand(Dictionary<string, string> form, Type cmdType)
-        {            
+            return HandleCommand(cmdKey, cmd, new string[0]);            
+        }
+
+        private static object BindFormToCommand(IDictionary<string, string> form, Type cmdType)
+        {
             try
             {
                 var binder = new CommandBinder();
-                return binder.Build(cmdType, form);                    
+                return binder.Build(cmdType, form);
             }
             catch (InvalidOperationException ex)
             {
                 throw CreateApiException("Problems with binding command data. " + ex.Message);
             }
         }
+
+
+        [WebInvoke(Method = "POST", UriTemplate = "")]
+        public HttpResponseMessage Post(CommandEnvelope env)
+        {            
+            if (String.IsNullOrWhiteSpace(env.Key))
+            {
+                throw CreateApiException("Required value 'Key' was not found.");
+            }
+
+            var cmdType = ResolveCommand(env.Key);
+            var cmd = BuildCommand(env, cmdType);
+            return HandleCommand(env.Key, cmd, env.Tags);
+        }
+
+        private static object BuildCommand(CommandEnvelope env, Type cmdType)
+        {
+            try
+            {
+                if (env.Command != null)
+                {
+                    var serializer = new JsonSerializer();
+                    var reader = ((JObject) env.Command).CreateReader();
+                    var cmd = serializer.Deserialize(reader, cmdType);
+                    return cmd;
+                }
+            }            
+            catch (JsonReaderException ex)
+            {
+                throw CreateApiException("Problems with deserializing command data. " + ex.Message);
+            }
+
+            return Activator.CreateInstance(cmdType);
+        }        
 
         private HttpResponseMessage HandleCommand(string cmdKey, object cmd, string[] tags)
         {
@@ -123,61 +143,7 @@ namespace Zaz.Server.Advanced.Service
                            Content = new StringContent("Command " + cmdKey + " accepted")
                        };
         }
-
-        private static JObject ReadValidCommandEnvelope(string body)
-        {
-            try
-            {
-                var envelope = JObject.Parse(body);
-                if (envelope["Key"] == null)
-                {
-                    throw CreateApiException("Required value 'Key' was not found.");                    
-                }
-                return envelope;
-
-            }
-            catch (JsonReaderException ex)
-            {
-                throw CreateApiException("Problems with deserializing command data. " + ex.Message);
-            }            
-        }
-
-        private static string[] ReadTags(JObject envelope)
-        {
-            if (envelope["Tags"] != null)
-            {
-                var cmdReader = envelope["Tags"].CreateReader();
-                try
-                {
-                    var serializer = new JsonSerializer();
-                    return serializer.Deserialize<string[]>(cmdReader);
-                }
-                catch (JsonReaderException ex)
-                {
-                    throw CreateApiException("Problems with deserializing tags data. " + ex.Message);
-                }
-            }
-            return new string[0];
-        }
-
-        private static object DeserializeCommand(JObject envelope, Type cmdType)
-        {
-            if (envelope["Command"] != null)
-            {
-                var cmdReader = envelope["Command"].CreateReader();
-                try
-                {
-                    var serializer = new JsonSerializer();
-                    return serializer.Deserialize(cmdReader, cmdType);
-                }
-                catch (JsonReaderException ex)
-                {
-                    throw CreateApiException("Problems with deserializing command data. " + ex.Message);
-                }            
-            }
-            return Activator.CreateInstance(cmdType);
-        }
-
+        
         private Type ResolveCommand(string key)
         {
             var cmdType = (_conventions.CommandRegistry

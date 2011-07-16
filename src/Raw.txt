@@ -1,0 +1,11 @@
+Content-Type: application/json
+Accept: application/json
+Host: localhost:9302
+Content-Length: 139
+
+{ 
+	"Key" : "SampleCommands.PrintMessage",
+                "Command" : {
+                        Message: "Hello"
+                 }
+}
