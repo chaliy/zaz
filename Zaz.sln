@@ -31,6 +31,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BE0C100-4CDA-428D-A187-5B1619AFC7ED}"
 	ProjectSection(SolutionItems) = preProject
 		src\Zaz.psm1 = src\Zaz.psm1
+		src\ZazTests.ps1 = src\ZazTests.ps1
 	EndProjectSection
 EndProject
 Global

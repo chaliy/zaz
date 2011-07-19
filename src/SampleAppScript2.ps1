@@ -10,10 +10,15 @@ $cmd = @"
 }
 "@
 
-$cmd = @"
+$cmd1 = @"
 { 
 	'Key' : 'SampleCommands.PrintMessage'
 }
 "@
 
-Write-Url "http://localhost.fiddler:9302/Commands/" -Content $cmd
+
+$client = (New-Object Net.WebClient)
+$client.Headers.Add("Content-Type", "application/json")
+$client.UploadString("http://localhost.fiddler:9302/Commands/", "POST", $cmd)
+
+#Write-Url "http://localhost.fiddler:9302/Commands/" -Content $cmd -Verbose

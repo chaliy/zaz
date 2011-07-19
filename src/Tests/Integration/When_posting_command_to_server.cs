@@ -1,9 +1,12 @@
-﻿using Microsoft.ApplicationServer.Http;
+﻿using System;
+using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
 using SampleCommands;
 using SampleHandlers;
 using Zaz.Client;
 using Zaz.Server;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
@@ -21,8 +24,9 @@ namespace Zaz.Tests.Integration
             {
                 CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 CommandBroker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
-            });
-            _host = new HttpServiceHost(instance, "http://localhost:9303/Commands");
+            });            
+            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
+            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/Commands"));
             _host.Open();
         }
 

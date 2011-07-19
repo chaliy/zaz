@@ -2,6 +2,7 @@
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using WebApiContrib.Formatters.JsonNet;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
 
 namespace Zaz.Server
@@ -16,13 +17,9 @@ namespace Zaz.Server
             {
                 prefix += "/";
             }
-            var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new CommandsServiceResourceFactory(new CommandsService(conventions)))                
-                ;
-
-            config.Configuration.OperationHandlerFactory.Formatters.Insert(0, new JsonNetFormatter());
-
-            RouteTable.Routes.MapServiceRoute<CommandsService>(prefix, config);
+            
+            RouteTable.Routes.MapServiceRoute<CommandsService>(prefix, 
+                HttpHostConfigurationHelper.CreateHostConfigurationBuilder(new CommandsService(conventions)));
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server;

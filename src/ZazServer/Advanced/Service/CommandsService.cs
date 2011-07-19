@@ -15,8 +15,7 @@ using Zaz.Server.Advanced.Ui;
 namespace Zaz.Server.Advanced.Service
 {
     [ServiceContract]
-    [ServiceBehavior(IncludeExceptionDetailInFaults = true/*, 
-        InstanceContextMode = InstanceContextMode.Single*/)]    
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true)]    
     public class CommandsService
     {
         private readonly Conventions _conventions;
@@ -56,31 +55,7 @@ namespace Zaz.Server.Advanced.Service
                                                                 })
                                               .ToArray()
                             });
-        }
-
-        [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
-        public HttpResponseMessage LegacyPost(HttpRequestMessage request)
-        {            
-            //if (request.Content.Headers
-            //    .Any(x => x.Key == "Content-Type" 
-            //        && x.Value
-            //        .Any(xx => xx == "application/x-www-form-urlencoded")))
-            
-            var body = request.Content.ReadAsString();
-            var form = ParseQueryString(body);
-
-            if (!form.ContainsKey("Zaz-Command-Id"))
-            {
-                throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
-            }
-
-            var cmdKey = form["Zaz-Command-Id"];
-            var cmdType = ResolveCommand(cmdKey);
-                
-            var cmd = BindFormToCommand(form, cmdType);
-
-            return HandleCommand(cmdKey, cmd, new string[0]);            
-        }
+        }      
 
         private static object BindFormToCommand(IDictionary<string, string> form, Type cmdType)
         {
@@ -95,21 +70,47 @@ namespace Zaz.Server.Advanced.Service
             }
         }
 
+        [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
+        public HttpResponseMessage LegacyPost(HttpRequestMessage req)
+        {
+            //if (req.Content.Headers
+            //    .Any(x => x.Key == "Content-Type"
+            //        && x.Value.Any(xx => xx == "application/x-www-form-urlencoded")))
+            //{
+            // Old legacy version
+
+            var body = req.Content.ReadAsString();
+            var form = ParseQueryString(body);
+
+            if (!form.ContainsKey("Zaz-Command-Id"))
+            {
+                throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
+            }
+
+            var cmdKey = form["Zaz-Command-Id"];
+            var cmdType = ResolveCommand(cmdKey);
+
+            var cmd = BindFormToCommand(form, cmdType);
+
+            return HandleCommand(cmdKey, cmd, new string[0]);
+        }
+
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
         public HttpResponseMessage Post(CommandEnvelope env)
         {            
-            if (String.IsNullOrWhiteSpace(env.Key))
+            var cmdKey = env.Key;
+            if (String.IsNullOrWhiteSpace(cmdKey))
             {
                 throw CreateApiException("Required value 'Key' was not found.");
             }
 
-            var cmdType = ResolveCommand(env.Key);
+            var cmdType = ResolveCommand(cmdKey);
             var cmd = BuildCommand(env, cmdType);
-            return HandleCommand(env.Key, cmd, env.Tags);
+            return HandleCommand(cmdKey, cmd, env.Tags);
         }
 
-        private static object BuildCommand(CommandEnvelope env, Type cmdType)
+        private static object BuildCommand(dynamic env, Type cmdType)
         {
             try
             {

@@ -77,6 +77,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\HttpHostConfigurationHelper.cs" />
     <Compile Include="Advanced\Service\CommandMeta.cs" />
     <Compile Include="Advanced\Service\CommandBinder.cs" />
     <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />

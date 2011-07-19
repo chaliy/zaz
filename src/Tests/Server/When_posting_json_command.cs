@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using Zaz.Server;
-using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
 
@@ -20,18 +21,14 @@ namespace Zaz.Tests.Server
         {
             _broker = new CommandBrokerStub();
             var service = new CommandsService(new Conventions { CommandBroker = _broker });
-            var cmdKey = typeof (FooCommand).FullName;            
-            var cmdMessage = new HttpRequestMessage
-                {
-                    Content = new StringContent(@"
-                    { 
-	                    'Key' : '" + cmdKey + @"',			
-	                    'Command' : {
-		                    'Value1' : 'Foo'
-	                    }
-                    }")
-                };
-            _result = service.LegacyPost(cmdMessage);
+            var cmdKey = typeof (FooCommand).FullName;
+            var cmdData = new JObject();
+            cmdData.Add("Value1", "Foo");            
+            _result = service.Post(new CommandEnvelope
+            {
+                Key = cmdKey,
+                Command = cmdData
+            });
         }
 
         [Test]

@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server.Advanced;
@@ -14,8 +16,9 @@ namespace Zaz.Tests.Integration
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = new CommandsService();
-            _host = new HttpServiceHost(instance, "http://localhost:9303/Commands");            
+            var instance = new CommandsService();           
+            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
+            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/Commands"));            
             _host.Open();
         }
 
