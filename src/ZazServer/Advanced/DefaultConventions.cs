@@ -8,10 +8,10 @@ namespace Zaz.Server.Advanced
 {
     public static class DefaultConventions
     {
-        public static readonly ICommandStateProvider CommandStateProvider =
+        public static readonly ICommandStateProvider StateProvider =
         	new MemoryCommandStateProvider();
 
-        public static readonly ICommandBroker CommandBroker =
+        public static readonly ICommandBroker Broker =
             new ReflectionCommandBroker(Assembly.GetEntryAssembly());
 
         public static readonly ICommandRegistry CommandRegistry =

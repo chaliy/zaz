@@ -8,5 +8,6 @@ namespace Zaz.Server.Advanced.State
         public DateTime Timestamp {get;set;}
         public TraceSeverity Severity {get;set;}
         public string Message {get;set;}
+        public string[] Tags { get; set; }
     }
 }

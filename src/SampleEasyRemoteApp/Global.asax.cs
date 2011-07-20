@@ -17,7 +17,7 @@ namespace SampleEasyRemoteApp
                 new Conventions
                 {
                     CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                    CommandBroker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
+                    Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
                 });
         }        
     }

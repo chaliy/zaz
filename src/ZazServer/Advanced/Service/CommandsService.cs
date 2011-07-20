@@ -71,7 +71,7 @@ namespace Zaz.Server.Advanced.Service
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
-        public HttpResponseMessage LegacyPost(HttpRequestMessage req)
+        public HttpResponseMessage PostLegacy(HttpRequestMessage req)
         {
             //if (req.Content.Headers
             //    .Any(x => x.Key == "Content-Type"
@@ -97,9 +97,43 @@ namespace Zaz.Server.Advanced.Service
 
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
-        public HttpResponseMessage Post(CommandEnvelope env)
+        public HttpResponseMessage Post(PostCommandRequest env)
         {            
             var cmdKey = env.Key;
+            var cmd = ResoveCommand(env, cmdKey);
+            return HandleCommand(cmdKey, cmd, env.Tags);
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "Async")]
+        public CommandScheduledResponse PostAsync(PostCommandRequest req)
+        {
+            var cmdKey = req.Key;
+            var cmd = ResoveCommand(req, cmdKey);
+
+            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
+            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+
+            var id = Guid.NewGuid().ToString("n");
+            stateProvider.Start(id, DateTime.UtcNow);
+            var ctx = new CommandHandlingContext(req.Tags ?? new string[0]);
+            var traceSubscription = ctx.Trace
+                .Subscribe(e => stateProvider.WriteTrace(id, DateTime.UtcNow, e.Serverity, e.Message, e.Tags));
+
+            broker.Handle(cmd, ctx)
+                .ContinueWith(t =>
+                                  {
+                                      traceSubscription.Dispose();
+                                      stateProvider.CompleteSuccess(id, DateTime.UtcNow);
+                                  });
+
+            return new CommandScheduledResponse
+                       {
+                           Id = id
+                       };
+        }
+
+        private object ResoveCommand(PostCommandRequest env, string cmdKey)
+        {
             if (String.IsNullOrWhiteSpace(cmdKey))
             {
                 throw CreateApiException("Required value 'Key' was not found.");
@@ -107,7 +141,7 @@ namespace Zaz.Server.Advanced.Service
 
             var cmdType = ResolveCommand(cmdKey);
             var cmd = BuildCommand(env, cmdType);
-            return HandleCommand(cmdKey, cmd, env.Tags);
+            return cmd;
         }
 
         private static object BuildCommand(dynamic env, Type cmdType)
@@ -132,12 +166,14 @@ namespace Zaz.Server.Advanced.Service
 
         private HttpResponseMessage HandleCommand(string cmdKey, object cmd, string[] tags)
         {
-            var broker = (_conventions.CommandBroker ?? DefaultConventions.CommandBroker);
-            broker.Handle(cmd, new CommandHandlingContext
-                                    {
-                                        Tags = tags ?? new string[0]
-                                    })
-                   .Wait();
+            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
+
+            var ctx = new CommandHandlingContext(tags ?? new string[0]);
+            //var traceSubscription = ctx.Trace
+            //    .Subscribe(e => );
+
+            broker.Handle(cmd, ctx).Wait();
+
             return new HttpResponseMessage
                        {
                            StatusCode = HttpStatusCode.Accepted,

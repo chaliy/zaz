@@ -1,12 +1,16 @@
-﻿namespace Zaz.Server.Advanced.Broker
+﻿using System.Reactive.Subjects;
+
+namespace Zaz.Server.Advanced.Broker
 {
     public class CommandHandlingContext
     {
-        public string[] Tags { get; set; }
+        public readonly string[] Tags;
+        public readonly Subject<TraceEntry> Trace
+            = new Subject<TraceEntry>();
 
-        public CommandHandlingContext()
+        public CommandHandlingContext(string[] tags)
         {
-            Tags = new string[0];
+            Tags = tags;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Zaz.Server.Advanced.State
                                 });
         }
 		
-        public void WriteTrace(string key, DateTime timestamp, TraceSeverity severity, string message)
+        public void WriteTrace(string key, DateTime timestamp, TraceSeverity severity, string message, string[] tags)
         {
             WriteEntry(key, new TraceEntry
                                 {

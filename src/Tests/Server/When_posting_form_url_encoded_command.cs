@@ -21,7 +21,7 @@ namespace Zaz.Tests.Server
         public void Given_service_by_default()
         {
             _broker = new CommandBrokerStub();
-            var service = new CommandsService(new Conventions { CommandBroker = _broker });
+            var service = new CommandsService(new Conventions { Broker = _broker });
             var cmdKey = typeof (FooCommand).FullName;
             var cmdContent = new StringContent("Zaz-Command-Id=" + cmdKey + "&Value1=Foo");            
             cmdContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
@@ -29,7 +29,7 @@ namespace Zaz.Tests.Server
                 {
                     Content = cmdContent
                 };
-            _result = service.LegacyPost(cmdMessage);
+            _result = service.PostLegacy(cmdMessage);
         }
 
         [Test]

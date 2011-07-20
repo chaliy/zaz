@@ -4,6 +4,6 @@ namespace Zaz.Server.Advanced.Broker
 {
     public interface ICommandBroker
     {
-        Task Handle(object cmd, CommandHandlingContext ctx);
+        Task<object> Handle(object cmd, CommandHandlingContext ctx);
     }
 }

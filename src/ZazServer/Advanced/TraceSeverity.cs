@@ -1,4 +1,4 @@
-namespace Zaz.Server.Advanced.State
+namespace Zaz.Server.Advanced
 {
     public enum TraceSeverity 
     {
