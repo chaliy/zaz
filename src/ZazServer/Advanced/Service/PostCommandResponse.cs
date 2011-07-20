@@ -1,6 +1,6 @@
 ﻿namespace Zaz.Server.Advanced.Service
 {
-    public class CommandScheduledResponse
+    public class PostCommandResponse
     {
         public string Id { get; set; }
     }

@@ -88,7 +88,7 @@
     <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />
     <Compile Include="Advanced\Service\CommandMetaParameter.cs" />
     <Compile Include="Advanced\Service\PostCommandRequest.cs" />
-    <Compile Include="Advanced\Service\CommandScheduledResponse.cs" />
+    <Compile Include="Advanced\Service\PostCommandResponse.cs" />
     <Compile Include="Advanced\State\BaseCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\CommandInfo.cs" />
     <Compile Include="Advanced\State\FileCommandStateProvider.cs" />

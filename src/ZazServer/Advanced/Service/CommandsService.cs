@@ -105,7 +105,7 @@ namespace Zaz.Server.Advanced.Service
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "Async")]
-        public CommandScheduledResponse PostAsync(PostCommandRequest req)
+        public PostCommandResponse PostAsync(PostCommandRequest req)
         {
             var cmdKey = req.Key;
             var cmd = ResoveCommand(req, cmdKey);
@@ -126,7 +126,7 @@ namespace Zaz.Server.Advanced.Service
                                       stateProvider.CompleteSuccess(id, DateTime.UtcNow);
                                   });
 
-            return new CommandScheduledResponse
+            return new PostCommandResponse
                        {
                            Id = id
                        };
@@ -179,6 +179,23 @@ namespace Zaz.Server.Advanced.Service
                            StatusCode = HttpStatusCode.Accepted,
                            Content = new StringContent("Command " + cmdKey + " accepted")
                        };
+        }
+
+        private HttpResponseMessage HandleCommand2(string cmdKey, object cmd, string[] tags)
+        {
+            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
+
+            var ctx = new CommandHandlingContext(tags ?? new string[0]);
+            //var traceSubscription = ctx.Trace
+            //    .Subscribe(e => );
+
+            broker.Handle(cmd, ctx).Wait();
+
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.Accepted,
+                Content = new StringContent("Command " + cmdKey + " accepted")
+            };
         }
         
         private Type ResolveCommand(string key)
