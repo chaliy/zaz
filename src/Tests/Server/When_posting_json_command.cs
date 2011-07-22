@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Zaz.Server;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
+using ZazAbstr.Advanced.Service;
 
 namespace Zaz.Tests.Server
 {
@@ -24,7 +25,7 @@ namespace Zaz.Tests.Server
             var cmdKey = typeof (FooCommand).FullName;
             var cmdData = new JObject();
             cmdData.Add("Value1", "Foo");            
-            _result = service.Post(new PostCommandRequest
+            _result = service.Post(new PostScheduledCommandRequest
             {
                 Key = cmdKey,
                 Command = cmdData

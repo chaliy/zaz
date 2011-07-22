@@ -10,6 +10,8 @@ using Microsoft.ApplicationServer.Http.Dispatcher;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Zaz.Server.Advanced.Broker;
+using ZazAbstr.Advanced.Service;
+using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
 using Zaz.Server.Advanced.Ui;
 
 namespace Zaz.Server.Advanced.Service
@@ -97,15 +99,15 @@ namespace Zaz.Server.Advanced.Service
 
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
-        public HttpResponseMessage Post(PostCommandRequest env)
+        public HttpResponseMessage Post(PostScheduledCommandRequest env)
         {            
             var cmdKey = env.Key;
             var cmd = ResoveCommand(env, cmdKey);
             return HandleCommand(cmdKey, cmd, env.Tags);
         }
-
-        [WebInvoke(Method = "POST", UriTemplate = "Async")]
-        public PostCommandResponse PostAsync(PostCommandRequest req)
+        
+        [WebInvoke(Method = "POST", UriTemplate = "Scheduled")]
+        public PostScheduledCommandResponse PostScheduled(PostScheduledCommandRequest req)
         {
             var cmdKey = req.Key;
             var cmd = ResoveCommand(req, cmdKey);
@@ -126,13 +128,31 @@ namespace Zaz.Server.Advanced.Service
                                       stateProvider.CompleteSuccess(id, DateTime.UtcNow);
                                   });
 
-            return new PostCommandResponse
+            return new PostScheduledCommandResponse
                        {
                            Id = id
                        };
         }
 
-        private object ResoveCommand(PostCommandRequest env, string cmdKey)
+        [WebGet(UriTemplate = "Scheduled/{id}")]
+        public GetScheduledCommandResponse GetScheduled(string id)
+        {
+            return new GetScheduledCommandResponse
+                       {
+                           Id = id,
+                           Status = "Hello!"
+                       };
+        }
+
+        [WebGet(UriTemplate = "Scheduled/Trace/{id}")]
+        public IQueryable<StateTraceEntry> GetScheduledTrace(string id)
+        {            
+            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+
+            return stateProvider.QueryEntries(id);
+        }
+
+        private object ResoveCommand(PostScheduledCommandRequest env, string cmdKey)
         {
             if (String.IsNullOrWhiteSpace(cmdKey))
             {

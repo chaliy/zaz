@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DC0CB69F-9280-4D9C-8C01-4677F9291624}</ProjectGuid>
+    <ProjectGuid>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleCommands</RootNamespace>
-    <AssemblyName>SampleCommands</AssemblyName>
+    <RootNamespace>ZazAbstr</RootNamespace>
+    <AssemblyName>ZazAbstr</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,19 +35,18 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\src\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="LongFoo1.cs" />
-    <Compile Include="Foo1.cs" />
-    <Compile Include="PrintMessage.cs" />
+    <Compile Include="Advanced\Service\GetScheduledCommandResponse.cs" />
+    <Compile Include="Advanced\Service\PostScheduledCommandRequest.cs" />
+    <Compile Include="Advanced\Service\PostScheduledCommandResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommandRegistry.cs" />
-    <Compile Include="__SampleCommandsMarker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

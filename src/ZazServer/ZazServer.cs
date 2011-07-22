@@ -1,7 +1,5 @@
 ﻿using System.Web.Routing;
 using Microsoft.ApplicationServer.Http.Activation;
-using Microsoft.ApplicationServer.Http.Description;
-using WebApiContrib.Formatters.JsonNet;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
 

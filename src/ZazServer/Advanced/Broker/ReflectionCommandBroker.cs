@@ -33,7 +33,7 @@ namespace Zaz.Server.Advanced.Broker
 
             dynamic handler = Activator.CreateInstance(handlerType);
 
-            return Task.Factory.StartNew(() => handler.Handle(cmd));
+            return handler.Handle(cmd);
         }
     }
 }

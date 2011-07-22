@@ -1,6 +1,6 @@
-﻿namespace Zaz.Server.Advanced.Service
+﻿namespace ZazAbstr.Advanced.Service
 {
-    public class PostCommandRequest
+    public class PostScheduledCommandRequest
     {
         public string Key { get; set; }
         public object Command { get; set; }

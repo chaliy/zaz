@@ -81,14 +81,13 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Advanced\Broker\TraceEntry.cs" />
+    <Compile Include="Advanced\Broker\TraceEntryExtensions.cs" />
     <Compile Include="Advanced\TraceSeverity.cs" />
     <Compile Include="Advanced\HttpHostConfigurationHelper.cs" />
     <Compile Include="Advanced\Service\CommandMeta.cs" />
     <Compile Include="Advanced\Service\CommandBinder.cs" />
     <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />
     <Compile Include="Advanced\Service\CommandMetaParameter.cs" />
-    <Compile Include="Advanced\Service\PostCommandRequest.cs" />
-    <Compile Include="Advanced\Service\PostCommandResponse.cs" />
     <Compile Include="Advanced\State\BaseCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\CommandInfo.cs" />
     <Compile Include="Advanced\State\FileCommandStateProvider.cs" />
@@ -125,10 +124,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Ui\js\app.js" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.js" />
     <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ZazAbstr\ZazAbstr.csproj">
+      <Project>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</Project>
+      <Name>ZazAbstr</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

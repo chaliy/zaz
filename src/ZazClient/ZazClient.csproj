@@ -51,11 +51,18 @@
     <Compile Include="Avanced\CommandContent.cs" />
     <Compile Include="Avanced\CommandEnvelope.cs" />
     <Compile Include="Avanced\AdvancedCommandBus.cs" />
+    <Compile Include="Avanced\JsonContentExtensions.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ZazAbstr\ZazAbstr.csproj">
+      <Project>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</Project>
+      <Name>ZazAbstr</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
