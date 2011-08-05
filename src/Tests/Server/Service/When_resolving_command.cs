@@ -31,6 +31,13 @@ namespace Zaz.Tests.Server.Service
                                            Aliases = new[] {"AnKey1"},
                                            Type = new TypeStub("AnotherKey", "Some")
                                        },
+
+                                    new CommandInfo
+                                       {
+                                           Key = "Some.FooKey",
+                                           Aliases = new[] {"FooKey"},
+                                           Type = new TypeStub("FooKey", "Some")
+                                       },
                                };
 
             _commandResolver = new CommandResolver(new Conventions
@@ -47,6 +54,13 @@ namespace Zaz.Tests.Server.Service
         }
 
         [Test]
+        public void Should_resolve_by_key_and_igonore_case()
+        {
+            var type = _commandResolver.ResolveCommandType("SOME.KEY");
+            type.FullName.Should().Be("Some.Key");
+        }
+
+        [Test]
         public void Should_resolve_by_alias()
         {
             var type = _commandResolver.ResolveCommandType("AnKey1");
@@ -57,6 +71,13 @@ namespace Zaz.Tests.Server.Service
         public void Should_resolve_by_part_of_the_key()
         {
             var type = _commandResolver.ResolveCommandType("AnotherKey");
+            type.FullName.Should().Be("Some.AnotherKey");
+        }
+
+        [Test]
+        public void Should_resolve_by_part_of_the_key_and_ignore_case()
+        {
+            var type = _commandResolver.ResolveCommandType("ANOTHERKEY");
             type.FullName.Should().Be("Some.AnotherKey");
         }
 
@@ -80,5 +101,12 @@ namespace Zaz.Tests.Server.Service
 
             resolve.ShouldThrow<HttpResponseException>();
         }
+
+        [Test]
+        public void Should_resolve_when_both_alias_and_key_matches()
+        {
+            var type = _commandResolver.ResolveCommandType("FooKey");
+            type.FullName.Should().Be("Some.FooKey");
+        }        
     }
 }

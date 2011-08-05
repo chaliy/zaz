@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Zaz.Server.Advanced.Registry;
@@ -28,28 +29,56 @@ namespace Zaz.Server.Advanced.Service
             return cmd;
         }
 
-        public Type ResolveCommandType(string key)
+        private CommandInfo TryResolveSingle(Expression<Func<CommandInfo, bool>> predicate)
         {
             var query = (_conventions.Registry ?? DefaultConventions.CommandRegistry).Query();
 
             var matches = query
-                .Where(x => x.Key.Contains(key))
-                .Union(query.Where(x => (x.Aliases ?? new string[0]).Any(xx => xx.Contains(key))))
-                .Distinct()
+                .Where(predicate)
                 .ToList();
-            
+
             if (matches.Count == 1)
-            {                
-                return matches[0].Type;    
+            {
+                return matches[0];
             }
 
-            if (matches.Count > 1)
+            return null;
+        }
+        
+        public Type ResolveCommandType(string key)
+        {
+            // Try exact match
+            var cmd = TryResolveSingle(x => x.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+            
+            if (cmd == null)
             {
-                throw ExceptionsFactory.CreateApiException("More then one match for command " + key + " was found.");                
+                // Try exact match on alias
+                cmd = TryResolveSingle(x => (x.Aliases ?? new string[0]).Any(xx => xx.Equals(key, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            if (cmd == null)
+            {
+                // Try contains on key
+                cmd = TryResolveSingle(x => Contains(x.Key, key));
+            }
+
+            if (cmd == null)
+            {
+                // Try contains on alias
+                cmd = TryResolveSingle(x => (x.Aliases ?? new string[0]).Any(xx => Contains(key, xx)));
+            }
+
+            if (cmd != null)
+            {
+                return cmd.Type;
             }
 
             throw ExceptionsFactory.CreateApiException("Command " + key + " was not found.");
-                                
+        }
+
+        private static bool Contains(string s1, string s2)
+        {            
+            return (s1 ?? "").ToLower().Contains((s2 ?? "").ToLower());
         }
 
         private static object BuildCommand(dynamic env, Type cmdType)
