@@ -40,9 +40,14 @@ namespace Zaz.Server.Advanced.Service
 
             var msg = new StringBuilder("Command " + cmdKey + " accepted.");
 
-            foreach (var traceEntry in trace)
+            if (trace.Count > 0)
             {
-                msg.AppendLine("[" + traceEntry.Serverity + "]" + traceEntry.Message);
+                msg.AppendLine();
+                msg.AppendLine("Trace: ");
+                foreach (var traceEntry in trace)
+                {
+                    msg.AppendLine("[" + traceEntry.Serverity + "]" + traceEntry.Message);
+                }
             }
 
             return new HttpResponseMessage
