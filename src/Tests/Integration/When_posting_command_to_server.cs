@@ -26,7 +26,7 @@ namespace Zaz.Tests.Integration
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
             });            
             var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
-            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/Commands"));
+            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/Commands/"));
             _host.Open();
         }
 
@@ -39,7 +39,7 @@ namespace Zaz.Tests.Integration
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new CommandBus("http://localhost:9303/Commands");
+            var bus = new CommandBus("http://localhost:9303/Commands/");
             bus.Post(new PrintMessage
             {
                 Message = "Hello world"

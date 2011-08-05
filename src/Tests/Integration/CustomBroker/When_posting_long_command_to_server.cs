@@ -3,15 +3,12 @@ using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
 using SampleCommands;
-using SampleHandlers;
-using Zaz.Client;
 using Zaz.Client.Avanced;
+using Zaz.Client.Avanced.Contract;
 using Zaz.Server;
 using Zaz.Server.Advanced;
-using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
-using ZazAbstr.Advanced.Service;
 
 namespace Zaz.Tests.Integration.CustomBroker
 {
@@ -42,7 +39,7 @@ namespace Zaz.Tests.Integration.CustomBroker
         public void Should_successfully_send_command()
         {
             var bus = new AdvancedCommandBus("http://localhost:9303/LongCommands/");
-            bus.Post2(new PostScheduledCommandRequest
+            bus.PostScheduled(new PostScheduledCommandRequest
                           {
                               Key = "SampleCommands.PrintMessage"
                           }).Wait();            

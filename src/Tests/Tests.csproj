@@ -106,10 +106,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ZazAbstr\ZazAbstr.csproj">
-      <Project>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</Project>
-      <Name>ZazAbstr</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SampleCommands\SampleCommands.csproj">
       <Project>{DC0CB69F-9280-4D9C-8C01-4677F9291624}</Project>
       <Name>SampleCommands</Name>

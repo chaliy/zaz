@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web;
-using Microsoft.ApplicationServer.Http.Dispatcher;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Zaz.Server.Advanced.Broker;
-using ZazAbstr.Advanced.Service;
+using Zaz.Server.Advanced.Service.Contract;
+using Zaz.Server.Advanced.State;
 using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
 using Zaz.Server.Advanced.Ui;
 
@@ -21,10 +18,14 @@ namespace Zaz.Server.Advanced.Service
     public class CommandsService
     {
         private readonly Conventions _conventions;
+        private readonly CommandResolver _resolver;
+        private readonly CommandRunner _runner;
         
         public CommandsService(Conventions conventions = null)
         {            
             _conventions = conventions ?? new Conventions();            
+            _resolver = new CommandResolver(_conventions);
+            _runner = new CommandRunner(_conventions);
         }
         
         [WebGet(UriTemplate = "/{*path}")]
@@ -68,7 +69,7 @@ namespace Zaz.Server.Advanced.Service
             }
             catch (InvalidOperationException ex)
             {
-                throw CreateApiException("Problems with binding command data. " + ex.Message);
+                throw ExceptionsFactory.CreateApiException("Problems with binding command data. " + ex.Message);
             }
         }
 
@@ -86,15 +87,23 @@ namespace Zaz.Server.Advanced.Service
 
             if (!form.ContainsKey("Zaz-Command-Id"))
             {
-                throw CreateApiException("Required value 'Zaz-Command-Id' was not found.");
+                throw ExceptionsFactory.CreateApiException("Required value 'Zaz-Command-Id' was not found.");
             }
 
             var cmdKey = form["Zaz-Command-Id"];
-            var cmdType = ResolveCommand(cmdKey);
+            var cmdType = _resolver.ResolveCommandType(cmdKey);
 
             var cmd = BindFormToCommand(form, cmdType);
 
-            return HandleCommand(cmdKey, cmd, new string[0]);
+            return _runner.RunCommand(cmdKey, cmd, new string[0]);
+        }
+
+        private static Dictionary<string, string> ParseQueryString(string query)
+        {
+            var nvc = HttpUtility.ParseQueryString(query);
+            return nvc.Keys
+                .Cast<string>()
+                .ToDictionary(x => x, x => nvc[x]);
         }
 
 
@@ -102,15 +111,15 @@ namespace Zaz.Server.Advanced.Service
         public HttpResponseMessage Post(PostScheduledCommandRequest env)
         {            
             var cmdKey = env.Key;
-            var cmd = ResoveCommand(env, cmdKey);
-            return HandleCommand(cmdKey, cmd, env.Tags);
+            var cmd = _resolver.ResoveCommand(env, cmdKey);
+            return _runner.RunCommand(cmdKey, cmd, env.Tags);
         }
         
         [WebInvoke(Method = "POST", UriTemplate = "Scheduled")]
         public PostScheduledCommandResponse PostScheduled(PostScheduledCommandRequest req)
         {
             var cmdKey = req.Key;
-            var cmd = ResoveCommand(req, cmdKey);
+            var cmd = _resolver.ResoveCommand(req, cmdKey);
 
             var broker = (_conventions.Broker ?? DefaultConventions.Broker);
             var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
@@ -137,11 +146,38 @@ namespace Zaz.Server.Advanced.Service
         [WebGet(UriTemplate = "Scheduled/{id}")]
         public GetScheduledCommandResponse GetScheduled(string id)
         {
+
+            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+            var lastTrace = stateProvider
+                .QueryEntries(id)
+                .OrderBy(x => x.Timestamp)
+                .LastOrDefault();
+
+            var status = ScheduledCommandStatus.Pending;
+            if (lastTrace != null)
+            {
+                switch (lastTrace.Kind)
+                {
+                    case TraceKind.Failure:
+                        status = ScheduledCommandStatus.Failure;
+                        break;
+                        
+                    case TraceKind.Success:
+                        status = ScheduledCommandStatus.Success;
+                        break;
+
+                    case TraceKind.Trace:
+                    case TraceKind.Start:
+                        status = ScheduledCommandStatus.InProgress;
+                        break;
+                }
+            }
+
             return new GetScheduledCommandResponse
-                       {
-                           Id = id,
-                           Status = "Hello!"
-                       };
+                           {
+                               Id = id,
+                               Status = status
+                           };
         }
 
         [WebGet(UriTemplate = "Scheduled/Trace/{id}")]
@@ -152,104 +188,10 @@ namespace Zaz.Server.Advanced.Service
             return stateProvider.QueryEntries(id);
         }
 
-        private object ResoveCommand(PostScheduledCommandRequest env, string cmdKey)
-        {
-            if (String.IsNullOrWhiteSpace(cmdKey))
-            {
-                throw CreateApiException("Required value 'Key' was not found.");
-            }
+            
 
-            var cmdType = ResolveCommand(cmdKey);
-            var cmd = BuildCommand(env, cmdType);
-            return cmd;
-        }
-
-        private static object BuildCommand(dynamic env, Type cmdType)
-        {
-            try
-            {
-                if (env.Command != null)
-                {
-                    var serializer = new JsonSerializer();
-                    var reader = ((JObject) env.Command).CreateReader();
-                    var cmd = serializer.Deserialize(reader, cmdType);
-                    return cmd;
-                }
-            }            
-            catch (JsonReaderException ex)
-            {
-                throw CreateApiException("Problems with deserializing command data. " + ex.Message);
-            }
-
-            return Activator.CreateInstance(cmdType);
-        }        
-
-        private HttpResponseMessage HandleCommand(string cmdKey, object cmd, string[] tags)
-        {
-            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
-
-            var ctx = new CommandHandlingContext(tags ?? new string[0]);
-            //var traceSubscription = ctx.Trace
-            //    .Subscribe(e => );
-
-            broker.Handle(cmd, ctx).Wait();
-
-            return new HttpResponseMessage
-                       {
-                           StatusCode = HttpStatusCode.Accepted,
-                           Content = new StringContent("Command " + cmdKey + " accepted")
-                       };
-        }
-
-        private HttpResponseMessage HandleCommand2(string cmdKey, object cmd, string[] tags)
-        {
-            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
-
-            var ctx = new CommandHandlingContext(tags ?? new string[0]);
-            //var traceSubscription = ctx.Trace
-            //    .Subscribe(e => );
-
-            broker.Handle(cmd, ctx).Wait();
-
-            return new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.Accepted,
-                Content = new StringContent("Command " + cmdKey + " accepted")
-            };
-        }
         
-        private Type ResolveCommand(string key)
-        {
-            var cmdType = (_conventions.CommandRegistry
-                           ?? DefaultConventions.CommandRegistry)
-                .Query()
-                .Where(x => x.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.Type)
-                .FirstOrDefault();
 
-            if (cmdType == null)
-            {
-                throw CreateApiException("Command " + key + " was not found");
-            }
-
-            return cmdType;
-        }
-
-        private static Dictionary<string, string> ParseQueryString(string query)
-        {
-            var nvc = HttpUtility.ParseQueryString(query);
-            return nvc.Keys
-                .Cast<string>()
-                .ToDictionary(x => x, x => nvc[x]);
-        }
-
-        private static HttpResponseException CreateApiException(string message)
-        {
-            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest, message)
-                           {
-                               Content = new StringContent(message)
-                           };
-            return new HttpResponseException(resp);
-        }        
+        
     }
 }

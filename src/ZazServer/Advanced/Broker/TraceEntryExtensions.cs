@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Subjects;
 
 namespace Zaz.Server.Advanced.Broker
@@ -13,6 +14,16 @@ namespace Zaz.Server.Advanced.Broker
                                 Serverity = TraceSeverity.Info,
                                 Timestamp = DateTime.Now
                             });
+        }
+
+        public static void Error(this ICollection<TraceEntry> subj, string msg)
+        {
+            subj.Add(new TraceEntry
+            {
+                Message = msg,
+                Serverity = TraceSeverity.Error,
+                Timestamp = DateTime.Now
+            });
         }
     }
 }

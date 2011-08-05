@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Zaz.Server;
 using Zaz.Server.Advanced.Service;
+using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Tests.Server.Stubs;
-using ZazAbstr.Advanced.Service;
 
 namespace Zaz.Tests.Server
 {

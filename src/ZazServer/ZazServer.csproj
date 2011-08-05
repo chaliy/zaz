@@ -82,6 +82,13 @@
     </Compile>
     <Compile Include="Advanced\Broker\TraceEntry.cs" />
     <Compile Include="Advanced\Broker\TraceEntryExtensions.cs" />
+    <Compile Include="Advanced\Service\CommandResolver.cs" />
+    <Compile Include="Advanced\Service\CommandRunner.cs" />
+    <Compile Include="Advanced\Service\Contract\GetScheduledCommandResponse.cs" />
+    <Compile Include="Advanced\Service\Contract\PostScheduledCommandRequest.cs" />
+    <Compile Include="Advanced\Service\Contract\PostScheduledCommandResponse.cs" />
+    <Compile Include="Advanced\Service\Contract\ScheduledCommandStatus.cs" />
+    <Compile Include="Advanced\Service\ExceptionsFactory.cs" />
     <Compile Include="Advanced\TraceSeverity.cs" />
     <Compile Include="Advanced\HttpHostConfigurationHelper.cs" />
     <Compile Include="Advanced\Service\CommandMeta.cs" />
@@ -127,12 +134,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.js" />
     <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ZazAbstr\ZazAbstr.csproj">
-      <Project>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</Project>
-      <Name>ZazAbstr</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

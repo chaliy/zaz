@@ -1,4 +1,4 @@
-﻿namespace ZazAbstr.Advanced.Service
+﻿namespace Zaz.Client.Avanced.Contract
 {
     public class PostScheduledCommandResponse
     {

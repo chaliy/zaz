@@ -39,6 +39,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -51,18 +54,16 @@
     <Compile Include="Avanced\CommandContent.cs" />
     <Compile Include="Avanced\CommandEnvelope.cs" />
     <Compile Include="Avanced\AdvancedCommandBus.cs" />
+    <Compile Include="Avanced\Contract\GetScheduledCommandResponse.cs" />
+    <Compile Include="Avanced\Contract\PostScheduledCommandRequest.cs" />
+    <Compile Include="Avanced\Contract\PostScheduledCommandResponse.cs" />
+    <Compile Include="Avanced\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Avanced\JsonContentExtensions.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ZazAbstr\ZazAbstr.csproj">
-      <Project>{62ABF7B3-53F6-4E55-87AB-527E5301524D}</Project>
-      <Name>ZazAbstr</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

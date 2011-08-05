@@ -43,10 +43,10 @@
     <Compile Include="..\src\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Advanced\Service\GetScheduledCommandResponse.cs" />
-    <Compile Include="Advanced\Service\PostScheduledCommandRequest.cs" />
-    <Compile Include="Advanced\Service\PostScheduledCommandResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Advanced\Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
