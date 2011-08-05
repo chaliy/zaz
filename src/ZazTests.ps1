@@ -5,7 +5,7 @@ import-module .\Zaz.psm1 -Force
 
 test-spec {
     "When sending ping command"
-    { 
-        Send-ZazCommand SampleCommands.PrintMessage "{Message:'Hello!'}" -Destination "http://localhost.fiddler:9302/Commands"
-    } | should work
+    
+    $res = Send-ZazCommand SampleCommands.PrintMessage "{'Message':'Hello!'}" -Destination "http://localhost.fiddler:9302/Commands/"    
+    $res | should work
 }

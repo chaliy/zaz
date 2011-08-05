@@ -14,7 +14,7 @@ namespace Zaz.Server.Advanced.Broker
             _handlersAssembly = handlersAssembly;
         }
 
-        public Task<dynamic> Handle(dynamic cmd, CommandHandlingContext ctx)
+        public Task Handle(dynamic cmd, CommandHandlingContext ctx)
         {
             var cmdType = cmd.GetType();
             var handlerType = _handlersAssembly
@@ -33,7 +33,14 @@ namespace Zaz.Server.Advanced.Broker
 
             dynamic handler = Activator.CreateInstance(handlerType);
 
-            return handler.Handle(cmd);
+            var result = handler.Handle(cmd);
+
+            if (result is Task)
+            {
+                return (Task) result;
+            }
+
+            return Task.Factory.StartNew(() => {});
         }
     }
 }

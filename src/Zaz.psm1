@@ -22,6 +22,7 @@ $cmd = @"
 Write-Verbose "Send command: $cmd"
 
 $client = (New-Object Net.WebClient)
+$client.Headers["Content-Type"] = "application/json"
 $client.UploadString($Destination, "POST", $cmd)
     
 <#

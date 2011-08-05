@@ -27,7 +27,7 @@ namespace Zaz.Server.Advanced.Service
                 try
                 {
                     broker.Handle(cmd, ctx)
-                    .Wait();
+                        .Wait();
                 }
                 catch (AggregateException ex)
                 {
