@@ -22,7 +22,7 @@ namespace Zaz.Tests.Integration
         {
             var instance = new CommandsService(new Conventions
             {
-                CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
             });            
             var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);

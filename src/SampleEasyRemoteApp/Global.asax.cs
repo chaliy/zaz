@@ -16,7 +16,7 @@ namespace SampleEasyRemoteApp
             ZazServer.Init("Commands/",                
                 new Conventions
                 {
-                    CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                    Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                     Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
                 });
         }        

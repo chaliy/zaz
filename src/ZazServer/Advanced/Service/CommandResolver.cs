@@ -2,6 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service.Contract;
 
 namespace Zaz.Server.Advanced.Service
@@ -29,19 +30,26 @@ namespace Zaz.Server.Advanced.Service
 
         public Type ResolveCommandType(string key)
         {
-            var cmdType = (_conventions.CommandRegistry
-                           ?? DefaultConventions.CommandRegistry)
-                .Query()
-                .Where(x => x.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.Type)
-                .FirstOrDefault();
+            var query = (_conventions.Registry ?? DefaultConventions.CommandRegistry).Query();
 
-            if (cmdType == null)
-            {
-                throw ExceptionsFactory.CreateApiException("Command " + key + " was not found");
+            var matches = query
+                .Where(x => x.Key.Contains(key))
+                .Union(query.Where(x => (x.Aliases ?? new string[0]).Any(xx => xx.Contains(key))))
+                .Distinct()
+                .ToList();
+            
+            if (matches.Count == 1)
+            {                
+                return matches[0].Type;    
             }
 
-            return cmdType;
+            if (matches.Count > 1)
+            {
+                throw ExceptionsFactory.CreateApiException("More then one match for command " + key + " was found.");                
+            }
+
+            throw ExceptionsFactory.CreateApiException("Command " + key + " was not found.");
+                                
         }
 
         private static object BuildCommand(dynamic env, Type cmdType)

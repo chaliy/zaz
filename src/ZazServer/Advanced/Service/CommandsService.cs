@@ -40,7 +40,7 @@ namespace Zaz.Server.Advanced.Service
         [WebGet(UriTemplate = "MetaList")]
         public IQueryable<CommandMeta> MetaList()
         {
-            var registry = (_conventions.CommandRegistry ?? DefaultConventions.CommandRegistry);
+            var registry = (_conventions.Registry ?? DefaultConventions.CommandRegistry);
             return registry
                 .Query()
                 .Select(x => new CommandMeta

@@ -21,7 +21,7 @@ namespace Zaz.Tests.Integration.CustomBroker
         {
             var instance = new CommandsService(new Conventions
             {
-                CommandRegistry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = new LongCommandBroker()
             });            
             var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
