@@ -89,6 +89,7 @@
     <Compile Include="Advanced\Service\Contract\PostScheduledCommandRequest.cs" />
     <Compile Include="Advanced\Service\Contract\PostScheduledCommandResponse.cs" />
     <Compile Include="Advanced\Service\Contract\ScheduledCommandStatus.cs" />
+    <Compile Include="Advanced\Service\Contract\TraceEntry.cs" />
     <Compile Include="Advanced\Service\ExceptionsFactory.cs" />
     <Compile Include="Advanced\TraceSeverity.cs" />
     <Compile Include="Advanced\HttpHostConfigurationHelper.cs" />

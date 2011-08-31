@@ -1,18 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Zaz", "src\Zaz\Zaz.fsproj", "{3B0B7881-116A-4779-B876-2675579DC38A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCommands", "src\SampleCommands\SampleCommands.csproj", "{DC0CB69F-9280-4D9C-8C01-4677F9291624}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleHandlers", "src\SampleHandlers\SampleHandlers.csproj", "{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "src\SampleApp\SampleApp.csproj", "{7D640DFC-9D7C-4831-BBE6-5722862B5723}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2} = {4BE7BEF6-3334-406F-965B-DBBFD690D6A2}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleRemoteApp", "src\SampleRemoteApp\SampleRemoteApp.csproj", "{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82BF8-FB04-4B92-A2ED-3727DC0766EB}"
 	ProjectSection(SolutionItems) = preProject
@@ -44,16 +37,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3B0B7881-116A-4779-B876-2675579DC38A}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC0CB69F-9280-4D9C-8C01-4677F9291624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC0CB69F-9280-4D9C-8C01-4677F9291624}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC0CB69F-9280-4D9C-8C01-4677F9291624}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -84,16 +67,6 @@ Global
 		{7D640DFC-9D7C-4831-BBE6-5722862B5723}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7D640DFC-9D7C-4831-BBE6-5722862B5723}.Release|x86.ActiveCfg = Release|x86
 		{7D640DFC-9D7C-4831-BBE6-5722862B5723}.Release|x86.Build.0 = Release|x86
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D644822-6B05-4F38-B68B-5D2D159DD246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3D644822-6B05-4F38-B68B-5D2D159DD246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D644822-6B05-4F38-B68B-5D2D159DD246}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -141,7 +114,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DF7B8BC2-21A7-4022-8B94-6353BB4B154C} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
 		{7D640DFC-9D7C-4831-BBE6-5722862B5723} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
-		{4BE7BEF6-3334-406F-965B-DBBFD690D6A2} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
 		{DC0CB69F-9280-4D9C-8C01-4677F9291624} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
 		{3D644822-6B05-4F38-B68B-5D2D159DD246} = {73E82BF8-FB04-4B92-A2ED-3727DC0766EB}
 	EndGlobalSection

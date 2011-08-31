@@ -58,6 +58,8 @@
     <Compile Include="Avanced\Contract\PostScheduledCommandRequest.cs" />
     <Compile Include="Avanced\Contract\PostScheduledCommandResponse.cs" />
     <Compile Include="Avanced\Contract\ScheduledCommandStatus.cs" />
+    <Compile Include="Avanced\Contract\TraceEntry.cs" />
+    <Compile Include="Avanced\Contract\TraceSeverity.cs" />
     <Compile Include="Avanced\JsonContentExtensions.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

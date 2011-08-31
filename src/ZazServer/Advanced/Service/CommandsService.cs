@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -9,6 +10,7 @@ using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Server.Advanced.State;
 using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
+using ContractTraceEntry = Zaz.Server.Advanced.Service.Contract.TraceEntry;
 using Zaz.Server.Advanced.Ui;
 
 namespace Zaz.Server.Advanced.Service
@@ -144,7 +146,7 @@ namespace Zaz.Server.Advanced.Service
         }
 
         [WebGet(UriTemplate = "Scheduled/{id}")]
-        public GetScheduledCommandResponse GetScheduled(string id)
+        public GetScheduledCommandResponse GetScheduled(string id, DateTime? tocken)
         {
 
             var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
@@ -173,25 +175,40 @@ namespace Zaz.Server.Advanced.Service
                 }
             }
 
+            var trace = stateProvider
+                .QueryEntries(id)
+                .Where(x => tocken.HasValue && x.Timestamp > tocken)
+                .Where(x => x.Kind == TraceKind.Trace)
+                .Select(ConvertTraceEntry())
+                .ToArray();
+
             return new GetScheduledCommandResponse
                            {
                                Id = id,
-                               Status = status
+                               Status = status,
+                               Trace = trace
                            };
         }
 
         [WebGet(UriTemplate = "Scheduled/Trace/{id}")]
-        public IQueryable<StateTraceEntry> GetScheduledTrace(string id)
+        public IQueryable<ContractTraceEntry> GetScheduledTrace(string id)
         {            
             var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
-
-            return stateProvider.QueryEntries(id);
+            return stateProvider
+                .QueryEntries(id)
+                .Where(x => x.Kind == TraceKind.Trace)
+                .Select(ConvertTraceEntry());
         }
-
-            
-
-        
-
-        
+       
+        public static Expression<Func<StateTraceEntry, ContractTraceEntry>> ConvertTraceEntry()
+        {
+            return e =>  new ContractTraceEntry
+                       {
+                           Message = e.Message,
+                           Severity = e.Severity,
+                           Tags = e.Tags,
+                           Timestamp = e.Timestamp
+                       };
+        }
     }
 }
