@@ -1,7 +1,7 @@
 ﻿using Zaz.Client;
 using SampleCommands;
 
-namespace SampleApp
+namespace SampleClientApp
 {
     class Program
     {

@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SampleSimpleRemoteApp")]
+[assembly: AssemblyTitle("SampleServerApp")]
 [assembly: AssemblyDescription("")]
 
 [assembly: ComVisible(false)]

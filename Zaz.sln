@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCommands", "src\Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleHandlers", "src\SampleHandlers\SampleHandlers.csproj", "{DF7B8BC2-21A7-4022-8B94-6353BB4B154C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "src\SampleApp\SampleApp.csproj", "{7D640DFC-9D7C-4831-BBE6-5722862B5723}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleClientApp", "src\SampleClientApp\SampleClientApp.csproj", "{7D640DFC-9D7C-4831-BBE6-5722862B5723}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82BF8-FB04-4B92-A2ED-3727DC0766EB}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{73E82B
 		src\SampleAppScript2.ps1 = src\SampleAppScript2.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleEasyRemoteApp", "src\SampleEasyRemoteApp\SampleEasyRemoteApp.csproj", "{3D644822-6B05-4F38-B68B-5D2D159DD246}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleServerApp", "src\SampleServerApp\SampleServerApp.csproj", "{3D644822-6B05-4F38-B68B-5D2D159DD246}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZazClient", "src\ZazClient\ZazClient.csproj", "{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}"
 EndProject
