@@ -145,8 +145,8 @@ namespace Zaz.Server.Advanced.Service
                        };
         }
 
-        [WebGet(UriTemplate = "Scheduled/{id}")]
-        public GetScheduledCommandResponse GetScheduled(string id, DateTime? tocken)
+        [WebGet(UriTemplate = "Scheduled/{id}?token={token}")]
+        public GetScheduledCommandResponse GetScheduled(string id, DateTime? token)
         {
 
             var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
@@ -177,7 +177,7 @@ namespace Zaz.Server.Advanced.Service
 
             var trace = stateProvider
                 .QueryEntries(id)
-                .Where(x => tocken.HasValue && x.Timestamp > tocken)
+                .Where(x => token.HasValue && x.Timestamp > token)
                 .Where(x => x.Kind == TraceKind.Trace)
                 .Select(ConvertTraceEntry())
                 .ToArray();
