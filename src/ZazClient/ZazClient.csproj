@@ -55,7 +55,7 @@
     <Compile Include="Avanced\CommandEnvelope.cs" />
     <Compile Include="Avanced\AdvancedCommandBus.cs" />
     <Compile Include="Avanced\Contract\GetScheduledCommandResponse.cs" />
-    <Compile Include="Avanced\Contract\PostScheduledCommandRequest.cs" />
+    <Compile Include="Avanced\Contract\PostCommandRequest.cs" />
     <Compile Include="Avanced\Contract\PostScheduledCommandResponse.cs" />
     <Compile Include="Avanced\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Avanced\Contract\TraceEntry.cs" />

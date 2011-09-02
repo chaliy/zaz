@@ -86,7 +86,7 @@
     <Compile Include="Advanced\Service\CommandResolver.cs" />
     <Compile Include="Advanced\Service\CommandRunner.cs" />
     <Compile Include="Advanced\Service\Contract\GetScheduledCommandResponse.cs" />
-    <Compile Include="Advanced\Service\Contract\PostScheduledCommandRequest.cs" />
+    <Compile Include="Advanced\Service\Contract\PostCommandRequest.cs" />
     <Compile Include="Advanced\Service\Contract\PostScheduledCommandResponse.cs" />
     <Compile Include="Advanced\Service\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Advanced\Service\Contract\TraceEntry.cs" />

@@ -110,7 +110,7 @@ namespace Zaz.Server.Advanced.Service
 
 
         [WebInvoke(Method = "POST", UriTemplate = "")]
-        public HttpResponseMessage Post(PostScheduledCommandRequest env)
+        public HttpResponseMessage Post(PostCommandRequest env)
         {            
             var cmdKey = env.Key;
             var cmd = _resolver.ResoveCommand(env, cmdKey);
@@ -118,7 +118,7 @@ namespace Zaz.Server.Advanced.Service
         }
         
         [WebInvoke(Method = "POST", UriTemplate = "Scheduled")]
-        public PostScheduledCommandResponse PostScheduled(PostScheduledCommandRequest req)
+        public PostScheduledCommandResponse PostScheduled(PostCommandRequest req)
         {
             var cmdKey = req.Key;
             var cmd = _resolver.ResoveCommand(req, cmdKey);

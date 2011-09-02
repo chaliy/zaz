@@ -24,7 +24,7 @@ namespace Zaz.Tests.Server
             var cmdKey = typeof (FooCommand).FullName;
             var cmdData = new JObject();
             cmdData.Add("Value1", "Foo");            
-            _result = service.Post(new PostScheduledCommandRequest
+            _result = service.Post(new PostCommandRequest
             {
                 Key = cmdKey,
                 Command = cmdData

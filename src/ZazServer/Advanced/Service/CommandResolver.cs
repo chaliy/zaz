@@ -17,7 +17,7 @@ namespace Zaz.Server.Advanced.Service
             _conventions = conventions;
         }
 
-        public object ResoveCommand(PostScheduledCommandRequest env, string cmdKey)
+        public object ResoveCommand(PostCommandRequest env, string cmdKey)
         {
             if (String.IsNullOrWhiteSpace(cmdKey))
             {

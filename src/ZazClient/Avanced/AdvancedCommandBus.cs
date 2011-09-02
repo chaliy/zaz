@@ -23,10 +23,11 @@ namespace Zaz.Client.Avanced
         {
             get { return _trace; }
         }
-
+        
         public Task Post(CommandEnvelope envelope)
         {
-            return _client.PostAsync("", new CommandContent(envelope))
+            var req = CreatePostCommandRequest(envelope);
+            return PostAsync("", envelope)
                 .ContinueWith(x =>
                 {
                     if (!x.Result.IsSuccessStatusCode)
@@ -37,9 +38,10 @@ namespace Zaz.Client.Avanced
                 });                
         }
 
-        public Task PostScheduled(PostScheduledCommandRequest req)
+        public Task PostScheduled(CommandEnvelope envelope)
         {
-            return _client.PostAsync("Scheduled", JsonContentExtensions.Create(req))
+            var req = CreatePostCommandRequest(envelope);
+            return PostAsync("Scheduled", req)
                 .ContinueWith(x =>
                 {                    
                     //if (!resp.IsSuccessStatusCode)
@@ -49,6 +51,7 @@ namespace Zaz.Client.Avanced
                     
                     var resp = x.Result.Content.ReadAs<PostScheduledCommandResponse>();
                     var id = resp.Id;
+
                     WriteTrace("Start waiting for execution command " + id);
 
                     while (true)
@@ -78,6 +81,22 @@ namespace Zaz.Client.Avanced
                     }                                       
                 });
         }
+
+        private static PostCommandRequest CreatePostCommandRequest(CommandEnvelope envelope)
+        {
+            return new PostCommandRequest
+            {
+                Command = envelope.Command,
+                Key = envelope.Key,
+                Tags = envelope.Tags
+            };
+        }
+
+        private Task<HttpResponseMessage> PostAsync(string path, object req)
+        {
+            return _client.PostAsync(path, JsonContentExtensions.Create(req));
+        }
+
 
         private void WriteTrace(string msg)
         {
