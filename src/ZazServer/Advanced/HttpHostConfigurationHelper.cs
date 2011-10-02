@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationServer.Http.Description;
+﻿using Microsoft.ApplicationServer.Http;
+using Microsoft.ApplicationServer.Http.Description;
 using WebApiContrib.Formatters.JsonNet;
 using Zaz.Server.Advanced.Service;
 
@@ -6,13 +7,13 @@ namespace Zaz.Server.Advanced
 {
     public static class HttpHostConfigurationHelper
     {
-        public static IHttpHostConfigurationBuilder CreateHostConfigurationBuilder(CommandsService service)
+        public static HttpConfiguration CreateHostConfigurationBuilder(CommandsService service)
         {
-            var config = HttpHostConfiguration.Create()
-                .SetResourceFactory(new CommandsServiceResourceFactory(service))
-                ;
+           
+        	var config = new HttpConfiguration();
+        	config.CreateInstance = (t, c, m) => service;        	
 
-            config.Configuration.OperationHandlerFactory.Formatters.Insert(0, new JsonNetFormatter());
+            config.Formatters.Insert(0, new JsonNetFormatter());
 
             return config;
         }

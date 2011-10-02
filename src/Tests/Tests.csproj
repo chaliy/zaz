@@ -32,34 +32,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
-      <HintPath>..\..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+      <HintPath>..\..\packages\FluentAssertions.1.5.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Common.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationServer.Http">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.ApplicationServer.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Http, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebApi.Enhancements.0.3.0\lib\40\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+      <HintPath>..\..\packages\WebApi.Enhancements.0.5.0\lib\40-Full\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Serialization, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+    <Reference Include="Microsoft.Json">
+      <HintPath>..\..\packages\JsonValue.0.5.0\lib\40\Microsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Net.Http, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpClient.0.3.0\lib\40\Microsoft.Net.Http.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\packages\HttpClient.0.5.0\lib\40\Microsoft.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.QueryComposition, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.QueryComposition.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http.Formatting">
+      <HintPath>..\..\packages\HttpClient.0.5.0\lib\40\Microsoft.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Runtime.Serialization.Json, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+    <Reference Include="Microsoft.Runtime.Serialization.Internal">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.Runtime.Serialization.Internal.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Web.jQuery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
+    <Reference Include="Microsoft.Server.Common">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.Server.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Internal">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.ServiceModel.Internal.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SampleCommands\SampleCommands.csproj">

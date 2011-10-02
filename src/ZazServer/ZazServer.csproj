@@ -31,38 +31,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ApplicationServer.Common">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Common.dll</HintPath>
+    <Reference Include="EntityDataModel">
+      <HintPath>..\..\packages\WebApi.OData.0.5.0\lib\40-Full\EntityDataModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Http">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Http.dll</HintPath>
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.ApplicationServer.Http.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
-      <HintPath>..\..\packages\WebApi.Enhancements.0.3.0\lib\40\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+      <HintPath>..\..\packages\WebApi.Enhancements.0.5.0\lib\40-Full\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Serialization">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Serialization.dll</HintPath>
+    <Reference Include="Microsoft.Data.Spatial">
+      <HintPath>..\..\packages\WebApi.OData.0.5.0\lib\40-Full\Microsoft.Data.Spatial.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+    <Reference Include="Microsoft.Json">
+      <HintPath>..\..\packages\JsonValue.0.5.0\lib\40\Microsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Net.Http">
-      <HintPath>..\..\packages\HttpClient.0.3.0\lib\40\Microsoft.Net.Http.dll</HintPath>
+      <HintPath>..\..\packages\HttpClient.0.5.0\lib\40\Microsoft.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.QueryComposition">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.QueryComposition.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http.Formatting">
+      <HintPath>..\..\packages\HttpClient.0.5.0\lib\40\Microsoft.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Runtime.Serialization.Json">
-      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http.Formatting.OData">
+      <HintPath>..\..\packages\WebApi.OData.0.5.0\lib\40-Full\Microsoft.Net.Http.Formatting.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Web.jQuery">
-      <HintPath>..\..\packages\JsonValue.0.3.0\lib\40\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
+    <Reference Include="Microsoft.Runtime.Serialization.Internal">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.Runtime.Serialization.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Server.Common">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.Server.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Internal">
+      <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.ServiceModel.Internal.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OData">
+      <HintPath>..\..\packages\WebApi.OData.0.5.0\lib\40-Full\System.Data.OData.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive">
       <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
     </Reference>
@@ -105,7 +115,6 @@
     <Compile Include="Advanced\State\MemoryCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\ReflectionCommandRegistry.cs" />
     <Compile Include="Advanced\Service\CommandsService.cs" />
-    <Compile Include="Advanced\Service\CommandsServiceResourceFactory.cs" />
     <Compile Include="Conventions.cs" />
     <Compile Include="Advanced\DefaultConventions.cs" />
     <Compile Include="Advanced\Broker\ICommandBroker.cs" />
@@ -122,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="web.config" />
     <None Include="ZazServer.nuspec" />
   </ItemGroup>
   <ItemGroup>

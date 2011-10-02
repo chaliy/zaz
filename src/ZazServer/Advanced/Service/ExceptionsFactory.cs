@@ -8,7 +8,7 @@ namespace Zaz.Server.Advanced.Service
     {
         public static HttpResponseException CreateApiException(string message)
         {
-            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest, message)
+            var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
             {
                 Content = new StringContent(message)
             };

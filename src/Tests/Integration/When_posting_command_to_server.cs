@@ -26,7 +26,7 @@ namespace Zaz.Tests.Integration
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
             });            
             var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
-            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/Commands/"));
+            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri("http://localhost:9303/Commands/"));
             _host.Open();
         }
 

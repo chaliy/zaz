@@ -23,8 +23,8 @@ namespace Zaz.Tests.Integration.CustomBroker
                 Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = new LongCommandBroker()
             });            
-            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
-            _host = new HttpConfigurableServiceHost<CommandsService>(config, new Uri("http://localhost:9303/LongCommands/"));
+            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);            
+            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri("http://localhost:9303/LongCommands"));
             _host.Open();
         }
 

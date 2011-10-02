@@ -14,8 +14,9 @@ namespace Zaz.Client.Avanced
         private readonly Subject<string> _trace = new Subject<string>();
 
         public AdvancedCommandBus(string url)
-        {
-            _client = new HttpClient(url);
+        {        	
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri(url);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
