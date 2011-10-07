@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
 using SampleCommands;
 using Zaz.Client.Avanced;
