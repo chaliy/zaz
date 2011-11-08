@@ -2,6 +2,7 @@
 using System.Web;
 using SampleCommands;
 using SampleHandlers;
+using SampleServerApp.App;
 using Zaz.Server;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
@@ -17,6 +18,7 @@ namespace SampleServerApp
                 {
                     Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                     Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
+                    //Broker = new DumbCommandBroker()
                 });
         }        
     }
