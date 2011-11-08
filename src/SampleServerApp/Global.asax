@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="SampleEasyRemoteApp.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="SampleServerApp.Global" Language="C#" %>

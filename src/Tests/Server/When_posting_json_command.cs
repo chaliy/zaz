@@ -20,7 +20,7 @@ namespace Zaz.Tests.Server
         public void Given_service_by_default()
         {
             _broker = new CommandBrokerStub();
-            var service = new CommandsService(new Conventions { Broker = _broker });
+            var service = new CommandsService(new ServerContext { Broker = _broker });
             var cmdKey = typeof (FooCommand).FullName;
             var cmdData = new JObject();
             cmdData.Add("Value1", "Foo");            

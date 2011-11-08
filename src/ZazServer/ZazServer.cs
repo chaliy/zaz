@@ -5,9 +5,15 @@ using Zaz.Server.Advanced.Service;
 
 namespace Zaz.Server
 {
-    public class ZazServer
+    public static class ZazServer
     {
-        public static void Init(string prefix = "Commands/", Conventions conventions = null)
+        public static void Init(string prefix = "Commands/", ServerContext context = null)
+        {
+            RouteTable.Routes.MapCommandsService(prefix, context);
+        }
+
+        public static RouteCollection MapCommandsService(this RouteCollection @this, 
+            string prefix = "Commands/", ServerContext context = null)
         {
             // Add / to the prefix, otherwise UI will not work            
             prefix = prefix ?? "";
@@ -15,9 +21,11 @@ namespace Zaz.Server
             {
                 prefix += "/";
             }
-            
-            RouteTable.Routes.MapServiceRoute<CommandsService>(prefix, 
-                HttpHostConfigurationHelper.CreateHostConfigurationBuilder(new CommandsService(conventions)));
+
+            @this.MapServiceRoute<CommandsService>(prefix,
+                HttpHostConfigurationHelper.CreateHostConfigurationBuilder(new CommandsService(context)));
+
+            return @this;
         }
     }
 }

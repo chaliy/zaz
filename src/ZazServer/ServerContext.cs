@@ -4,7 +4,7 @@ using Zaz.Server.Advanced.State;
 
 namespace Zaz.Server
 {
-    public class Conventions
+    public class ServerContext
     {        
         public ICommandRegistry Registry { get; set; }
         public ICommandBroker Broker { get; set; }

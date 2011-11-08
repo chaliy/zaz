@@ -20,7 +20,7 @@ namespace Zaz.Tests.Integration
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = new CommandsService(new Conventions
+            var instance = new CommandsService(new ServerContext
             {
                 Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)

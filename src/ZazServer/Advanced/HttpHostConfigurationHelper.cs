@@ -13,7 +13,7 @@ namespace Zaz.Server.Advanced
         	var config = new HttpConfiguration();
         	config.CreateInstance = (t, c, m) => service;        	
 
-            config.Formatters.Insert(0, new JsonNetFormatter());
+            config.Formatters.Insert(0, new JsonNetFormatter());            
 
             return config;
         }

@@ -11,9 +11,9 @@ namespace SampleServerApp
     public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
-        {
-            ZazServer.Init("Commands/",                
-                new Conventions
+        {            
+            ZazServer.Init("Commands",                
+                new ServerContext
                 {
                     Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                     Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)

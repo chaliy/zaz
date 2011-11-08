@@ -54,12 +54,6 @@
     <Reference Include="Microsoft.ApplicationServer.Http">
       <HintPath>..\..\packages\WebApi.0.5.0\lib\40-Full\Microsoft.ApplicationServer.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
-      <HintPath>..\..\packages\WebApi.Enhancements.0.5.0\lib\40-Full\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Serialization, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebApi.Core.0.3.0\lib\40\Microsoft.ApplicationServer.Serialization.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Json">
       <HintPath>..\..\packages\JsonValue.0.5.0\lib\40\Microsoft.Json.dll</HintPath>
     </Reference>

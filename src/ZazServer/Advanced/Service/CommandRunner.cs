@@ -9,16 +9,16 @@ namespace Zaz.Server.Advanced.Service
 {
     public class CommandRunner
     {
-        private readonly Conventions _conventions;
+        private readonly ServerContext _context;
 
-        public CommandRunner(Conventions conventions)
+        public CommandRunner(ServerContext context)
         {
-            _conventions = conventions;
+            _context = context;
         }
 
         public HttpResponseMessage RunCommand(string cmdKey, object cmd, string[] tags)
         {
-            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
+            var broker = (_context.Broker ?? Implementations.Broker);
 
             var ctx = new CommandHandlingContext(tags ?? new string[0]);
             var trace = new List<TraceEntry>();

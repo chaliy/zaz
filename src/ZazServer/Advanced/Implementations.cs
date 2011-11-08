@@ -6,7 +6,7 @@ using Zaz.Server.Advanced.State;
 
 namespace Zaz.Server.Advanced
 {
-    public static class DefaultConventions
+    public static class Implementations
     {
         public static readonly ICommandStateProvider StateProvider =
         	new MemoryCommandStateProvider();

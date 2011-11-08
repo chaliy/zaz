@@ -10,11 +10,11 @@ namespace Zaz.Server.Advanced.Service
 {
     public class CommandResolver
     {
-        private readonly Conventions _conventions;
+        private readonly ServerContext _context;
 
-        public CommandResolver(Conventions conventions)
+        public CommandResolver(ServerContext context)
         {
-            _conventions = conventions;
+            _context = context;
         }
 
         public object ResoveCommand(PostCommandRequest env, string cmdKey)
@@ -31,7 +31,7 @@ namespace Zaz.Server.Advanced.Service
 
         private CommandInfo TryResolveSingle(Expression<Func<CommandInfo, bool>> predicate)
         {
-            var query = (_conventions.Registry ?? DefaultConventions.CommandRegistry).Query();
+            var query = (_context.Registry ?? Implementations.CommandRegistry).Query();
 
             var matches = query
                 .Where(predicate)

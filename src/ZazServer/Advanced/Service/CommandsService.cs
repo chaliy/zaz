@@ -19,30 +19,27 @@ namespace Zaz.Server.Advanced.Service
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]    
     public class CommandsService
     {
-        private readonly Conventions _conventions;
+        private readonly ServerContext _context;
         private readonly CommandResolver _resolver;
         private readonly CommandRunner _runner;
         
-        public CommandsService(Conventions conventions = null)
+        public CommandsService(ServerContext context = null)
         {            
-            _conventions = conventions ?? new Conventions();            
-            _resolver = new CommandResolver(_conventions);
-            _runner = new CommandRunner(_conventions);
+            _context = context ?? new ServerContext();            
+            _resolver = new CommandResolver(_context);
+            _runner = new CommandRunner(_context);
         }
         
         [WebGet(UriTemplate = "/{*path}")]
         public HttpResponseMessage Get(string path = "index.html")
         {
-            return new HttpResponseMessage
-                       {
-                           Content = UiContent.Get(path)
-                       };
+            return Accessor.Get(path);
         }
 
         [WebGet(UriTemplate = "MetaList")]
         public IQueryable<CommandMeta> MetaList()
         {
-            var registry = (_conventions.Registry ?? DefaultConventions.CommandRegistry);
+            var registry = (_context.Registry ?? Implementations.CommandRegistry);
             return registry
                 .Query()
                 .Select(x => new CommandMeta
@@ -77,13 +74,7 @@ namespace Zaz.Server.Advanced.Service
 
         [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
         public HttpResponseMessage PostLegacy(HttpRequestMessage req)
-        {
-            //if (req.Content.Headers
-            //    .Any(x => x.Key == "Content-Type"
-            //        && x.Value.Any(xx => xx == "application/x-www-form-urlencoded")))
-            //{
-            // Old legacy version
-
+        {            
             var body = req.Content.ReadAsString();
             var form = ParseQueryString(body);
 
@@ -123,8 +114,8 @@ namespace Zaz.Server.Advanced.Service
             var cmdKey = req.Key;
             var cmd = _resolver.ResoveCommand(req, cmdKey);
 
-            var broker = (_conventions.Broker ?? DefaultConventions.Broker);
-            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+            var broker = (_context.Broker ?? Implementations.Broker);
+            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
 
             var id = Guid.NewGuid().ToString("n");
             stateProvider.Start(id, DateTime.UtcNow);
@@ -149,7 +140,7 @@ namespace Zaz.Server.Advanced.Service
         public GetScheduledCommandResponse GetScheduled(string id, DateTime? token)
         {
 
-            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
             var lastTrace = stateProvider
                 .QueryEntries(id)
                 .OrderBy(x => x.Timestamp)
@@ -193,7 +184,7 @@ namespace Zaz.Server.Advanced.Service
         [WebGet(UriTemplate = "Scheduled/Trace/{id}")]
         public IQueryable<ContractTraceEntry> GetScheduledTrace(string id)
         {            
-            var stateProvider = (_conventions.StateProvider ?? DefaultConventions.StateProvider);
+            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
             return stateProvider
                 .QueryEntries(id)
                 .Where(x => x.Kind == TraceKind.Trace)

@@ -40,7 +40,7 @@ namespace Zaz.Tests.Server.Service
                                        },
                                };
 
-            _commandResolver = new CommandResolver(new Conventions
+            _commandResolver = new CommandResolver(new ServerContext
                                                        {
                                                            Registry = registry
                                                        });

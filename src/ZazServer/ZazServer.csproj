@@ -132,13 +132,13 @@
     <Compile Include="Advanced\State\MemoryCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\ReflectionCommandRegistry.cs" />
     <Compile Include="Advanced\Service\CommandsService.cs" />
-    <Compile Include="Conventions.cs" />
-    <Compile Include="Advanced\DefaultConventions.cs" />
+    <Compile Include="ServerContext.cs" />
+    <Compile Include="Advanced\Implementations.cs" />
     <Compile Include="Advanced\Broker\ICommandBroker.cs" />
     <Compile Include="Advanced\Broker\CommandHandlingContext.cs" />
     <Compile Include="Advanced\State\ICommandStateProvider.cs" />
     <Compile Include="Advanced\Broker\ReflectionCommandBroker.cs" />
-    <Compile Include="Advanced\Ui\UiContent.cs" />
+    <Compile Include="Advanced\Service\Content\Accessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Advanced\State\TraceEntry.cs" />
     <Compile Include="Advanced\State\TraceKind.cs" />
@@ -152,17 +152,17 @@
     <None Include="ZazServer.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Advanced\Ui\index.html" />
+    <EmbeddedResource Include="Advanced\Service\Content\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Advanced\Ui\css\style.css" />
+    <EmbeddedResource Include="Advanced\Service\Content\css\style.css" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Advanced\Ui\js\app.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\app.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.js" />
-    <EmbeddedResource Include="Advanced\Ui\js\vendor\jquery\1.5.1\jquery.min.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.min.js" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -185,6 +185,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Advanced\Ui\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

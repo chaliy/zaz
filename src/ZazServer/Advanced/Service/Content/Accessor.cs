@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace Zaz.Server.Advanced.Ui
 {
-    public static class UiContent
+    public static class Accessor
     {
-        public static StreamContent Get(string path)
+        public static HttpResponseMessage Get(string path)
         {
             // index.html            
             // ccs/style.css
@@ -19,8 +19,13 @@ namespace Zaz.Server.Advanced.Ui
 
             var extension = Regex.Match(path, "\\.[^\\.\\?]*[^\\?]*").Value.ToLower();
 
-            var resourceName = "Zaz.Server.Advanced.Ui." + path.Replace("/", ".");
-            var raw = typeof (UiContent).Assembly.GetManifestResourceStream(resourceName);
+            var resourceName = typeof(Accessor).Namespace + "." + path.Replace("/", ".");
+            var raw = typeof(Accessor).Assembly.GetManifestResourceStream(resourceName);
+            if (raw == null)
+            {
+                return new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
+            }
+
             var content = new StreamContent(raw);
 
             switch (extension)
@@ -32,9 +37,17 @@ namespace Zaz.Server.Advanced.Ui
                 case ".js":
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/javascript");
                     break;
+
+                case ".gif":
+                    content.Headers.ContentType = new MediaTypeHeaderValue("image/gif");
+                    break;
+
+                case ".png":
+                    content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+                    break;
             }
 
-            return content;
+            return new HttpResponseMessage() { Content = content };
         }
     }
 }
