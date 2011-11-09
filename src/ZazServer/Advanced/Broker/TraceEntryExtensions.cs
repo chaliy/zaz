@@ -16,6 +16,16 @@ namespace Zaz.Server.Advanced.Broker
                             });
         }
 
+        public static void Error(this Subject<TraceEntry> subj, string msg)
+        {
+            subj.OnNext(new TraceEntry
+            {
+                Message = msg,
+                Serverity = TraceSeverity.Error,
+                Timestamp = DateTime.Now
+            });
+        }
+
         public static void Error(this ICollection<TraceEntry> subj, string msg)
         {
             subj.Add(new TraceEntry

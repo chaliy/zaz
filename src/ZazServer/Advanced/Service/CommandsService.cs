@@ -136,7 +136,7 @@ namespace Zaz.Server.Advanced.Service
                        };
         }
 
-        [WebGet(UriTemplate = "Scheduled/{id}?token={token}")]
+        [WebGet(UriTemplate = "Scheduled/{id}/?token={token}")]
         public GetScheduledCommandResponse GetScheduled(string id, DateTime? token)
         {
 

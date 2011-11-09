@@ -19,7 +19,7 @@ namespace SampleServerApp.App
                     Thread.Sleep(1000);
                     ctx.Trace.Info("Hello word! #2");
                     Thread.Sleep(1000);
-                    ctx.Trace.Info("Hello word! #3");
+                    ctx.Trace.Error("Hello word! #3");
                     Thread.Sleep(1000);
                     ctx.Trace.Info("Hello word! #4");
                 });
