@@ -57,7 +57,7 @@ namespace Zaz.Client.Avanced
 
                     while (true)
                     {
-                        var resp2 = _client.Get("Scheduled/" + id).Content.ReadAs<GetScheduledCommandResponse>();
+                        var resp2 = _client.Get("Scheduled/" + id + "/").Content.ReadAs<GetScheduledCommandResponse>();
 
                         switch (resp2.Status)
                         {

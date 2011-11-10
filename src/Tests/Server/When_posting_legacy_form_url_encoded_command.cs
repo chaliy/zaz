@@ -12,7 +12,7 @@ using Zaz.Tests.Server.Stubs;
 
 namespace Zaz.Tests.Server
 {
-    public class When_posting_form_url_encoded_command
+    public class When_posting_legacy_form_url_encoded_command
     {        
         private HttpResponseMessage _result;
         private CommandBrokerStub _broker;

@@ -7,8 +7,9 @@ using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
+using Zaz.Tests.Integration.CustomBroker;
 
-namespace Zaz.Tests.Integration.CustomBroker
+namespace Zaz.Tests.Integration
 {
     public class When_posting_long_command_to_server
     {

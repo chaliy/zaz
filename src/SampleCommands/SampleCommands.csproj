@@ -59,6 +59,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="HugeFoo.cs" />
     <Compile Include="LongFoo1.cs" />
     <Compile Include="Foo1.cs" />
     <Compile Include="PrintMessage.cs" />

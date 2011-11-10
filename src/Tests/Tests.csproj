@@ -102,15 +102,17 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Client\When_deserializing_command_content.cs" />
+    <Compile Include="Integration\CustomBroker\NullCommandBroker.cs" />
+    <Compile Include="Integration\When_posting_huge_command_to_server.cs" />
     <Compile Include="Integration\CustomBroker\LongCommandBroker.cs" />
-    <Compile Include="Integration\CustomBroker\When_posting_long_command_to_server.cs" />
+    <Compile Include="Integration\When_posting_long_command_to_server.cs" />
     <Compile Include="Integration\When_posting_command_to_server.cs" />
     <Compile Include="Integration\When_connecting_to_server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Service\When_resolving_command.cs" />
     <Compile Include="Server\Stubs\FooCommand.cs" />
     <Compile Include="Server\Stubs\TypeStub.cs" />
-    <Compile Include="Server\When_posting_form_url_encoded_command.cs" />
+    <Compile Include="Server\When_posting_legacy_form_url_encoded_command.cs" />
     <Compile Include="Server\Stubs\CommandBrokerStub.cs" />
     <Compile Include="Server\When_access_to_endpoint.cs" />
     <Compile Include="Server\When_posting_json_command.cs" />
