@@ -24,14 +24,14 @@ $cmd = @"
 }
 "@
 
-$Status_Pending = 0
-$Status_InProgress = 1
-$Status_Success = 2
-$Status_Failure = 3
+$Status_Pending = 'Pending'
+$Status_InProgress = 'InProgress'
+$Status_Success = 'Success'
+$Status_Failure = 'Failure'
 
-$Severity_Info = 0
-$Severity_Warning = 1
-$Severity_Error = 2
+$Severity_Info = 'Info'
+$Severity_Warning = 'Warning'
+$Severity_Error = 'Error'
 
 function convertToToken($d){
     $d.ToString("o")
