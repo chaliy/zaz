@@ -17,6 +17,8 @@ namespace Zaz.Tests.Integration
     {
         private HttpServiceHost _host;
 
+        private const string URL = "http://localhost.fiddler:9303/Commands/";
+
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
@@ -26,7 +28,7 @@ namespace Zaz.Tests.Integration
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
             });            
             var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri("http://localhost:9303/Commands/"));
+            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }
 
@@ -39,7 +41,7 @@ namespace Zaz.Tests.Integration
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new CommandBus("http://localhost:9303/Commands/");
+            var bus = new CommandBus(URL);
             bus.Post(new PrintMessage
             {
                 Message = "Hello world"

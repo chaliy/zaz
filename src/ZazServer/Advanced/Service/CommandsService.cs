@@ -11,7 +11,7 @@ using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Server.Advanced.State;
 using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
 using ContractTraceEntry = Zaz.Server.Advanced.Service.Contract.TraceEntry;
-using Zaz.Server.Advanced.Ui;
+using Zaz.Server.Advanced.Service.Content;
 
 namespace Zaz.Server.Advanced.Service
 {

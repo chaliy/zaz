@@ -77,7 +77,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Avanced\CommandContent.cs" />
+    <Compile Include="Avanced\Client\CommandBusClient.cs" />
+    <Compile Include="Avanced\Client\Temp\JsonNetFormatter.cs" />
     <Compile Include="Avanced\CommandEnvelope.cs" />
     <Compile Include="Avanced\AdvancedCommandBus.cs" />
     <Compile Include="Avanced\Contract\GetScheduledCommandResponse.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="Avanced\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Avanced\Contract\TraceEntry.cs" />
     <Compile Include="Avanced\Contract\TraceSeverity.cs" />
-    <Compile Include="Avanced\JsonContentExtensions.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -115,6 +115,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
-namespace Zaz.Server.Advanced.Ui
+namespace Zaz.Server.Advanced.Service.Content
 {
     public static class Accessor
     {

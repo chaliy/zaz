@@ -101,7 +101,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Client\When_deserializing_command_content.cs" />
     <Compile Include="Integration\CustomBroker\NullCommandBroker.cs" />
     <Compile Include="Integration\When_posting_huge_command_to_server.cs" />
     <Compile Include="Integration\CustomBroker\LongCommandBroker.cs" />
@@ -160,6 +159,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
