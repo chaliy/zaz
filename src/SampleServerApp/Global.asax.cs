@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using System.Web.Routing;
 using SampleCommands;
 using SampleHandlers;
 using SampleServerApp.App;
@@ -13,13 +14,14 @@ namespace SampleServerApp
     {
         protected void Application_Start(object sender, EventArgs e)
         {            
-            ZazServer.Init("Commands",                
-                new ServerContext
-                {
-                    Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                    Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
-                    //Broker = new DumbCommandBroker()
-                });
+
+            RouteTable.Routes.MapCommandsService("Commands",
+            new ServerContext
+            {
+                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
+                //Broker = new DumbCommandBroker()
+            });
         }        
     }
 }

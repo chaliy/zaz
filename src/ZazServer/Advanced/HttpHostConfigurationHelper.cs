@@ -7,7 +7,7 @@ namespace Zaz.Server.Advanced
 {
     public static class HttpHostConfigurationHelper
     {
-        public static HttpConfiguration CreateHostConfigurationBuilder(CommandsService service)
+        public static HttpConfiguration CreateConfiguration(CommandsService service)
         {
            
         	var config = new HttpConfiguration();

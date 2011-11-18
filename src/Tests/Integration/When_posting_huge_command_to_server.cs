@@ -28,7 +28,7 @@ namespace Zaz.Tests.Integration
                 Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = _commandBroker
             });            
-            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
+            var config = HttpHostConfigurationHelper.CreateConfiguration(instance);
             _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }

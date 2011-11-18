@@ -19,7 +19,7 @@ namespace Zaz.Tests.Integration
         public void Given_command_server_runnig()
         {
             var instance = new CommandsService();           
-            var config = HttpHostConfigurationHelper.CreateHostConfigurationBuilder(instance);
+            var config = HttpHostConfigurationHelper.CreateConfiguration(instance);
             _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }

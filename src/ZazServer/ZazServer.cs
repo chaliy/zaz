@@ -1,4 +1,6 @@
-﻿using System.Web.Routing;
+﻿using System;
+using System.Web.Routing;
+using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
@@ -13,7 +15,7 @@ namespace Zaz.Server
         }
 
         public static RouteCollection MapCommandsService(this RouteCollection @this, 
-            string prefix = "Commands/", ServerContext context = null)
+            string prefix = "Commands/", ServerContext context = null, Action<HttpConfiguration> configure = null)
         {
             // Add / to the prefix, otherwise UI will not work            
             prefix = prefix ?? "";
@@ -22,8 +24,14 @@ namespace Zaz.Server
                 prefix += "/";
             }
 
-            @this.MapServiceRoute<CommandsService>(prefix,
-                HttpHostConfigurationHelper.CreateHostConfigurationBuilder(new CommandsService(context)));
+            var config = HttpHostConfigurationHelper.CreateConfiguration(new CommandsService(context));
+
+            if (configure != null)
+            {
+                configure(config);
+            }
+
+            @this.MapServiceRoute<CommandsService>(prefix, config);
 
             return @this;
         }
