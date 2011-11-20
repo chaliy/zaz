@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Zaz.Client.Avanced;
 
 namespace Zaz.Client
@@ -7,9 +9,9 @@ namespace Zaz.Client
     {
         private readonly AdvancedCommandBus _underlineBus;
 
-        public CommandBus(string url)
+        public CommandBus(string url, ZazConfiguration configuration = null)
         {
-            _underlineBus = new AdvancedCommandBus(url);
+            _underlineBus = new AdvancedCommandBus(url, configuration);
         }
 
         public void Post(object cmd, params string[] tags)

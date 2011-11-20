@@ -5,6 +5,7 @@ using SampleCommands;
 using SampleHandlers;
 using SampleServerApp.App;
 using Zaz.Server;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
 
@@ -16,7 +17,7 @@ namespace SampleServerApp
         {            
 
             RouteTable.Routes.MapCommandsService("Commands",
-            new ServerContext
+            new ServerConfiguration
             {
                 Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
                 Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)

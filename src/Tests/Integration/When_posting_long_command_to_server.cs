@@ -19,11 +19,11 @@ namespace Zaz.Tests.Integration
         public void Given_command_server_runnig()
         {
             var instance = new CommandsService(new ServerContext
-            {
-                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                Broker = new LongCommandBroker()
-            });            
-            var config = HttpHostConfigurationHelper.CreateConfiguration(instance);            
+            (
+                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                broker: new LongCommandBroker()
+            ));            
+            var config = ConfigurationHelper.CreateConfiguration(instance);            
             _host = new HttpServiceHost(typeof(CommandsService), config, new Uri("http://localhost:9303/LongCommands"));
             _host.Open();
         }

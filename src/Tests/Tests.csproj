@@ -102,6 +102,8 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Integration\CustomBroker\NullCommandBroker.cs" />
+    <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth_unauth.cs" />
+    <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth.cs" />
     <Compile Include="Integration\When_posting_huge_command_to_server.cs" />
     <Compile Include="Integration\CustomBroker\LongCommandBroker.cs" />
     <Compile Include="Integration\When_posting_long_command_to_server.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Server\Stubs\CommandBrokerStub.cs" />
     <Compile Include="Server\When_access_to_endpoint.cs" />
     <Compile Include="Server\When_posting_json_command.cs" />
+    <Compile Include="Stubs\FooCommandRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -162,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Client\" />
+    <Folder Include="Server\Security\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

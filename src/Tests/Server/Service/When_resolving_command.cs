@@ -6,6 +6,7 @@ using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
 using FluentAssertions;
+using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Server.Service
 {
@@ -41,9 +42,9 @@ namespace Zaz.Tests.Server.Service
                                };
 
             _commandResolver = new CommandResolver(new ServerContext
-                                                       {
-                                                           Registry = registry
-                                                       });
+                                                       (
+                                                           registry: registry
+                                                       ));
         }
 
         [Test]

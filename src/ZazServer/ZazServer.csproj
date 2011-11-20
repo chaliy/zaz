@@ -107,9 +107,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\Broker\DelegatingCommandBroker.cs" />
     <Compile Include="Advanced\Broker\TraceEntry.cs" />
     <Compile Include="Advanced\Broker\TraceEntryExtensions.cs" />
     <Compile Include="Advanced\Registry\SimpleCommandRegistry.cs" />
+    <Compile Include="Advanced\Service\Security\SimpleBasicAuthenticationHandler.cs" />
     <Compile Include="Advanced\Service\CommandResolver.cs" />
     <Compile Include="Advanced\Service\CommandRunner.cs" />
     <Compile Include="Advanced\Service\Contract\GetScheduledCommandResponse.cs" />
@@ -119,7 +121,7 @@
     <Compile Include="Advanced\Service\Contract\TraceEntry.cs" />
     <Compile Include="Advanced\Service\ExceptionsFactory.cs" />
     <Compile Include="Advanced\TraceSeverity.cs" />
-    <Compile Include="Advanced\HttpHostConfigurationHelper.cs" />
+    <Compile Include="Advanced\ConfigurationHelper.cs" />
     <Compile Include="Advanced\Service\CommandMeta.cs" />
     <Compile Include="Advanced\Service\CommandBinder.cs" />
     <Compile Include="Advanced\Registry\CommandInfoFactory.cs" />
@@ -132,7 +134,9 @@
     <Compile Include="Advanced\State\MemoryCommandStateProvider.cs" />
     <Compile Include="Advanced\Registry\ReflectionCommandRegistry.cs" />
     <Compile Include="Advanced\Service\CommandsService.cs" />
-    <Compile Include="ServerContext.cs" />
+    <Compile Include="RoutingExtensions.cs" />
+    <Compile Include="Advanced\ServerConfiguration.cs" />
+    <Compile Include="Advanced\ServerContext.cs" />
     <Compile Include="Advanced\Implementations.cs" />
     <Compile Include="Advanced\Broker\ICommandBroker.cs" />
     <Compile Include="Advanced\Broker\CommandHandlingContext.cs" />
@@ -144,7 +148,6 @@
     <Compile Include="Advanced\State\TraceKind.cs" />
     <Compile Include="Advanced\Service\Temp\JsonNetFormatter.cs" />
     <Compile Include="Utils\TypeExtensions.cs" />
-    <Compile Include="ZazServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

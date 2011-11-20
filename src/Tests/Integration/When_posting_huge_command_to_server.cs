@@ -24,11 +24,11 @@ namespace Zaz.Tests.Integration
         {
             _commandBroker = new NullCommandBroker();
             var instance = new CommandsService(new ServerContext
-            {
-                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                Broker = _commandBroker
-            });            
-            var config = HttpHostConfigurationHelper.CreateConfiguration(instance);
+            (
+                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                broker: _commandBroker
+            ));            
+            var config = ConfigurationHelper.CreateConfiguration(instance);
             _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }

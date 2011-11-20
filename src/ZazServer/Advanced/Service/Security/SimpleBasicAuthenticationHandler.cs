@@ -6,26 +6,31 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 
-namespace SampleServerApp.App
+namespace Zaz.Server.Advanced.Service.Security
 {
     // Authentication in WCF API are ... Well, not yet done
     // This code is compiled from all sources below
     // http://haacked.com/archive/2011/10/19/implementing-an-authorization-attribute-for-wcf-web-api.aspx
     // http://codebetter.com/howarddierking/2011/10/11/oauth-2-0-in-web-api/
     // http://webapicontrib.codeplex.com/
-    public class SampleBasicAuthenticationHandler : HttpOperationHandler<HttpRequestMessage, HttpRequestMessage>
-    {
-        private const string Realm = "Sample Zaz Application";
+    public class SimpleBasicAuthenticationHandler : HttpOperationHandler<HttpRequestMessage, HttpRequestMessage>
+    {        
         private const string Scheme = "Basic";
 
-        public SampleBasicAuthenticationHandler() :base("response")
-        {
+        private readonly string _realm;
+        private readonly Func<NetworkCredential, bool> _checkCredentials;
 
+        public SimpleBasicAuthenticationHandler(Func<NetworkCredential, bool> checkCredentials, string realm = "Zaz Command Bus")
+            : base("response")
+        {
+            _checkCredentials = checkCredentials;
+            _realm = realm;
         }
                         
         private static NetworkCredential ExtractCredentials(HttpRequestMessage request)
@@ -52,18 +57,16 @@ namespace SampleServerApp.App
             return null;
         }
 
-        private static bool AuthenticateUser(NetworkCredential cred)
-        {            
-            throw new NotImplementedException();
+        private bool AuthenticateUser(NetworkCredential cred)
+        {
+            return _checkCredentials(cred);
         }
 
-        private static void Challenge()
+        private void Challenge()
         {
-
-
             var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);            
             resp.Content = new StringContent("Access denied");
-            resp.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue(Scheme, "realm=" + Realm));
+            resp.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue(Scheme, "realm=" + _realm));
 
             throw new HttpResponseException(resp);            
         }
@@ -80,14 +83,16 @@ namespace SampleServerApp.App
             {
                 Challenge();                
             }
-            
-            //var principal = new GenericPrincipal(new GenericIdentity(cred.UserName), new string[] { });
+                        
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(cred.UserName), new string[] { });            
 
             return input;
         }
 
 
-        public static void ConfigureSampleAuthentication(HttpConfiguration config)
+        public static void Configure(HttpConfiguration config, 
+            Func<NetworkCredential, bool> checkCredentials,
+            string realm = "Zaz Command Bus")
         {
             var requestHandlers = config.RequestHandlers;
             config.RequestHandlers = (c, e, od) =>
@@ -97,7 +102,7 @@ namespace SampleServerApp.App
                     requestHandlers(c, e, od); // Original request handler
                 }
 
-                c.Add(new SampleBasicAuthenticationHandler());
+                c.Add(new SimpleBasicAuthenticationHandler(checkCredentials, realm));
             };
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using Zaz.Server.Advanced.Broker;
 
 namespace Zaz.Server.Advanced.Service
@@ -20,14 +21,13 @@ namespace Zaz.Server.Advanced.Service
         {
             var broker = (_context.Broker ?? Implementations.Broker);
 
-            var ctx = new CommandHandlingContext(tags ?? new string[0]);
+            var ctx = new CommandHandlingContext(tags ?? new string[0], Thread.CurrentPrincipal);
             var trace = new List<TraceEntry>();
             using (ctx.Trace.Subscribe(trace.Add))
             {
                 try
                 {
-                    broker.Handle(cmd, ctx)
-                        .Wait();
+                    broker.Handle(cmd, ctx).Wait();
                 }
                 catch (AggregateException ex)
                 {

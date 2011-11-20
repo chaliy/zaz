@@ -4,6 +4,7 @@ using FluentAssertions;
 using Zaz.Server;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
+using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Server
 {
@@ -14,7 +15,7 @@ namespace Zaz.Tests.Server
         [TestFixtureSetUp]
         public void Given_service_by_default()
         {
-            var service = new CommandsService(new ServerContext { Broker = new CommandBrokerStub() });
+            var service = new CommandsService(new ServerContext( broker: new CommandBrokerStub() ));
             _result = service.Get("");            
         }
 

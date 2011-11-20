@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -11,11 +12,16 @@ namespace Zaz.Client.Avanced.Client
     {
         private readonly HttpClient _client;
 
-        public CommandBusClient(string url)
+        public CommandBusClient(string url, ZazConfiguration configuration = null)
         {
             var handler = new WebRequestHandler();
             handler.MaxRequestContentBufferSize = 16777216;
             handler.MaxResponseHeadersLength = 16777216;
+            if (configuration != null && configuration.ConfigureHttp != null)
+            {
+                configuration.ConfigureHttp(handler);                
+            }
+            //handler.Credentials = new NetworkCredential("test", "test");
             _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);            
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
@@ -40,7 +46,18 @@ namespace Zaz.Client.Avanced.Client
         {
             return _client
                 .PostAsync(path, CreateObjectContent<T>(req))
-                .ContinueWith(t => ReadContentAs<TOut>(t.Result.Content));
+                .ContinueWith(t => {
+
+                    var resp = t.Result;
+
+                    if (!resp.IsSuccessStatusCode)
+                    {
+                        throw new InvalidOperationException("Operation was not successfully posted. Server response: "
+                            + resp.ReasonPhrase);
+                    }
+
+                    return ReadContentAs<TOut>(resp.Content);
+                });
         }
 
         private static T ReadContentAs<T>(HttpContent content) 

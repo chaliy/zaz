@@ -8,6 +8,7 @@ using Zaz.Server;
 using Zaz.Server.Advanced.Service;
 using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Tests.Server.Stubs;
+using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Server
 {
@@ -20,7 +21,7 @@ namespace Zaz.Tests.Server
         public void Given_service_by_default()
         {
             _broker = new CommandBrokerStub();
-            var service = new CommandsService(new ServerContext { Broker = _broker });
+            var service = new CommandsService(new ServerContext (broker: _broker ));
             var cmdKey = typeof (FooCommand).FullName;
             var cmdData = new JObject();
             cmdData.Add("Value1", "Foo");            

@@ -1,11 +1,15 @@
-﻿using Zaz.Server.Advanced.Broker;
+﻿using System;
+using Microsoft.ApplicationServer.Http;
+using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.State;
 
-namespace Zaz.Server
+namespace Zaz.Server.Advanced
 {
-    public class ServerContext
+    public class ServerConfiguration
     {        
+        public Action<HttpConfiguration> ConfigureHttp { get; set; }
+
         public ICommandRegistry Registry { get; set; }
         public ICommandBroker Broker { get; set; }
         public ICommandStateProvider StateProvider { get; set; }

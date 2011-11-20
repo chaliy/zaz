@@ -87,6 +87,7 @@
     <Compile Include="Avanced\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Avanced\Contract\TraceEntry.cs" />
     <Compile Include="Avanced\Contract\TraceSeverity.cs" />
+    <Compile Include="Avanced\ZazConfiguration.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

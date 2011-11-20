@@ -12,6 +12,7 @@ using Zaz.Server.Advanced.State;
 using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
 using ContractTraceEntry = Zaz.Server.Advanced.Service.Contract.TraceEntry;
 using Zaz.Server.Advanced.Service.Content;
+using System.Threading;
 
 namespace Zaz.Server.Advanced.Service
 {
@@ -119,7 +120,7 @@ namespace Zaz.Server.Advanced.Service
 
             var id = Guid.NewGuid().ToString("n");
             stateProvider.Start(id, DateTime.UtcNow);
-            var ctx = new CommandHandlingContext(req.Tags ?? new string[0]);
+            var ctx = new CommandHandlingContext(req.Tags ?? new string[0], Thread.CurrentPrincipal);
             var traceSubscription = ctx.Trace
                 .Subscribe(e => stateProvider.WriteTrace(id, DateTime.UtcNow, e.Serverity, e.Message, e.Tags));
 

@@ -13,9 +13,9 @@ namespace Zaz.Client.Avanced
     {        
         private readonly CommandBusClient _client;
 
-        public AdvancedCommandBus(string url)
-        {            
-            _client = new CommandBusClient(url);
+        public AdvancedCommandBus(string url, ZazConfiguration configuration = null)
+        {
+            _client = new CommandBusClient(url, configuration);
         }        
         
         public Task Post(CommandEnvelope envelope)
@@ -23,10 +23,11 @@ namespace Zaz.Client.Avanced
             var req = CreatePostCommandRequest(envelope);
             return _client.Post(req)
                 .ContinueWith(x =>
-                {
+                {                    
                     if (!x.Result.IsSuccessStatusCode)
                     {
-                        throw new InvalidOperationException("Command was not successfully posted.");
+                        throw new InvalidOperationException("Command was not successfully posted. Server response: " 
+                            + x.Result.ReasonPhrase);
                     }
                     return;
                 });                
@@ -38,7 +39,7 @@ namespace Zaz.Client.Avanced
             return _client.PostScheduled(req)
                 .ContinueWith(x =>
                 {                    
-                    var resp = x.Result;
+                    var resp = x.Result;                    
                     var id = resp.Id;
 
                     WriteTrace("Start waiting for execution command " + id);

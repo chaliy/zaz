@@ -23,11 +23,11 @@ namespace Zaz.Tests.Integration
         public void Given_command_server_runnig()
         {
             var instance = new CommandsService(new ServerContext
-            {
-                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
-            });            
-            var config = HttpHostConfigurationHelper.CreateConfiguration(instance);
+            (
+                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                broker: new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
+            ));            
+            var config = ConfigurationHelper.CreateConfiguration(instance);
             _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }
