@@ -17,7 +17,7 @@ namespace Zaz.Tests.Integration
     {
         private HttpServiceHost _host;
 
-        private const string URL = "http://localhost.fiddler:9303/Commands/";
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/SomeCommands/";        
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()

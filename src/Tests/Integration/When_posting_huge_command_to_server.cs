@@ -17,7 +17,7 @@ namespace Zaz.Tests.Integration
         private HttpServiceHost _host;
         private NullCommandBroker _commandBroker;
 
-        private const string URL = "http://localhost.fiddler:9303/HugeCommands/";
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/HugeCommands/";
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()

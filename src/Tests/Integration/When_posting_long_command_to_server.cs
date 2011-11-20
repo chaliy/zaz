@@ -15,6 +15,8 @@ namespace Zaz.Tests.Integration
     {
         private HttpServiceHost _host;
 
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/LongCommands/";
+
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
@@ -24,7 +26,7 @@ namespace Zaz.Tests.Integration
                 broker: new LongCommandBroker()
             ));            
             var config = ConfigurationHelper.CreateConfiguration(instance);            
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri("http://localhost:9303/LongCommands"));
+            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
             _host.Open();
         }
 
@@ -37,7 +39,7 @@ namespace Zaz.Tests.Integration
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new AdvancedCommandBus("http://localhost:9303/LongCommands/");
+            var bus = new AdvancedCommandBus(URL);
             bus.PostScheduled(new CommandEnvelope
                           {
                               Key = "SampleCommands.PrintMessage"

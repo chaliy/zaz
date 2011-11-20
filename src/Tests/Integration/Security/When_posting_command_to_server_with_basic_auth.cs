@@ -22,7 +22,7 @@ namespace Zaz.Tests.Integration.Security
     {
         private HttpServiceHost _host;
 
-        private const string URL = "http://localhost.fiddler:9303/BasicAuthCommands/";
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/BasicAuthCommands/";        
 
         private object _postedCommand;
         private CommandHandlingContext _ctx;

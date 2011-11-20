@@ -101,6 +101,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FortyTwo.cs" />
     <Compile Include="Integration\CustomBroker\NullCommandBroker.cs" />
     <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth_unauth.cs" />
     <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth.cs" />

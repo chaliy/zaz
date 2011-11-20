@@ -24,7 +24,7 @@ namespace Zaz.Tests.Integration.Security
     {
         private HttpServiceHost _host;
 
-        private const string URL = "http://localhost.fiddler:9303/BasicUnAuthCommands/";        
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/BasicUnAuthCommands/";        
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
