@@ -2,24 +2,6 @@
 ##    PowerShell Client for Zaz Command Bus
 ##
 
-function Set-ZazConfig {
-Param(
-    [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=0)]
-    [ValidateSet('destination','user','password')]
-    [String]$Key,
-    [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=1)]
-    [String]$Value
-)
-    ipmo psget
-    Install-Module PsConfig
-
-    if ($Key -eq "password") {
-        Set-Setting "Zaz$Key" $Value -Encripted
-    } else {
-        Set-Setting "Zaz$Key" $Value
-    }
-}
-
 function Send-ZazCommand {
 [CmdletBinding()]
 Param(
@@ -33,26 +15,13 @@ Param(
 
 ipmo psget
 install-module psjson
-#install-module psurl
-ipmo c:\Users\m\Projects\psurl\PsUrl\PsUrl.psm1 -force 
-install-module psconfig
+install-module psurl
+#ipmo c:\Users\m\Projects\psurl\PsUrl\PsUrl.psm1 -force 
 # PsJson and PsUrl are used to ensure script works under Powershell v2.0
 
 $cmd = @{}
 $cmd.Key = $Command
 $cmd.Command = $Data
-
-if (!($Credential)){
-    $user = Get-Setting ZazUser
-    $pass = Get-Setting ZazPassword -Encripted
-    if (!($user -eq "") -and !($pass -eq "")){
-        
-        $Credential = New-Object Management.Automation.PSCredential($user, ( ConvertTo-SecureString $pass -asPlainText -Force ))
-
-    }    
-}
-
-
 
 $Status_Pending = 'Pending'
 $Status_InProgress = 'InProgress'
@@ -109,7 +78,7 @@ while($read){
     sleep -m 400
 
     $commandStatsUrl = $Destination + "Scheduled/" + $execId + "/?token=" + (convertToToken($token))
-    Write-Verbose "Dowload command stats from $commandStatsUrl"
+    Write-Verbose "Download command stats from $commandStatsUrl"
     $statsResp = Get-Url $commandStatsUrl -Credential:$Credential -ErrorAction:Stop
     $stats = convertfrom-json $statsResp
     
