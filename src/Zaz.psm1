@@ -2,6 +2,24 @@
 ##    PowerShell Client for Zaz Command Bus
 ##
 
+function Set-ZazConfig {
+Param(
+    [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=0)]
+    [ValidateSet('destination','user','password')]
+    [String]$Key,
+    [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=1)]
+    [String]$Value
+)
+    ipmo psget
+    Install-Module PsConfig
+
+    if ($Key -eq "password") {
+        Set-Setting "Zaz$Key" $Value -Encripted
+    } else {
+        Set-Setting "Zaz$Key" $Value
+    }
+}
+
 function Send-ZazCommand {
 [CmdletBinding()]
 Param(
@@ -9,18 +27,32 @@ Param(
     [String]$Command,
     [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$false, Position=1)]
     [HashTable]$Data = @{},    
-    [String]$Destination = "http://localhost:9302/commands/"    
+    [String]$Destination,
+    [Management.Automation.PSCredential]$Credential
 )
 
 ipmo psget
 install-module psjson
 #install-module psurl
-ipmo psurl
+ipmo c:\Users\m\Projects\psurl\PsUrl\PsUrl.psm1 -force 
+install-module psconfig
 # PsJson and PsUrl are used to ensure script works under Powershell v2.0
 
 $cmd = @{}
 $cmd.Key = $Command
 $cmd.Command = $Data
+
+if (!($Credential)){
+    $user = Get-Setting ZazUser
+    $pass = Get-Setting ZazPassword -Encripted
+    if (!($user -eq "") -and !($pass -eq "")){
+        
+        $Credential = New-Object Management.Automation.PSCredential($user, ( ConvertTo-SecureString $pass -asPlainText -Force ))
+
+    }    
+}
+
+
 
 $Status_Pending = 'Pending'
 $Status_InProgress = 'InProgress'
@@ -64,7 +96,7 @@ $scheduledUrl = ($Destination + "Scheduled")
 Write-Verbose "Post command: $Command to $scheduledUrl"
 
 $cmdContent = convertto-json $cmd
-$scheduledResp = Write-Url $scheduledUrl -Content:$cmdContent -ContentType:"application/json" -ErrorAction:Stop
+$scheduledResp = Write-Url $scheduledUrl -Content:$cmdContent -ContentType:"application/json" -Credential:$Credential -ErrorAction:Stop
 $scheduled = convertfrom-json $scheduledResp
 $execId = $scheduled.Id
 
@@ -78,7 +110,7 @@ while($read){
 
     $commandStatsUrl = $Destination + "Scheduled/" + $execId + "/?token=" + (convertToToken($token))
     Write-Verbose "Dowload command stats from $commandStatsUrl"
-    $statsResp = Get-Url $commandStatsUrl -ErrorAction:Stop
+    $statsResp = Get-Url $commandStatsUrl -Credential:$Credential -ErrorAction:Stop
     $stats = convertfrom-json $statsResp
     
     $status = $stats.Status
