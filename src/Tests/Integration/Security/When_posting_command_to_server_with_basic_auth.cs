@@ -45,27 +45,25 @@ namespace Zaz.Tests.Integration.Security
 
             SimpleBasicAuthenticationHandler.Configure(config, cred => cred.UserName == "supr" && cred.Password == "booper");
 
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
-            _host.Open();
-
-
-            // Client side
-
-            var bus = new CommandBus(URL, new Client.Avanced.ZazConfiguration
+            using (_host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL)))
             {
-                ConfigureHttp = h =>
+                _host.Open();
+
+
+                // Client side
+
+                var bus = new CommandBus(URL, new Client.Avanced.ZazConfiguration
                 {
-                    h.Credentials = new NetworkCredential("supr", "booper");
-                }
-            });
-            bus.Post(new FooCommand
-            {
-                Message = "Hello world"
-            });
-
-            // Close host
-            _host.Close();
-
+                    ConfigureHttp = h =>
+                    {
+                        h.Credentials = new NetworkCredential("supr", "booper");
+                    }
+                });
+                bus.Post(new FooCommand
+                {
+                    Message = "Hello world"
+                });
+            }
         }
         
         [Test]

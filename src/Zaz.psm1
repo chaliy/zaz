@@ -8,21 +8,19 @@ Param(
     [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=0)]
     [String]$Command,
     [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$false, Position=1)]
-    $Data = "null",
-    [String]$Destination = "http://localhost:9302/Commands/"    
+    [HashTable]$Data = @{},    
+    [String]$Destination = "http://localhost:9302/commands/"    
 )
 
 ipmo psget
 install-module psjson
-# PsJson and Net.WebClient are used to ensure script works under Powershell v2.0
+#install-module psurl
+ipmo psurl
+# PsJson and PsUrl are used to ensure script works under Powershell v2.0
 
-
-$cmd = @"
-{ 
-	'Key' : '$Command',
-	'Command' : $Data
-}
-"@
+$cmd = @{}
+$cmd.Key = $Command
+$cmd.Command = $Data
 
 $Status_Pending = 'Pending'
 $Status_InProgress = 'InProgress'
@@ -60,16 +58,13 @@ function writeTrace($t, $sev, $msg){
     }
 }
 
-Write-Verbose "Send command: $cmd"
-
-$client = (New-Object Net.WebClient)
-$client.Headers["Content-Type"] = "application/json"
-
-# Sync version
-# $client.UploadString($Destination, "POST", $cmd)
-
 # Async
-$scheduledResp = $client.UploadString($Destination + "Scheduled", "POST", $cmd)
+$scheduledUrl = ($Destination + "Scheduled")
+
+Write-Verbose "Post command: $Command to $scheduledUrl"
+
+$cmdContent = convertto-json $cmd
+$scheduledResp = Write-Url $scheduledUrl -Content:$cmdContent -ContentType:"application/json" -ErrorAction:Stop
 $scheduled = convertfrom-json $scheduledResp
 $execId = $scheduled.Id
 
@@ -79,11 +74,11 @@ $read = $true
 $token = [DateTime]::MinValue
 while($read){
 
-    sleep -m 500
+    sleep -m 400
 
-    $url = $Destination + "Scheduled/" + $execId + "/?token=" + (convertToToken($token))
-    Write-Verbose $url
-    $statsResp = $client.DownloadString($url)
+    $commandStatsUrl = $Destination + "Scheduled/" + $execId + "/?token=" + (convertToToken($token))
+    Write-Verbose "Dowload command stats from $commandStatsUrl"
+    $statsResp = Get-Url $commandStatsUrl -ErrorAction:Stop
     $stats = convertfrom-json $statsResp
     
     $status = $stats.Status
@@ -103,17 +98,17 @@ while($read){
     switch ($status){               
 
         $Status_Pending {            
-            Write-Verbose "Command is pending"
+            Write-Verbose "Command($execId) is pending"
         }
         $Status_InProgress {
-            Write-Verbose "Command is in progress"
+            Write-Verbose "Command($execId) is in progress"
         }                    
         $Status_Success {
-            Write-Host "Command is complete" -ForegroundColor:Green
+            Write-Host "Command($execId) is complete" -ForegroundColor:Green
             $read = $false
         }
         $Status_Failure {
-            Write-Error "Command failed"
+            Write-Error "Command($execId) failed"
             $read = $false
         }        
     }

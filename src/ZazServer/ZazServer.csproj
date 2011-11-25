@@ -111,6 +111,7 @@
     <Compile Include="Advanced\Broker\TraceEntry.cs" />
     <Compile Include="Advanced\Broker\TraceEntryExtensions.cs" />
     <Compile Include="Advanced\Registry\SimpleCommandRegistry.cs" />
+    <Compile Include="Advanced\Service\Security\AbstractBasicAuthenticationHandler.cs" />
     <Compile Include="Advanced\Service\Security\SimpleBasicAuthenticationHandler.cs" />
     <Compile Include="Advanced\Service\CommandResolver.cs" />
     <Compile Include="Advanced\Service\CommandRunner.cs" />

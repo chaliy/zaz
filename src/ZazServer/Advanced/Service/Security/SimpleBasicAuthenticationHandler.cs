@@ -19,77 +19,22 @@ namespace Zaz.Server.Advanced.Service.Security
     // http://haacked.com/archive/2011/10/19/implementing-an-authorization-attribute-for-wcf-web-api.aspx
     // http://codebetter.com/howarddierking/2011/10/11/oauth-2-0-in-web-api/
     // http://webapicontrib.codeplex.com/
-    public class SimpleBasicAuthenticationHandler : HttpOperationHandler<HttpRequestMessage, HttpRequestMessage>
-    {        
-        private const string Scheme = "Basic";
-
-        private readonly string _realm;
+    public class SimpleBasicAuthenticationHandler : AbstractBasicAuthenticationHandler
+    {                
         private readonly Func<NetworkCredential, bool> _checkCredentials;
 
         public SimpleBasicAuthenticationHandler(Func<NetworkCredential, bool> checkCredentials, string realm = "Zaz Command Bus")
-            : base("response")
+            : base(realm)
         {
             _checkCredentials = checkCredentials;
-            _realm = realm;
-        }
-                        
-        private static NetworkCredential ExtractCredentials(HttpRequestMessage request)
-        {
-            if (request.Headers.Authorization != null && request.Headers.Authorization.Scheme.StartsWith(Scheme))
-            {
-                string encodedUserPass = request.Headers.Authorization.Parameter.Trim();
-
-                try
-                {
-                    var encoding = Encoding.GetEncoding("iso-8859-1");
-                    var userPass = encoding.GetString(Convert.FromBase64String(encodedUserPass));
-                    var separator = userPass.IndexOf(':');
-
-                    var cred = new NetworkCredential(userPass.Substring(0, separator), userPass.Substring(separator + 1));
-
-                    return cred;
-                }
-                catch (FormatException)
-                {           
-                }
-            }
-
-            return null;
         }
 
-        private bool AuthenticateUser(NetworkCredential cred)
+        protected override bool AuthenticateUser(HttpRequestMessage input, NetworkCredential cred)
         {
             return _checkCredentials(cred);
         }
 
-        private void Challenge()
-        {
-            var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);            
-            resp.Content = new StringContent("Access denied");
-            resp.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue(Scheme, "realm=" + _realm));
-
-            throw new HttpResponseException(resp);            
-        }
-
-        protected override HttpRequestMessage OnHandle(HttpRequestMessage input)
-        {
-            var cred = ExtractCredentials(input);
-            if (cred == null)
-            {
-                Challenge();
-            }
-
-            if (!AuthenticateUser(cred))
-            {
-                Challenge();                
-            }
-                        
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(cred.UserName), new string[] { });            
-
-            return input;
-        }
-
-
+       
         public static void Configure(HttpConfiguration config, 
             Func<NetworkCredential, bool> checkCredentials,
             string realm = "Zaz Command Bus")
