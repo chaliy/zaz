@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Zaz.Client.Avanced;
 
 namespace Zaz.Client
 {
-    public class CommandBus
+    public class ZazClient
     {
-        readonly AdvancedCommandBus _underlineBus;        
+        readonly AdvancedZazClient _underlineClient;        
 
-        public CommandBus(string url, ZazConfiguration configuration = null)
+        public ZazClient(string url, ZazConfiguration configuration = null)
         {
-            _underlineBus = new AdvancedCommandBus(url, configuration);
+            _underlineClient = new AdvancedZazClient(url, configuration);
         }
 
         /// <summary>
@@ -22,7 +21,7 @@ namespace Zaz.Client
         {
             try
             {
-                var posting = _underlineBus.Post(new CommandEnvelope
+                var posting = _underlineClient.Post(new CommandEnvelope
                                        {
                                            Key = cmd.GetType().FullName,
                                            Command = cmd,
@@ -48,7 +47,7 @@ namespace Zaz.Client
 
         public Task PostAsync(object cmd, params string[] tags)
         {
-            return _underlineBus.Post(new CommandEnvelope
+            return _underlineClient.Post(new CommandEnvelope
             {
                 Key = cmd.GetType().FullName,
                 Command = cmd,

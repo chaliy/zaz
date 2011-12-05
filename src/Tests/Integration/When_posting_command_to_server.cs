@@ -41,7 +41,7 @@ namespace Zaz.Tests.Integration
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new CommandBus(URL);
+            var bus = new ZazClient(URL);
             bus.Post(new PrintMessage
             {
                 Message = "Hello world"

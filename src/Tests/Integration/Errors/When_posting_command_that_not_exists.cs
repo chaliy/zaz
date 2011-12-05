@@ -45,7 +45,7 @@ namespace Zaz.Tests.Integration.Errors
 
 
                 // Client side
-                var bus = new CommandBus(URL);
+                var bus = new ZazClient(URL);
                 try
                 {
                     bus.Post(new NotExistingCommand

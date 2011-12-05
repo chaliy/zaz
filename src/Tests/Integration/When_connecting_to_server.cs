@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
 using FluentAssertions;
 using Zaz.Server.Advanced;
@@ -27,7 +26,7 @@ namespace Zaz.Tests.Integration
         [TestFixtureTearDown]
         public void Cleanup()
         {            
-            _host.Close();
+            _host.Close();            
         }
 
         [Test]

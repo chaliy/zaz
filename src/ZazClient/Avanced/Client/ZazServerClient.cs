@@ -8,11 +8,11 @@ using Zaz.Client.Avanced.Contract;
 
 namespace Zaz.Client.Avanced.Client
 {
-    public class CommandBusClient
+    public class ZazServerClient
     {
         private readonly HttpClient _client;
 
-        public CommandBusClient(string url, ZazConfiguration configuration = null)
+        public ZazServerClient(string url, ZazConfiguration configuration = null)
         {
             var handler = new WebRequestHandler();
             handler.MaxRequestContentBufferSize = 16777216;

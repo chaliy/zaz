@@ -32,7 +32,7 @@ namespace Zaz.Tests.Integration.Errors
         public void Given_command_server_runnig()
         {           
             // Client side
-            var bus = new CommandBus(URL);
+            var bus = new ZazClient(URL);
             try
             {
                 bus.Post(new FooCommand

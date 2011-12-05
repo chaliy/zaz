@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Zaz.Client
 {
@@ -23,6 +20,24 @@ namespace Zaz.Client
         public static ZazException CreateDefault(Exception inner)
         {            
             return new ZazException("ZAZ failed to post command.", inner);
+        }
+
+        public override string ToString()
+        {     
+            // Standard implementation of the ToString calls ToString(bool) of the InnerException
+            // this means that overrided ToString() of the InnerExpcetion is ignored
+            // On the other hand, currect hack (reimplemened ToString()), fixes this issue            
+            var text = GetType() + ":" + Message;            
+            if (InnerException != null)
+            {
+                text += " ---> " + InnerException + "\r\n   --- End of inner exception stack trace ---";
+            }            
+            var stackTrace = StackTrace;
+            if (stackTrace != null)
+            {
+                text = text + Environment.NewLine + stackTrace;
+            }
+            return text;
         }
     }    
 }

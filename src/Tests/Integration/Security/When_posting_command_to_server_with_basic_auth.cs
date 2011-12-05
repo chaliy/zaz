@@ -52,7 +52,7 @@ namespace Zaz.Tests.Integration.Security
 
                 // Client side
 
-                var bus = new CommandBus(URL, new Client.Avanced.ZazConfiguration
+                var bus = new ZazClient(URL, new Client.Avanced.ZazConfiguration
                 {
                     ConfigureHttp = h =>
                     {

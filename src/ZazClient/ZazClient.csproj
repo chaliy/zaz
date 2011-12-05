@@ -77,10 +77,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Avanced\Client\CommandBusClient.cs" />
+    <Compile Include="Avanced\Client\ZazServerClient.cs" />
     <Compile Include="Avanced\Client\Temp\JsonNetFormatter.cs" />
     <Compile Include="Avanced\CommandEnvelope.cs" />
-    <Compile Include="Avanced\AdvancedCommandBus.cs" />
+    <Compile Include="Avanced\AdvancedZazClient.cs" />
     <Compile Include="Avanced\Contract\GetScheduledCommandResponse.cs" />
     <Compile Include="Avanced\Contract\PostCommandRequest.cs" />
     <Compile Include="Avanced\Contract\PostScheduledCommandResponse.cs" />
@@ -89,7 +89,7 @@
     <Compile Include="Avanced\Contract\TraceSeverity.cs" />
     <Compile Include="Avanced\ZazConfiguration.cs" />
     <Compile Include="Avanced\ZazTransportException.cs" />
-    <Compile Include="CommandBus.cs" />
+    <Compile Include="ZazClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZazException.cs" />
   </ItemGroup>

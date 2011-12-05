@@ -39,7 +39,7 @@ namespace Zaz.Tests.Integration
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new AdvancedCommandBus(URL);
+            var bus = new AdvancedZazClient(URL);
             bus.PostScheduled(new CommandEnvelope
                           {
                               Key = "SampleCommands.PrintMessage"

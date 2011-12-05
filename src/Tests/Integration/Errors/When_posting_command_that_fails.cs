@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
-using SampleCommands;
-using SampleHandlers;
 using Zaz.Client;
-using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
-using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
-using Zaz.Server.Advanced.Service.Security;
 using Zaz.Tests.Stubs;
 using FluentAssertions;
 
@@ -48,7 +41,7 @@ namespace Zaz.Tests.Integration.Errors
 
 
                 // Client side
-                var bus = new CommandBus(URL);
+                var bus = new ZazClient(URL);
                 _resultLog = bus.Post(new FooCommand
                 {
                     Message = "Hey!, anybody out there?"

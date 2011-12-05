@@ -1,21 +1,17 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reactive.Subjects;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Zaz.Client.Avanced.Client;
 using Zaz.Client.Avanced.Contract;
 
 namespace Zaz.Client.Avanced
 {
-    public class AdvancedCommandBus
+    public class AdvancedZazClient
     {        
-        private readonly CommandBusClient _client;
+        private readonly ZazServerClient _client;
 
-        public AdvancedCommandBus(string url, ZazConfiguration configuration = null)
+        public AdvancedZazClient(string url, ZazConfiguration configuration = null)
         {
-            _client = new CommandBusClient(url, configuration);
+            _client = new ZazServerClient(url, configuration);
         }        
         
         public Task<string> Post(CommandEnvelope envelope)
