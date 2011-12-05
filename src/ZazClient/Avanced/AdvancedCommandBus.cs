@@ -18,7 +18,7 @@ namespace Zaz.Client.Avanced
             _client = new CommandBusClient(url, configuration);
         }        
         
-        public Task Post(CommandEnvelope envelope)
+        public Task<string> Post(CommandEnvelope envelope)
         {
             var req = CreatePostCommandRequest(envelope);
             return _client.Post(req)
@@ -26,10 +26,9 @@ namespace Zaz.Client.Avanced
                 {                    
                     if (!x.Result.IsSuccessStatusCode)
                     {
-                        throw new InvalidOperationException("Command was not successfully posted. Server response: " 
-                            + x.Result.ReasonPhrase);
+                        throw new InvalidOperationException("An error occured while sending request. Server response: \r\n" + x.Result);
                     }
-                    return;
+                    return x.Result.Content.ReadAsString();
                 });                
         }
 

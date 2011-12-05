@@ -13,4 +13,8 @@ namespace Zaz.Tests.Stubs
     {
         public string Message { get; set; }
     }
+
+    public class NotExistingCommand
+    {        
+    }
 }

@@ -90,6 +90,7 @@
     <Compile Include="Avanced\ZazConfiguration.cs" />
     <Compile Include="CommandBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZazException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -52,8 +52,7 @@ namespace Zaz.Client.Avanced.Client
 
                     if (!resp.IsSuccessStatusCode)
                     {
-                        throw new InvalidOperationException("Operation was not successfully posted. Server response: "
-                            + resp.ReasonPhrase);
+                        throw new InvalidOperationException("An error occured while sending request. Server response: \r\n" + resp);
                     }
 
                     return ReadContentAs<TOut>(resp.Content);

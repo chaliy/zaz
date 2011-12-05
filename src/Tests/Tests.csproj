@@ -103,6 +103,9 @@
     </Compile>
     <Compile Include="FortyTwo.cs" />
     <Compile Include="Integration\CustomBroker\NullCommandBroker.cs" />
+    <Compile Include="Integration\Errors\When_posting_command_that_fails.cs" />
+    <Compile Include="Integration\Errors\When_posting_command_that_not_exists.cs" />
+    <Compile Include="Integration\Errors\When_posting_command_to_non_existing_server.cs" />
     <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth_unauth.cs" />
     <Compile Include="Integration\Security\When_posting_command_to_server_with_basic_auth.cs" />
     <Compile Include="Integration\When_posting_huge_command_to_server.cs" />
