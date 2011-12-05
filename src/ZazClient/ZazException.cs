@@ -22,7 +22,7 @@ namespace Zaz.Client
 
         public static ZazException CreateDefault(Exception inner)
         {            
-            return new ZazException("ZAZ failed to post command. " + inner.Message, inner);
+            return new ZazException("ZAZ failed to post command.", inner);
         }
     }    
 }

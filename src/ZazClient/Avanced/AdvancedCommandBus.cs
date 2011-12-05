@@ -23,10 +23,10 @@ namespace Zaz.Client.Avanced
             var req = CreatePostCommandRequest(envelope);
             return _client.Post(req)
                 .ContinueWith(x =>
-                {                    
+                {
                     if (!x.Result.IsSuccessStatusCode)
                     {
-                        throw new InvalidOperationException("An error occured while sending request. Server response: \r\n" + x.Result);
+                        throw new ZazTransportException("An error occured while sending request.", x.Result);
                     }
                     return x.Result.Content.ReadAsString();
                 });                
