@@ -7,18 +7,18 @@ namespace Zaz.Server.Advanced.State
     {				
         public void Start(string key, DateTime timestamp)
         {			
-            WriteEntry(key, new LogEntry
+            WriteEntry(key, new ProgressEntry
                                 {
-                                    Kind = LogEntryKind.Start,
+                                    Kind = ProgressEntryKind.Start,
                                     Timestamp = timestamp
                                 });
         }
 		
         public void WriteTrace(string key, DateTime timestamp, LogEntrySeverity severity, string message, string[] tags)
         {
-            WriteEntry(key, new LogEntry
+            WriteEntry(key, new ProgressEntry
                                 {
-                                    Kind = LogEntryKind.Trace,
+                                    Kind = ProgressEntryKind.Trace,
                                     Timestamp = timestamp,
                                     Severity = severity,
                                     Message = message
@@ -27,24 +27,24 @@ namespace Zaz.Server.Advanced.State
 		
         public void CompleteSuccess(string key, DateTime timestamp)
         {
-            WriteEntry(key, new LogEntry
+            WriteEntry(key, new ProgressEntry
                                 {
-                                    Kind = LogEntryKind.Success,
+                                    Kind = ProgressEntryKind.Success,
                                     Timestamp = timestamp													
                                 });
         }
 		
         public void CompleteFailure(string key, DateTime timestamp, string reason)
         {
-            WriteEntry(key, new LogEntry
+            WriteEntry(key, new ProgressEntry
                                 {
-                                    Kind = LogEntryKind.Failure,
+                                    Kind = ProgressEntryKind.Failure,
                                     Timestamp = timestamp													
                                 });
         }
 		
-        public abstract IQueryable<LogEntry> QueryEntries(string key);
+        public abstract IQueryable<ProgressEntry> QueryEntries(string key);
 		
-        protected abstract void WriteEntry(string key, LogEntry entry);
+        protected abstract void WriteEntry(string key, ProgressEntry entry);
     }
 }

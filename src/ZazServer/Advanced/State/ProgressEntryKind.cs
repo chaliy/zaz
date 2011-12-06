@@ -1,6 +1,6 @@
 namespace Zaz.Server.Advanced.State
 {
-    public enum LogEntryKind 
+    public enum ProgressEntryKind 
     {
         Start,
         Trace,

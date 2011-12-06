@@ -2,9 +2,9 @@ using System;
 
 namespace Zaz.Server.Advanced.State
 {
-    public class LogEntry 
+    public class ProgressEntry 
     {
-        public LogEntryKind Kind {get;set;}
+        public ProgressEntryKind Kind {get;set;}
         public DateTime Timestamp {get;set;}
         public LogEntrySeverity Severity {get;set;}
         public string Message {get;set;}

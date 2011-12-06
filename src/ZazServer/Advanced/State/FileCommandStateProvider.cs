@@ -19,13 +19,13 @@ namespace Zaz.Server.Advanced.State
             }
         }
 						
-        public override IQueryable<LogEntry> QueryEntries(string key)
+        public override IQueryable<ProgressEntry> QueryEntries(string key)
         {
             var data = File.ReadAllText(GetCommandStatePath(key));
-            return JsonConvert.DeserializeObject<IEnumerable<LogEntry>>("[" + data + "]").AsQueryable();
+            return JsonConvert.DeserializeObject<IEnumerable<ProgressEntry>>("[" + data + "]").AsQueryable();
         }
 		
-        protected override void WriteEntry(string key, LogEntry entry)
+        protected override void WriteEntry(string key, ProgressEntry entry)
         {
             var path = GetCommandStatePath(key);
             File.AppendAllText(path, JsonConvert.SerializeObject(entry) + ",");

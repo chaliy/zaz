@@ -1,6 +1,7 @@
 using System;
+using Zaz.Server.Advanced;
 
-namespace Zaz.Server.Advanced.Broker
+namespace Zaz.Server
 {
     public class LogEntry 
     {

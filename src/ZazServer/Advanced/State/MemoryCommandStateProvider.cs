@@ -5,22 +5,22 @@ namespace Zaz.Server.Advanced.State
 {
     public class MemoryCommandStateProvider : BaseCommandStateProvider
     {		
-        private readonly IDictionary<string, List<LogEntry>> _storage = new Dictionary<string, List<LogEntry>>();
+        private readonly IDictionary<string, List<ProgressEntry>> _storage = new Dictionary<string, List<ProgressEntry>>();
 		
-        public override IQueryable<LogEntry> QueryEntries(string key)
+        public override IQueryable<ProgressEntry> QueryEntries(string key)
         {				
             if (_storage.ContainsKey(key))
             {
                 return _storage[key].AsQueryable();
             }
-            return Enumerable.Empty<LogEntry>().AsQueryable();
+            return Enumerable.Empty<ProgressEntry>().AsQueryable();
         }
 		
-        protected override void WriteEntry(string key, LogEntry entry)
+        protected override void WriteEntry(string key, ProgressEntry entry)
         {
             if (!_storage.ContainsKey(key))
             {
-                _storage[key] = new List<LogEntry>();
+                _storage[key] = new List<ProgressEntry>();
             }
 			
             _storage[key].Add(entry);

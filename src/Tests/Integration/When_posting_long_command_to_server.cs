@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Zaz.Client;
+using Zaz.Server;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Tests.Stubs;
 

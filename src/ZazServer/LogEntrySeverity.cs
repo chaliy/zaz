@@ -1,4 +1,4 @@
-namespace Zaz.Server.Advanced
+namespace Zaz.Server
 {
     public enum LogEntrySeverity 
     {

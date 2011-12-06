@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Subjects;
+using Zaz.Server.Advanced;
 
-namespace Zaz.Server.Advanced.Broker
+namespace Zaz.Server
 {
     public static class LogEntryExtensions
     {

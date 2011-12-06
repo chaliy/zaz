@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Zaz.Server;
 using Zaz.Server.Advanced.Broker;
 
 namespace Zaz.Tests.Integration.CustomBroker

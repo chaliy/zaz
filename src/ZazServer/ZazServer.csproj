@@ -108,8 +108,10 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Advanced\Broker\DelegatingCommandBroker.cs" />
-    <Compile Include="Advanced\Broker\LogEntry.cs" />
-    <Compile Include="Advanced\Broker\LogEntryExtensions.cs" />
+    <Compile Include="Advanced\Executor\CommandExecutionResult.cs" />
+    <Compile Include="Advanced\Executor\CommandsExecutor.cs" />
+    <Compile Include="LogEntry.cs" />
+    <Compile Include="LogEntryExtensions.cs" />
     <Compile Include="Advanced\Logging\ZazLogToStringAdapter.cs" />
     <Compile Include="Advanced\Registry\SimpleCommandRegistry.cs" />
     <Compile Include="Advanced\Service\Security\AbstractBasicAuthenticationHandler.cs" />
@@ -120,9 +122,8 @@
     <Compile Include="Advanced\Service\Contract\PostCommandRequest.cs" />
     <Compile Include="Advanced\Service\Contract\PostScheduledCommandResponse.cs" />
     <Compile Include="Advanced\Service\Contract\ScheduledCommandStatus.cs" />
-    <Compile Include="Advanced\Service\Contract\LogEntry.cs" />
     <Compile Include="Advanced\Service\ExceptionsFactory.cs" />
-    <Compile Include="Advanced\LogEntrySeverity.cs" />
+    <Compile Include="LogEntrySeverity.cs" />
     <Compile Include="Advanced\ConfigurationHelper.cs" />
     <Compile Include="Advanced\Service\CommandMeta.cs" />
     <Compile Include="Advanced\Service\CommandBinder.cs" />
@@ -146,8 +147,8 @@
     <Compile Include="Advanced\Broker\ReflectionCommandBroker.cs" />
     <Compile Include="Advanced\Service\Content\Accessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Advanced\State\LogEntry.cs" />
-    <Compile Include="Advanced\State\LogEntryKind.cs" />
+    <Compile Include="Advanced\State\ProgressEntry.cs" />
+    <Compile Include="Advanced\State\ProgressEntryKind.cs" />
     <Compile Include="Advanced\Service\Temp\JsonNetFormatter.cs" />
     <Compile Include="Utils\TypeExtensions.cs" />
   </ItemGroup>

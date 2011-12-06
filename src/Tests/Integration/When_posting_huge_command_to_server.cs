@@ -6,7 +6,6 @@ using FluentAssertions;
 using SampleCommands;
 using Zaz.Client;
 using Zaz.Client.Avanced;
-using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;

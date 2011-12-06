@@ -9,6 +9,6 @@ namespace Zaz.Server.Advanced.State
 		void WriteTrace(string key, DateTime timestamp, LogEntrySeverity severity, string message, string[] tags);
 		void CompleteSuccess(string key, DateTime timestamp);
 		void CompleteFailure(string key, DateTime timestamp, string reason);
-		IQueryable<LogEntry> QueryEntries(string key);
+		IQueryable<ProgressEntry> QueryEntries(string key);
 	}
 }

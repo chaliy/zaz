@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using SampleCommands;
+using Zaz.Server;
 using Zaz.Server.Advanced.Broker;
 
 namespace SampleServerApp.App
