@@ -117,57 +117,19 @@ namespace Zaz.Server.Advanced.Service
             var cmdKey = req.Key;
             var cmd = _resolver.ResoveCommand(req, cmdKey);
 
-            var id = _executor.SubmitScheduled(cmd, req.Tags, Thread.CurrentPrincipal);
+            var id = _executor.Submit(cmd, req.Tags, Thread.CurrentPrincipal);
             
             return new PostScheduledCommandResponse
             {
-                Id = id
+                Id = id.ToString()
             };
         }
 
         [WebGet(UriTemplate = "Scheduled/{id}/?token={token}")]
-        public GetScheduledCommandResponse GetScheduled(string id, DateTime? token)
+        public ExecutionStats GetScheduled(string id, DateTime? token)
         {
-
-            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
-            var lastTrace = stateProvider
-                .QueryEntries(id)
-                .OrderBy(x => x.Timestamp)
-                .LastOrDefault();
-
-            var status = ScheduledCommandStatus.Pending;
-            if (lastTrace != null)
-            {
-                switch (lastTrace.Kind)
-                {
-                    case ProgressEntryKind.Failure:
-                        status = ScheduledCommandStatus.Failure;
-                        break;
-                        
-                    case ProgressEntryKind.Success:
-                        status = ScheduledCommandStatus.Success;
-                        break;
-
-                    case ProgressEntryKind.Trace:
-                    case ProgressEntryKind.Start:
-                        status = ScheduledCommandStatus.InProgress;
-                        break;
-                }
-            }
-
-            var log = stateProvider
-                .QueryEntries(id)
-                .Where(x => token.HasValue && x.Timestamp > token)
-                .Where(x => x.Kind == ProgressEntryKind.Trace)
-                .Select(ConvertLogEntry())
-                .ToArray();
-
-            return new GetScheduledCommandResponse
-                           {
-                               Id = id,
-                               Status = status,
-                               Log = log
-                           };
+            var executionId = ExecutionId.FromString(id);
+            return _executor.GetExecutionStats(executionId, token);
         }
 
         [WebGet(UriTemplate = "Scheduled/Log/{id}")]

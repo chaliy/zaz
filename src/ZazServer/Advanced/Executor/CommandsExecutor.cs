@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Security.Principal;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Logging;
 using Zaz.Server.Advanced.Service.Contract;
+using Zaz.Server.Advanced.State;
 
 namespace Zaz.Server.Advanced.Executor
 {
@@ -19,12 +22,12 @@ namespace Zaz.Server.Advanced.Executor
         {
             _context = context;
         }
-        
-        public string SubmitScheduled(object cmd, string[] tags, IPrincipal principal)
+
+        public ExecutionId Submit(object cmd, string[] tags, IPrincipal principal)
         {            
             var stateProvider = _context.StateProvider;
 
-            var id = Guid.NewGuid().ToString("n");
+            var id = ExecutionId.New();
             stateProvider.Start(id, DateTime.UtcNow);
             var log = new Subject<LogEntry>();
             
@@ -47,6 +50,50 @@ namespace Zaz.Server.Advanced.Executor
                 });
 
             return id;
+        }
+
+        public ExecutionStats GetExecutionStats(ExecutionId id, DateTime? token)
+        {
+
+            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
+            var lastTrace = stateProvider
+                .QueryEntries(id)
+                .OrderBy(x => x.Timestamp)
+                .LastOrDefault();
+
+            var status = ExecutionStatus.Pending;
+            if (lastTrace != null)
+            {
+                switch (lastTrace.Kind)
+                {
+                    case ProgressEntryKind.Failure:
+                        status = ExecutionStatus.Failure;
+                        break;
+
+                    case ProgressEntryKind.Success:
+                        status = ExecutionStatus.Success;
+                        break;
+
+                    case ProgressEntryKind.Trace:
+                    case ProgressEntryKind.Start:
+                        status = ExecutionStatus.InProgress;
+                        break;
+                }
+            }
+
+            var log = stateProvider
+                .QueryEntries(id)
+                .Where(x => token.HasValue && x.Timestamp > token)
+                .Where(x => x.Kind == ProgressEntryKind.Trace)       
+                .Select(ConvertToLogEntry())
+                .ToList();
+
+            return new ExecutionStats
+            {
+                Id = id,
+                Status = status,
+                Log = log
+            };
         }
         
         private Task<CommandExecutionResult> Execute(object cmd, string[] tags, IPrincipal principal, IObserver<LogEntry> log)
@@ -84,6 +131,17 @@ namespace Zaz.Server.Advanced.Executor
                     // TODO: Handle cancelled
                     return CommandExecutionResult.Success();                 
                 });            
+        }
+
+        public static Expression<Func<ProgressEntry, LogEntry>> ConvertToLogEntry()
+        {
+            return e => new LogEntry
+            {
+                Message = e.Message,
+                Severity = e.Severity,
+                Tags = e.Tags,
+                Timestamp = e.Timestamp
+            };
         }
     }
 }

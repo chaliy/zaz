@@ -110,6 +110,10 @@
     <Compile Include="Advanced\Broker\DelegatingCommandBroker.cs" />
     <Compile Include="Advanced\Executor\CommandExecutionResult.cs" />
     <Compile Include="Advanced\Executor\CommandsExecutor.cs" />
+    <Compile Include="Advanced\Executor\ExecutionId.cs" />
+    <Compile Include="Advanced\Executor\ExecutionIdTypeConverter.cs" />
+    <Compile Include="Advanced\Executor\ExecutionStats.cs" />
+    <Compile Include="Advanced\Executor\ExecutionStatus.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="LogEntryExtensions.cs" />
     <Compile Include="Advanced\Logging\ZazLogToStringAdapter.cs" />
@@ -118,10 +122,8 @@
     <Compile Include="Advanced\Service\Security\SimpleBasicAuthenticationHandler.cs" />
     <Compile Include="Advanced\Service\CommandResolver.cs" />
     <Compile Include="Advanced\Service\CommandRunner.cs" />
-    <Compile Include="Advanced\Service\Contract\GetScheduledCommandResponse.cs" />
     <Compile Include="Advanced\Service\Contract\PostCommandRequest.cs" />
     <Compile Include="Advanced\Service\Contract\PostScheduledCommandResponse.cs" />
-    <Compile Include="Advanced\Service\Contract\ScheduledCommandStatus.cs" />
     <Compile Include="Advanced\Service\ExceptionsFactory.cs" />
     <Compile Include="LogEntrySeverity.cs" />
     <Compile Include="Advanced\ConfigurationHelper.cs" />
