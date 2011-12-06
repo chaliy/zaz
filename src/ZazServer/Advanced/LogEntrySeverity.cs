@@ -1,6 +1,6 @@
 namespace Zaz.Server.Advanced
 {
-    public enum TraceSeverity 
+    public enum LogEntrySeverity 
     {
         Info,
         Warning,

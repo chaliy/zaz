@@ -15,13 +15,13 @@ namespace SampleServerApp.App
                 return Task.Factory.StartNew(() =>
                 {
                     Thread.Sleep(300);
-                    ctx.Trace.Info("Hello word! #1");
+                    ctx.Log.Info("Hello word! #1");
                     Thread.Sleep(1000);
-                    ctx.Trace.Info("Hello word! #2");
+                    ctx.Log.Info("Hello word! #2");
                     Thread.Sleep(1000);
-                    ctx.Trace.Error("Hello word! #3");
+                    ctx.Log.Error("Hello word! #3");
                     Thread.Sleep(1000);
-                    ctx.Trace.Info("Hello word! #4");
+                    ctx.Log.Info("Hello word! #4");
                 });
             }
 

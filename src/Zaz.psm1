@@ -43,7 +43,7 @@ function convertFromJsonDate($ii){
     }    
 }
 
-function writeTrace($t, $sev, $msg){
+function writeLog($t, $sev, $msg){
     switch($sev){
         $Severity_Info {
             Write-Host $msg
@@ -83,13 +83,13 @@ while($read){
     $stats = convertfrom-json $statsResp
     
     $status = $stats.Status
-    $trace = $stats.Trace    
+    $log = $stats.Log    
 
-    $trace | % {
+    $log | % {
                    
         $timestamp = convertFromJsonDate($_.Timestamp)
 
-        writeTrace $timestamp ($_.Severity) ($_.Message)
+        writeLog $timestamp ($_.Severity) ($_.Message)
 
         if ($timestamp -gt $token){
             $token = $timestamp

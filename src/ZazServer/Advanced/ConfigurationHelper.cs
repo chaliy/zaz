@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Description;
+﻿using Microsoft.ApplicationServer.Http;
 using WebApiContrib.Formatters.JsonNet;
 using Zaz.Server.Advanced.Service;
 

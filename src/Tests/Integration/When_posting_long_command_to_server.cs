@@ -1,49 +1,53 @@
-﻿using System;
-using Microsoft.ApplicationServer.Http;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
 using NUnit.Framework;
-using SampleCommands;
-using Zaz.Client.Avanced;
-using Zaz.Server;
-using Zaz.Server.Advanced;
-using Zaz.Server.Advanced.Registry;
-using Zaz.Server.Advanced.Service;
-using Zaz.Tests.Integration.CustomBroker;
+using Zaz.Client;
+using Zaz.Server.Advanced.Broker;
+using Zaz.Tests.Stubs;
 
 namespace Zaz.Tests.Integration
 {
     public class When_posting_long_command_to_server
-    {
-        private HttpServiceHost _host;
+    {        
+        private object _postedCommand;
+        private CommandHandlingContext _ctx;
 
         private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/LongCommands/";
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = new CommandsService(new ServerContext
-            (
-                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                broker: new LongCommandBroker()
-            ));            
-            var config = ConfigurationHelper.CreateConfiguration(instance);            
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
-            _host.Open();
-        }
+            var instance = Create.FooCommandsService((cmd, ctx) =>
+            {
+                _postedCommand = cmd;
+                _ctx = ctx;
 
-        [TestFixtureTearDown]
-        public void Cleanup()
-        {            
-            _host.Close();
+                return Task.Factory.StartNew(() =>
+                {
+                    ctx.Log.Info("Hello word! #1");
+                    Thread.Sleep(1000);
+                    ctx.Log.Info("Hello word! #2");
+                    Thread.Sleep(1000);
+                    ctx.Log.Info("Hello word! #3");
+                    Thread.Sleep(1000);
+                    ctx.Log.Info("Hello word! #4");
+                });                
+            });
+            using(instance.OpenConfiguredServiceHost(URL))
+            {
+                var bus = new ZazClient(URL);
+                bus.Post(new FooCommand
+                {
+                    Message = "Heeeeelllllloooooo!"
+                });
+            }
         }
 
         [Test]
-        public void Should_successfully_send_command()
+        public void Should_accept_command()
         {
-            var bus = new AdvancedZazClient(URL);
-            bus.PostScheduled(new CommandEnvelope
-                          {
-                              Key = "SampleCommands.PrintMessage"
-                          }).Wait();            
+            _postedCommand.Should().NotBeNull();
         }
     }
 }

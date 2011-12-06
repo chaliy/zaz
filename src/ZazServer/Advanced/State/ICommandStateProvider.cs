@@ -6,9 +6,9 @@ namespace Zaz.Server.Advanced.State
 	public interface ICommandStateProvider
 	{
 		void Start(string key, DateTime timestamp);
-		void WriteTrace(string key, DateTime timestamp, TraceSeverity severity, string message, string[] tags);
+		void WriteTrace(string key, DateTime timestamp, LogEntrySeverity severity, string message, string[] tags);
 		void CompleteSuccess(string key, DateTime timestamp);
 		void CompleteFailure(string key, DateTime timestamp, string reason);
-		IQueryable<TraceEntry> QueryEntries(string key);
+		IQueryable<LogEntry> QueryEntries(string key);
 	}
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using Zaz.Client;
+using Zaz.Client.Avanced.Logging;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Service;
@@ -12,9 +13,7 @@ using FluentAssertions;
 namespace Zaz.Tests.Integration.Errors
 {
     public class When_posting_command_that_fails
-    {
-        HttpServiceHost _host;
-
+    {        
         static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/FailingCommands/";        
         
         string _resultLog;
@@ -33,19 +32,18 @@ namespace Zaz.Tests.Integration.Errors
                     });
                 })
             ));
-            var config = ConfigurationHelper.CreateConfiguration(instance);
-
-            using (_host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL)))
+            
+            using (instance.OpenConfiguredServiceHost(URL))
             {
-                _host.Open();
-
 
                 // Client side
                 var bus = new ZazClient(URL);
-                _resultLog = bus.Post(new FooCommand
+                var log = new ZazLogToStringAdapter();
+                bus.Post(new FooCommand
                 {
                     Message = "Hey!, anybody out there?"
-                });                
+                }, log: log);
+                _resultLog = log.ToString();
             }            
         }
         

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Zaz.Client.Avanced.Contract
+namespace Zaz.Server.Advanced.Service.Contract
 {
-    public class TraceEntry
+    public class LogEntry
     {
         public DateTime Timestamp { get; set; }
-        public TraceSeverity Severity { get; set; }
+        public LogEntrySeverity Severity { get; set; }
         public string Message { get; set; }
         public string[] Tags { get; set; }
     }

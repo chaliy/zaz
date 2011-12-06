@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,8 +19,7 @@ namespace Zaz.Client.Avanced.Client
             if (configuration != null && configuration.ConfigureHttp != null)
             {
                 configuration.ConfigureHttp(handler);                
-            }
-            //handler.Credentials = new NetworkCredential("test", "test");
+            }            
             _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);            
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
@@ -37,9 +35,10 @@ namespace Zaz.Client.Avanced.Client
             return PostAsync<PostCommandRequest, PostScheduledCommandResponse>("Scheduled", req);                
         }
 
-        public GetScheduledCommandResponse GetScheduled(string id)
+        public GetScheduledCommandResponse GetScheduled(string id, DateTime token)
         {
-            return ReadContentAs<GetScheduledCommandResponse>(_client.Get("Scheduled/" + id + "/").Content);
+            var t = token.ToString("o");
+            return ReadContentAs<GetScheduledCommandResponse>(_client.Get("Scheduled/" + id + "/?token=" + t).Content);
         }
 
         private Task<TOut> PostAsync<T, TOut>(string path, T req)

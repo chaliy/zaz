@@ -7,18 +7,18 @@ namespace Zaz.Server.Advanced.State
     {				
         public void Start(string key, DateTime timestamp)
         {			
-            WriteEntry(key, new TraceEntry
+            WriteEntry(key, new LogEntry
                                 {
-                                    Kind = TraceKind.Start,
+                                    Kind = LogEntryKind.Start,
                                     Timestamp = timestamp
                                 });
         }
 		
-        public void WriteTrace(string key, DateTime timestamp, TraceSeverity severity, string message, string[] tags)
+        public void WriteTrace(string key, DateTime timestamp, LogEntrySeverity severity, string message, string[] tags)
         {
-            WriteEntry(key, new TraceEntry
+            WriteEntry(key, new LogEntry
                                 {
-                                    Kind = TraceKind.Trace,
+                                    Kind = LogEntryKind.Trace,
                                     Timestamp = timestamp,
                                     Severity = severity,
                                     Message = message
@@ -27,24 +27,24 @@ namespace Zaz.Server.Advanced.State
 		
         public void CompleteSuccess(string key, DateTime timestamp)
         {
-            WriteEntry(key, new TraceEntry
+            WriteEntry(key, new LogEntry
                                 {
-                                    Kind = TraceKind.Success,
+                                    Kind = LogEntryKind.Success,
                                     Timestamp = timestamp													
                                 });
         }
 		
         public void CompleteFailure(string key, DateTime timestamp, string reason)
         {
-            WriteEntry(key, new TraceEntry
+            WriteEntry(key, new LogEntry
                                 {
-                                    Kind = TraceKind.Failure,
+                                    Kind = LogEntryKind.Failure,
                                     Timestamp = timestamp													
                                 });
         }
 		
-        public abstract IQueryable<TraceEntry> QueryEntries(string key);
+        public abstract IQueryable<LogEntry> QueryEntries(string key);
 		
-        protected abstract void WriteEntry(string key, TraceEntry entry);
+        protected abstract void WriteEntry(string key, LogEntry entry);
     }
 }

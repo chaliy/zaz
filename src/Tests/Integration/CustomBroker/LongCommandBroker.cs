@@ -10,13 +10,13 @@ namespace Zaz.Tests.Integration.CustomBroker
         {
             return Task.Factory.StartNew(() =>
                                       {
-                                          ctx.Trace.Info("Hello word! #1");
+                                          ctx.Log.Info("Hello word! #1");
                                           Thread.Sleep(1000);
-                                          ctx.Trace.Info("Hello word! #2");
+                                          ctx.Log.Info("Hello word! #2");
                                           Thread.Sleep(1000);
-                                          ctx.Trace.Info("Hello word! #3");
+                                          ctx.Log.Info("Hello word! #3");
                                           Thread.Sleep(1000);
-                                          ctx.Trace.Info("Hello word! #4");
+                                          ctx.Log.Info("Hello word! #4");
                                       });
         }
     }

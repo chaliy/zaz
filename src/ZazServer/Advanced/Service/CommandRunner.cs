@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using Zaz.Server.Advanced.Broker;
+using Zaz.Server.Advanced.Logging;
 
 namespace Zaz.Server.Advanced.Service
 {
@@ -21,33 +21,26 @@ namespace Zaz.Server.Advanced.Service
         {
             var broker = (_context.Broker ?? Implementations.Broker);
 
-            var ctx = new CommandHandlingContext(tags ?? new string[0], Thread.CurrentPrincipal);
-            var trace = new List<TraceEntry>();
-            using (ctx.Trace.Subscribe(trace.Add))
+            var log = new ZazLogToStringAdapter();
+            var ctx = new CommandHandlingContext(tags, Thread.CurrentPrincipal, log);
+            try
             {
-                try
-                {
-                    broker.Handle(cmd, ctx).Wait();
+                broker.Handle(cmd, ctx).Wait();
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var child in ex.Flatten().InnerExceptions)
+                {                    
+                    log.Error(child.Message);
                 }
-                catch (AggregateException ex)
-                {
-                    foreach (var child in ex.Flatten().InnerExceptions)
-                    {
-                        trace.Error(child.Message);
-                    }                    
-                }                
             }
 
             var msg = new StringBuilder("Command " + cmdKey + " accepted.");
 
-            if (trace.Count > 0)
+            if (log.HasSomething())
             {
                 msg.AppendLine();
-                msg.AppendLine("Trace: ");
-                foreach (var traceEntry in trace)
-                {
-                    msg.AppendLine("[" + traceEntry.Serverity + "]" + traceEntry.Message);
-                }
+                msg.Append(log);
             }
 
             return new HttpResponseMessage

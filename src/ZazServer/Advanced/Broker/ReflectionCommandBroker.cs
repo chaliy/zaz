@@ -19,12 +19,11 @@ namespace Zaz.Server.Advanced.Broker
             var cmdType = cmd.GetType();
             var handlerType = _handlersAssembly
                 .GetTypes()
-                .Where(x => x.Name.EndsWith("Handler")
-                            && x.GetMethod("Handle") != null
-                            && x.GetMethod("Handle")
-                                   .GetParameters()[0].ParameterType
-                                   .IsAssignableFrom(cmdType))
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Name.EndsWith("Handler")
+                                        && x.GetMethod("Handle") != null
+                                        && x.GetMethod("Handle")
+                                               .GetParameters()[0].ParameterType
+                                               .IsAssignableFrom(cmdType));                
 
             if (handlerType == null)
             {

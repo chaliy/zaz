@@ -2,11 +2,11 @@ using System;
 
 namespace Zaz.Server.Advanced.State
 {
-    public class TraceEntry 
+    public class LogEntry 
     {
-        public TraceKind Kind {get;set;}
+        public LogEntryKind Kind {get;set;}
         public DateTime Timestamp {get;set;}
-        public TraceSeverity Severity {get;set;}
+        public LogEntrySeverity Severity {get;set;}
         public string Message {get;set;}
         public string[] Tags { get; set; }
     }

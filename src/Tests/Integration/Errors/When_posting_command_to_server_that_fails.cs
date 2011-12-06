@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ServiceModel.Description;
 using System.Threading.Tasks;
-using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using Zaz.Client;
 using Zaz.Server.Advanced;
@@ -14,12 +13,9 @@ namespace Zaz.Tests.Integration.Errors
 {
     public class When_posting_command_to_server_that_fails
     {
-        HttpServiceHost _host;
-
+        
         static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/FailingServerCommands/";        
-
-        object _postedCommand;
-        CommandHandlingContext _ctx;
+                
         Exception _resultEx;
 
         [TestFixtureSetUp]
@@ -34,12 +30,9 @@ namespace Zaz.Tests.Integration.Errors
                     return Task.Factory.StartNew(() => {});
                 })
             ));
-            var config = ConfigurationHelper.CreateConfiguration(instance);
-
-            using (_host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL)))
-            {
-                _host.Open();
-                var serviceDebugBehaviour = _host.Description.Behaviors.Find<ServiceDebugBehavior>();
+            using (var host = instance.OpenConfiguredServiceHost(URL))
+            {            
+                var serviceDebugBehaviour = host.Description.Behaviors.Find<ServiceDebugBehavior>();
                 serviceDebugBehaviour.IncludeExceptionDetailInFaults = true;
 
                 // Client side

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Reactive.Subjects;
 using Microsoft.ApplicationServer.Http;
 using NUnit.Framework;
 using FluentAssertions;
 using SampleCommands;
+using Zaz.Client;
 using Zaz.Client.Avanced;
 using Zaz.Server;
 using Zaz.Server.Advanced;
@@ -50,7 +52,7 @@ namespace Zaz.Tests.Integration
                               {
                                   Data = new String('a', 2097152)
                               }
-                          }).Wait();
+                          }, new Subject<LogEntry>()).Wait();
 
             _commandBroker.CommandsPosted.Should().NotBeEmpty();
         }

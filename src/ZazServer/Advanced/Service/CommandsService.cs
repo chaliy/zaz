@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reactive.Subjects;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Web;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Server.Advanced.State;
-using StateTraceEntry = Zaz.Server.Advanced.State.TraceEntry;
-using ContractTraceEntry = Zaz.Server.Advanced.Service.Contract.TraceEntry;
 using Zaz.Server.Advanced.Service.Content;
 using System.Threading;
+using LogEntry = Zaz.Server.Advanced.Service.Contract.LogEntry;
+using BrokerLogEntry = Zaz.Server.Advanced.Broker.LogEntry;
 
 namespace Zaz.Server.Advanced.Service
 {
@@ -120,16 +121,43 @@ namespace Zaz.Server.Advanced.Service
 
             var id = Guid.NewGuid().ToString("n");
             stateProvider.Start(id, DateTime.UtcNow);
-            var ctx = new CommandHandlingContext(req.Tags ?? new string[0], Thread.CurrentPrincipal);
-            var traceSubscription = ctx.Trace
-                .Subscribe(e => stateProvider.WriteTrace(id, DateTime.UtcNow, e.Serverity, e.Message, e.Tags));
+            var log = new Subject<BrokerLogEntry>();
+            var ctx = new CommandHandlingContext(req.Tags, Thread.CurrentPrincipal, log);
+            var traceSubscription = log
+                .Subscribe(e => stateProvider.WriteTrace(id, DateTime.UtcNow, e.Severity, e.Message, e.Tags));
 
             broker.Handle(cmd, ctx)
                 .ContinueWith(t =>
-                                  {
-                                      traceSubscription.Dispose();
-                                      stateProvider.CompleteSuccess(id, DateTime.UtcNow);
-                                  });
+                {
+                    if (t.IsFaulted)
+                    {
+                        if (t.Exception != null)
+                        {
+                            var ex = t.Exception.Flatten();
+                            if (ex.InnerExceptions.Count == 0)
+                            {
+                                log.Error(ex.GetBaseException().ToString());                                
+                            }
+                            else
+                            {
+                                foreach (var child in ex.InnerExceptions)
+                                {
+                                    log.Error(child.ToString());
+                                }
+                            }
+                            stateProvider.CompleteFailure(id, DateTime.UtcNow, ex.GetBaseException().Message);
+                        }
+                        else
+                        {
+                            stateProvider.CompleteFailure(id, DateTime.UtcNow, "N/A");
+                        }                        
+                    }
+                    else
+                    {
+                        stateProvider.CompleteSuccess(id, DateTime.UtcNow);
+                    }
+                    traceSubscription.Dispose();                    
+                });
 
             return new PostScheduledCommandResponse
                        {
@@ -152,16 +180,16 @@ namespace Zaz.Server.Advanced.Service
             {
                 switch (lastTrace.Kind)
                 {
-                    case TraceKind.Failure:
+                    case LogEntryKind.Failure:
                         status = ScheduledCommandStatus.Failure;
                         break;
                         
-                    case TraceKind.Success:
+                    case LogEntryKind.Success:
                         status = ScheduledCommandStatus.Success;
                         break;
 
-                    case TraceKind.Trace:
-                    case TraceKind.Start:
+                    case LogEntryKind.Trace:
+                    case LogEntryKind.Start:
                         status = ScheduledCommandStatus.InProgress;
                         break;
                 }
@@ -170,31 +198,31 @@ namespace Zaz.Server.Advanced.Service
             var trace = stateProvider
                 .QueryEntries(id)
                 .Where(x => token.HasValue && x.Timestamp > token)
-                .Where(x => x.Kind == TraceKind.Trace)
-                .Select(ConvertTraceEntry())
+                .Where(x => x.Kind == LogEntryKind.Trace)
+                .Select(ConvertLogEntry())
                 .ToArray();
 
             return new GetScheduledCommandResponse
                            {
                                Id = id,
                                Status = status,
-                               Trace = trace
+                               Log = trace
                            };
         }
 
-        [WebGet(UriTemplate = "Scheduled/Trace/{id}")]
-        public IQueryable<ContractTraceEntry> GetScheduledTrace(string id)
+        [WebGet(UriTemplate = "Scheduled/Log/{id}")]
+        public IQueryable<LogEntry> GetScheduledLog(string id)
         {            
             var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
             return stateProvider
                 .QueryEntries(id)
-                .Where(x => x.Kind == TraceKind.Trace)
-                .Select(ConvertTraceEntry());
+                .Where(x => x.Kind == LogEntryKind.Trace)
+                .Select(ConvertLogEntry());
         }
        
-        public static Expression<Func<StateTraceEntry, ContractTraceEntry>> ConvertTraceEntry()
+        public static Expression<Func<State.LogEntry, LogEntry>> ConvertLogEntry()
         {
-            return e =>  new ContractTraceEntry
+            return e =>  new LogEntry
                        {
                            Message = e.Message,
                            Severity = e.Severity,

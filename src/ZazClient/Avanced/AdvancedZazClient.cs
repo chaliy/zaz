@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Zaz.Client.Avanced.Client;
 using Zaz.Client.Avanced.Contract;
@@ -13,7 +15,7 @@ namespace Zaz.Client.Avanced
         {
             _client = new ZazServerClient(url, configuration);
         }        
-        
+                
         public Task<string> Post(CommandEnvelope envelope)
         {
             var req = CreatePostCommandRequest(envelope);
@@ -28,43 +30,61 @@ namespace Zaz.Client.Avanced
                 });                
         }
 
-        public Task PostScheduled(CommandEnvelope envelope)
-        {
+        public Task PostScheduled(CommandEnvelope envelope, IObserver<LogEntry> log)
+        {            
             var req = CreatePostCommandRequest(envelope);
             return _client.PostScheduled(req)
                 .ContinueWith(x =>
                 {                    
-                    var resp = x.Result;                    
-                    var id = resp.Id;
+                    var resp = x.Result;
+                    var id = resp.Id;                    
+                    
+                    Action<string> traceStatus = m => log.OnNext(new LogEntry
+                    {
+                        Message = m,
+                        Severity = LogEntrySeverity.Trace,
+                        Timestamp = DateTime.Now
+                    });
 
-                    WriteTrace("Start waiting for execution command " + id);
+                    traceStatus("Start waiting for execution command " + id);
+
+                    var token = DateTime.MinValue;
 
                     while (true)
                     {
-                        Thread.Sleep(300);
+                        var resp2 = _client.GetScheduled(id, token);
 
-                        var resp2 = _client.GetScheduled(id);
+                        // Write user log        
+                        var serverLog = resp2.Log.OrEmpty().ToList();
+                        foreach (var entry in serverLog)
+                        {
+                            log.OnNext(entry);
+                        }
 
+                        // Take maximum available timestamp
+                        token = serverLog.Select(xx => xx.Timestamp).Union(new[] { token }).Max();                        
+                        
                         switch (resp2.Status)
                         {
                             case ScheduledCommandStatus.Pending:
-                                WriteTrace("Command(" + id + ") is still pending.");
+                                traceStatus("Command(" + id + ") is still pending.");
                                 break;
 
                             case ScheduledCommandStatus.InProgress:
-                                WriteTrace("Command(" + id + ") is in progress.");
+                                traceStatus("Command(" + id + ") is in progress.");
                                 break;
 
                             case ScheduledCommandStatus.Success:
-                                WriteTrace("Command(" + id + ") completed success.");
+                                traceStatus("Command(" + id + ") completed success.");
                                 return;
 
                             case ScheduledCommandStatus.Failure:
-                                WriteTrace("Command(" + id + ") failed.");
+                                traceStatus("Command(" + id + ") failed.");
                                 return;
                         }
-                                                    
-                    }                                       
+
+                        Thread.Sleep(300);       
+                    }
                 });
         }
 
@@ -77,10 +97,5 @@ namespace Zaz.Client.Avanced
                 Tags = envelope.Tags
             };
         }        
-
-        private void WriteTrace(string msg)
-        {
-            System.Diagnostics.Trace.TraceInformation(msg);
-        }
     }
 }

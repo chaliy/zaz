@@ -4,34 +4,34 @@ using System.Reactive.Subjects;
 
 namespace Zaz.Server.Advanced.Broker
 {
-    public static class TraceEntryExtensions
+    public static class LogEntryExtensions
     {
-        public static void Info(this Subject<TraceEntry> subj, string msg)
+        public static void Info(this IObserver<LogEntry> subj, string msg)
         {
-            subj.OnNext(new TraceEntry
+            subj.OnNext(new LogEntry
                             {
                                 Message = msg,
-                                Serverity = TraceSeverity.Info,
+                                Severity = LogEntrySeverity.Info,
                                 Timestamp = DateTime.Now
                             });
         }
 
-        public static void Error(this Subject<TraceEntry> subj, string msg)
+        public static void Error(this IObserver<LogEntry> subj, string msg)
         {
-            subj.OnNext(new TraceEntry
+            subj.OnNext(new LogEntry
             {
                 Message = msg,
-                Serverity = TraceSeverity.Error,
+                Severity = LogEntrySeverity.Error,
                 Timestamp = DateTime.Now
             });
         }
 
-        public static void Error(this ICollection<TraceEntry> subj, string msg)
+        public static void Error(this ICollection<LogEntry> subj, string msg)
         {
-            subj.Add(new TraceEntry
+            subj.Add(new LogEntry
             {
                 Message = msg,
-                Serverity = TraceSeverity.Error,
+                Severity = LogEntrySeverity.Error,
                 Timestamp = DateTime.Now
             });
         }

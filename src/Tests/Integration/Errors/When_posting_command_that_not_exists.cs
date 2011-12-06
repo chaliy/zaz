@@ -37,12 +37,8 @@ namespace Zaz.Tests.Integration.Errors
                     return Task.Factory.StartNew(() => {});
                 })
             ));
-            var config = ConfigurationHelper.CreateConfiguration(instance);
-
-            using (_host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL)))
+            using (instance.OpenConfiguredServiceHost(URL))
             {
-                _host.Open();
-
 
                 // Client side
                 var bus = new ZazClient(URL);

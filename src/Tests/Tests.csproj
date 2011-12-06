@@ -114,6 +114,7 @@
     <Compile Include="Integration\When_posting_long_command_to_server.cs" />
     <Compile Include="Integration\When_posting_command_to_server.cs" />
     <Compile Include="Integration\When_connecting_to_server.cs" />
+    <Compile Include="Integration\__Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Service\When_resolving_command.cs" />
     <Compile Include="Server\Stubs\FooCommand.cs" />
