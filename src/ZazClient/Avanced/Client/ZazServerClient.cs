@@ -38,7 +38,7 @@ namespace Zaz.Client.Avanced.Client
         public GetScheduledCommandResponse GetScheduled(string id, DateTime token)
         {
             var t = token.ToString("o");
-            return ReadContentAs<GetScheduledCommandResponse>(_client.Get("Scheduled/" + id + "/?token=" + t).Content);
+            return ReadContentAs<GetScheduledCommandResponse>(_client.GetAsync("Scheduled/" + id + "/?token=" + t).Result.Content);
         }
 
         private Task<TOut> PostAsync<T, TOut>(string path, T req)
@@ -60,7 +60,7 @@ namespace Zaz.Client.Avanced.Client
 
         private static T ReadContentAs<T>(HttpContent content) 
         {
-            return content.ReadAs<T>(new[] { new JsonNetFormatter() });
+            return content.ReadAsAsync<T>(new[] { new JsonNetFormatter() }).Result;
         }
 
         private ObjectContent<T> CreateObjectContent<T>(T input) 

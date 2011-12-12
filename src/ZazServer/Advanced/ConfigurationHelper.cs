@@ -13,7 +13,7 @@ namespace Zaz.Server.Advanced
         	var config = new HttpConfiguration();
         	config.CreateInstance = (t, c, m) => service;        	
 
-            config.Formatters.Insert(0, new JsonNetFormatter());
+            config.Formatters.Add(new JsonNetFormatter());
             config.MaxReceivedMessageSize = 16777216;
             config.MaxBufferSize = 16777216;
 

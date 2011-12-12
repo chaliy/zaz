@@ -28,7 +28,7 @@ namespace Zaz.Tests.Server
         [Test]
         public void Should_return_message()
         {
-            _result.Content.ReadAsString().Should().Contain("commands");
+            _result.Content.ReadAsStringAsync().Result.Should().Contain("commands");
         }
     }
 }

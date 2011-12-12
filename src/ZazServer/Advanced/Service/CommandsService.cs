@@ -78,7 +78,7 @@ namespace Zaz.Server.Advanced.Service
         [WebInvoke(Method = "POST", UriTemplate = "Legacy")]
         public HttpResponseMessage PostLegacy(HttpRequestMessage req)
         {            
-            var body = req.Content.ReadAsString();
+            var body = req.Content.ReadAsStringAsync().Result;
             var form = ParseQueryString(body);
 
             if (!form.ContainsKey("Zaz-Command-Id"))

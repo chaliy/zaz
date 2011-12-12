@@ -27,7 +27,7 @@ namespace Zaz.Client.Avanced
         {
             return Message 
                 + " Server response: \r\n" + Response 
-                + "\r\n\r\nContent: \r\n" + Response.Content.ReadAsString() 
+                + "\r\n\r\nContent: \r\n" + Response.Content.ReadAsStringAsync().Result 
                 + "\r\n\r\nStack trace:\r\n" + StackTrace; 
         }
     }

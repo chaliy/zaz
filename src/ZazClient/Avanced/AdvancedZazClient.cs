@@ -26,7 +26,7 @@ namespace Zaz.Client.Avanced
                     {
                         throw new ZazTransportException("An error occured while sending request.", x.Result);
                     }
-                    return x.Result.Content.ReadAsString();
+                    return x.Result.Content.ReadAsStringAsync().Result;
                 });                
         }
 
