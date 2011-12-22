@@ -2,15 +2,10 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
 using NUnit.Framework;
-using SampleCommands;
-using SampleHandlers;
 using Zaz.Client;
-using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
-using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
 using Zaz.Server.Advanced.Service.Security;
 using Zaz.Tests.Stubs;
@@ -49,13 +44,12 @@ namespace Zaz.Tests.Integration.Security
             {
                 _host.Open();
 
-
                 // Client side
-
                 var bus = new ZazClient(URL, new Client.Avanced.ZazConfiguration
                 {
                     ConfigureHttp = h =>
                     {
+                        h.PreAuthenticate = true;
                         h.Credentials = new NetworkCredential("supr", "booper");
                     }
                 });

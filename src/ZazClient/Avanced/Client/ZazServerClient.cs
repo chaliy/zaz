@@ -22,12 +22,16 @@ namespace Zaz.Client.Avanced.Client
             }            
             _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);            
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (configuration != null && configuration.ConfigureDefaultHeaders != null)
+            {
+                configuration.ConfigureDefaultHeaders(_client.DefaultRequestHeaders);
+            }
         }
 
         public Task<HttpResponseMessage> Post(PostCommandRequest req)
         {
-            return _client.PostAsync("", CreateObjectContent<PostCommandRequest>(req));
+            return _client.PostAsync("", CreateObjectContent(req));
         }
 
         public Task<PostScheduledCommandResponse> PostScheduled(PostCommandRequest req)
@@ -44,7 +48,7 @@ namespace Zaz.Client.Avanced.Client
         private Task<TOut> PostAsync<T, TOut>(string path, T req)
         {
             return _client
-                .PostAsync(path, CreateObjectContent<T>(req))
+                .PostAsync(path, CreateObjectContent(req))
                 .ContinueWith(t => {
 
                     var resp = t.Result;
@@ -63,7 +67,7 @@ namespace Zaz.Client.Avanced.Client
             return content.ReadAsAsync<T>(new[] { new JsonNetFormatter() }).Result;
         }
 
-        private ObjectContent<T> CreateObjectContent<T>(T input) 
+        private static ObjectContent<T> CreateObjectContent<T>(T input) 
         {
             return new ObjectContent<T>(input, 
                 new MediaTypeHeaderValue("application/json"),
