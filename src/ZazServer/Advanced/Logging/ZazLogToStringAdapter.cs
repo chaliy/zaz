@@ -1,12 +1,13 @@
 using System;
 using System.Text;
-using Zaz.Server.Advanced.Broker;
 
 namespace Zaz.Server.Advanced.Logging
 {
     public class ZazLogToStringAdapter : IObserver<LogEntry>
     {            
         readonly StringBuilder _buffer = new StringBuilder();
+
+        public bool IncludeTraces { get; set; }
 
         public void OnNext(LogEntry entry)
         {
@@ -15,7 +16,7 @@ namespace Zaz.Server.Advanced.Logging
         }
 
         public void OnError(Exception error)
-        {                
+        {
         }
 
         public void OnCompleted()
@@ -29,7 +30,7 @@ namespace Zaz.Server.Advanced.Logging
 
         public override string ToString()
         {            
-            return "Log:\r\n" + _buffer;   
+            return _buffer.ToString();   
         }
     }
 }

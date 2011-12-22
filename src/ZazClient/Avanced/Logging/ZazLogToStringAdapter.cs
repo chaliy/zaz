@@ -7,8 +7,15 @@ namespace Zaz.Client.Avanced.Logging
     {            
         readonly StringBuilder _buffer = new StringBuilder();
 
+        public bool IncludeTraces { get; set; }
+
         public void OnNext(LogEntry entry)
         {
+            if (entry.Severity == LogEntrySeverity.Trace && !IncludeTraces)
+            {
+                return;
+            }
+
             _buffer.AppendLine("[" + entry.Severity + "]" + entry.Message);            
                 
         }
