@@ -13,3 +13,4 @@ _ReSharper.*
 *.VisualState.xml
 TestResult.xml
 Zaz.userprefs
+packages
