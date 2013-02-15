@@ -14,3 +14,4 @@ _ReSharper.*
 TestResult.xml
 Zaz.userprefs
 packages
+*.ncrunchsolution
