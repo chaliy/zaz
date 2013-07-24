@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>ZazLegacy</id>
+        <version>1.0.1</version>
+        <authors>Just Applications LTD</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Legacy ZAZ implemetation. This package is needed for compatability issues and upgrade process.</description>
+    </metadata>
+    <files>
+        <file src="Zaz.dll" target="lib\net40" />
+        <file src="Zaz.pdb" target="lib\net40" />
+        <file src="FSharp.Core.*" target="lib\net40" />
+    </files>
+</package>
