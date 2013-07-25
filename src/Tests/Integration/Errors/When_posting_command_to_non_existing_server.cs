@@ -1,18 +1,15 @@
 ﻿using System;
-using Microsoft.ApplicationServer.Http;
+using FluentAssertions;
 using NUnit.Framework;
 using Zaz.Client;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Tests.Stubs;
-using FluentAssertions;
 
 namespace Zaz.Tests.Integration.Errors
 {
     public class When_posting_command_to_non_existing_server
     {
-        HttpServiceHost _host;
-
-        static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/NonExistingCommands/";        
+        static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/NonExistingCommands/";
 
         object _postedCommand;
         CommandHandlingContext _ctx;
@@ -20,7 +17,7 @@ namespace Zaz.Tests.Integration.Errors
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
-        {           
+        {
             // Client side
             var bus = new ZazClient(URL);
             try
@@ -35,7 +32,7 @@ namespace Zaz.Tests.Integration.Errors
                 _resultEx = ex;
             }
         }
-        
+
         [Test]
         public void Should_throw_exception()
         {
@@ -46,6 +43,6 @@ namespace Zaz.Tests.Integration.Errors
         public void Should_be_zaz_exception()
         {
             _resultEx.Should().BeAssignableTo<ZazException>();
-        }        
+        }
     }
 }

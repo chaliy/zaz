@@ -1,31 +1,32 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using NUnit.Framework;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
-using Zaz.Server;
+using NUnit.Framework;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
 using Zaz.Server.Advanced.Service.Contract;
 using Zaz.Tests.Server.Stubs;
-using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Server
 {
     public class When_posting_json_command
-    {        
+    {
         private HttpResponseMessage _result;
         private CommandBrokerStub _broker;
-        
+
         [TestFixtureSetUp]
         public void Given_service_by_default()
         {
             _broker = new CommandBrokerStub();
-            var service = new CommandsService(new ServerContext (broker: _broker ));
-            var cmdKey = typeof (FooCommand).FullName;
-            var cmdData = new JObject();
-            cmdData.Add("Value1", "Foo");            
-            _result = service.Post(new PostCommandRequest
+            var service = new CommandsController(new ServerContext(broker: _broker));
+            var cmdKey = typeof(FooCommand).FullName;
+            var cmdData = new JObject
+            {
+                {"Value1", "Foo"}
+            };
+            _result = service.Default(new PostCommandRequest
             {
                 Key = cmdKey,
                 Command = cmdData
@@ -42,7 +43,7 @@ namespace Zaz.Tests.Server
         [Test]
         public void Should_post_command()
         {
-            _broker.HandledCommands.Should().Contain(x => x.GetType() == typeof (FooCommand));
+            _broker.HandledCommands.Should().Contain(x => x.GetType() == typeof(FooCommand));
         }
 
         [Test]

@@ -1,16 +1,19 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http.SelfHost;
 using FluentAssertions;
 using NUnit.Framework;
 using Zaz.Client;
 using Zaz.Server;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Tests.Stubs;
 
 namespace Zaz.Tests.Integration
 {
     public class When_posting_long_command_to_server
-    {        
+    {
         private object _postedCommand;
         private CommandHandlingContext _ctx;
 
@@ -19,24 +22,34 @@ namespace Zaz.Tests.Integration
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = Create.FooCommandsService((cmd, ctx) =>
+            var config = ZazServer.ConfigureAsSelfHosted(URL, new ServerConfiguration
             {
-                _postedCommand = cmd;
-                _ctx = ctx;
-
-                return Task.Factory.StartNew(() =>
+                Registry = new FooCommandRegistry(),
+                Broker = new DelegatingCommandBroker((cmd, ctx) =>
                 {
-                    ctx.Log.Info("Hello word! #1");
-                    Thread.Sleep(1000);
-                    ctx.Log.Info("Hello word! #2");
-                    Thread.Sleep(1000);
-                    ctx.Log.Info("Hello word! #3");
-                    Thread.Sleep(1000);
-                    ctx.Log.Info("Hello word! #4");
-                });                
+                    _postedCommand = cmd;
+                    _ctx = ctx;
+
+                    return Task.Factory.StartNew(() =>
+                    {
+                        ctx.Log.Info("Hello word! #1");
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                        ctx.Log.Info("Hello word! #2");
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                        ctx.Log.Info("Hello word! #3");
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                        ctx.Log.Info("Hello word! #4");
+                    });
+                })
             });
-            using(instance.OpenConfiguredServiceHost(URL))
+
+            using (var host = new HttpSelfHostServer(config))
             {
+                host.OpenAsync().Wait();
+
                 var bus = new ZazClient(URL);
                 bus.Post(new FooCommand
                 {

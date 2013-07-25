@@ -6,34 +6,37 @@
 	<title>Zaz: Command Bus Portal</title>
     
 		    
-	<meta name="description" content="">
-	<meta name="author" content="Mike Chaliy">
+    <meta name="description" content="" />
+    <meta name="author" content="Mike Chaliy" />
 		    
-    <link rel="stylesheet" href="//twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="//twitter.github.io/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css?v=2" />
 	
 </head>
 <body>
 
     <header>
-        <h1>Zaz: Command Bus Portal</h1>
+        <h1>Zaz: Commands Bus Portal</h1>
     </header>
 
     <div id="main"></div>
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-	<script src="js/app.js"></script>	
+    <script src="js/app.js"></script>	
+
     <script id="commandListTemplate" type="text/x-jquery-tmpl">	
-	<dl>
-    {{each commands}}
-        <dt>${$value.Key}</dt>		
-        <dd>
-            <p>${$value.Description}</p>            
-        </dd>		
-	{{/each}}
-    </dl>
+        <dl>
+            {{each commands}}
+            <dt>${$value.Key}</dt>		
+            <dd>
+                <p>${$value.Description}</p>            
+            </dd>		
+            {{/each}}
+        </dl>
     </script>
+    
+    <!-- Zaz Command Bus Portal -->
 
 </body>
 </html>

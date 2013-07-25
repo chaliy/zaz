@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+
 namespace Zaz.Client.Avanced
 {        
     public class ZazTransportException : System.Exception

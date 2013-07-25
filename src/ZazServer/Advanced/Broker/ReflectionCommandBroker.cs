@@ -16,14 +16,18 @@ namespace Zaz.Server.Advanced.Broker
 
         public Task Handle(dynamic cmd, CommandHandlingContext ctx)
         {
+            if (_handlersAssembly == null)
+                throw new InvalidOperationException("Handlers assembly is not initialized");
+
             var cmdType = cmd.GetType();
-            var handlerType = _handlersAssembly
-                .GetTypes()
+            var candidates = _handlersAssembly.GetTypes();
+
+            var handlerType = candidates
                 .FirstOrDefault(x => x.Name.EndsWith("Handler")
-                                        && x.GetMethod("Handle") != null
-                                        && x.GetMethod("Handle")
-                                               .GetParameters()[0].ParameterType
-                                               .IsAssignableFrom(cmdType));                
+                                     && x.GetMethod("Handle") != null
+                                     && x.GetMethod("Handle")
+                                         .GetParameters()[0].ParameterType
+                                         .IsAssignableFrom(cmdType));
 
             if (handlerType == null)
             {
@@ -36,10 +40,10 @@ namespace Zaz.Server.Advanced.Broker
 
             if (result is Task)
             {
-                return (Task) result;
+                return (Task)result;
             }
 
-            return Task.Factory.StartNew(() => {});
+            return Task.Factory.StartNew(() => { });
         }
     }
 }

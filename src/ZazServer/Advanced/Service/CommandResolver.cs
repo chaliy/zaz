@@ -10,7 +10,7 @@ namespace Zaz.Server.Advanced.Service
 {
     public class CommandResolver
     {
-        private readonly ServerContext _context;
+        readonly ServerContext _context;
 
         public CommandResolver(ServerContext context)
         {
@@ -31,7 +31,7 @@ namespace Zaz.Server.Advanced.Service
 
         private CommandInfo TryResolveSingle(Expression<Func<CommandInfo, bool>> predicate)
         {
-            var query = (_context.Registry ?? Implementations.CommandRegistry).Query();
+            var query = (_context.Registry ?? Implementations.CommandRegistry.Value).Query();
 
             var matches = query
                 .Where(predicate)
@@ -44,12 +44,12 @@ namespace Zaz.Server.Advanced.Service
 
             return null;
         }
-        
+
         public Type ResolveCommandType(string key)
         {
             // Try exact match
             var cmd = TryResolveSingle(x => x.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
-            
+
             if (cmd == null)
             {
                 // Try exact match on alias
@@ -77,7 +77,7 @@ namespace Zaz.Server.Advanced.Service
         }
 
         private static bool Contains(string s1, string s2)
-        {            
+        {
             return (s1 ?? "").ToLower().Contains((s2 ?? "").ToLower());
         }
 
@@ -101,6 +101,6 @@ namespace Zaz.Server.Advanced.Service
             return Activator.CreateInstance(cmdType);
         }
 
-        
+
     }
 }
