@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
 using WebApiContrib.Formatters.JsonNet;
 using Zaz.Server.Advanced;
@@ -35,7 +36,7 @@ namespace Zaz.Server
         // to describe them more conventionaly in some way. 
         // But for now this solution id good enough. 
         // Just had to focus on the other things.
-        static void Configure(HttpConfiguration httpConfig, string prefix = "Commands/", ServerConfiguration serverConfig = null)
+        public static void Configure(HttpConfiguration httpConfig, string prefix = "Commands/", ServerConfiguration serverConfig = null)
         {
             prefix = prefix ?? "";
             var configuration = serverConfig ?? new ServerConfiguration();
@@ -51,52 +52,59 @@ namespace Zaz.Server
             // POST
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/PostLegacy",
+                name: prefix + "ZazCommands/PostLegacy",
                 routeTemplate: prefix + "Legacy",
-                defaults: new { controller = "Commands", action = "PostLegacy" }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands", action = "PostLegacy" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/PostScheduled",
+                name: prefix + "ZazCommands/PostScheduled",
                 routeTemplate: prefix + "Scheduled",
-                defaults: new { controller = "Commands", action = "PostScheduled" }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands", action = "PostScheduled" }
             );
 
             // GET
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/GetScheduled",
+                name: prefix + "ZazCommands/GetScheduled",
                 routeTemplate: prefix + "Scheduled/{id}",
-                defaults: new { controller = "Commands", action = "GetScheduled" }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands", action = "GetScheduled" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/GetScheduledLog",
+                name: prefix + "ZazCommands/GetScheduledLog",
                 routeTemplate: prefix + "Scheduled/Log/{id}",
-                defaults: new { controller = "Commands", action = "GetScheduledLog" }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands", action = "GetScheduledLog" }
             );
 
             // DEFAULTS
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/Commands",
+                name: prefix + "ZazCommands/Commands",
                 routeTemplate: prefix + "{action}",
-                defaults: new { controller = "Commands" }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "ZazCommands/Default",
+                name: prefix + "ZazCommands/Default",
                 routeTemplate: prefix + "{*path}",
-                defaults: new { controller = "Commands", action = "Default", path = RouteParameter.Optional }
+                defaults: new { x_zaz_prefx = prefix, controller = "Commands", action = "Default", path = RouteParameter.Optional }
             );
 
-            var activator = (IHttpControllerActivator)config.Services.GetService(typeof(IHttpControllerActivator));
-            config.Services.Replace(typeof(IHttpControllerActivator), new SimpleControllerActicator(activator, new ServerContext(configuration.Registry, configuration.Broker, configuration.StateProvider)));
+            var nestedActivator = (IHttpControllerActivator)config.Services.GetService(typeof(IHttpControllerActivator));
+
+            var serverContext = new ServerContext(
+                configuration.Registry,
+                configuration.Broker,
+                configuration.StateProvider
+            );
+
+            var controllerActivator = new SimpleControllerActicator(prefix, nestedActivator, serverContext);
+            config.Services.Replace(typeof(IHttpControllerActivator), controllerActivator);
+
 
             if (configuration.ConfigureHttp != null)
-            {
                 configuration.ConfigureHttp(httpConfig);
-            }
 
             SetUp(config);
         }
@@ -125,21 +133,41 @@ namespace Zaz.Server
 
         class SimpleControllerActicator : IHttpControllerActivator
         {
-            readonly IHttpControllerActivator _activator;
+            readonly string _prefix;
+            readonly IHttpControllerActivator _nestedActivator;
             readonly ServerContext _context;
 
-            public SimpleControllerActicator(IHttpControllerActivator activator, ServerContext context)
+            public SimpleControllerActicator(string prefix, IHttpControllerActivator nestedActivator, ServerContext context)
             {
-                _activator = activator;
+                _prefix = prefix;
+                _nestedActivator = nestedActivator;
                 _context = context;
             }
 
             public IHttpController Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)
             {
-                if (controllerType == typeof(CommandsController))
+                if (controllerType == typeof(CommandsController) && PrefixMatches(request))
                     return new CommandsController(_context);
 
-                return _activator.Create(request, controllerDescriptor, controllerType);
+                return _nestedActivator.Create(request, controllerDescriptor, controllerType);
+            }
+
+            bool PrefixMatches(HttpRequestMessage request)
+            {
+                if (!request.Properties.ContainsKey("MS_HttpRouteData"))
+                    return false;
+
+                var route = request.Properties["MS_HttpRouteData"] as HttpRouteData;
+
+                if (route == null)
+                    return false;
+
+                if (!route.Values.ContainsKey("x_zaz_prefx"))
+                    return false;
+
+                var prefix = (string)route.Values["x_zaz_prefx"];
+
+                return prefix == _prefix;
             }
         }
     }
