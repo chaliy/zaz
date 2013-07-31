@@ -157,7 +157,7 @@ namespace Zaz.Server
                 if (!request.Properties.ContainsKey("MS_HttpRouteData"))
                     return false;
 
-                var route = request.Properties["MS_HttpRouteData"] as HttpRouteData;
+                var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
 
                 if (route == null)
                     return false;
