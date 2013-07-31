@@ -163,7 +163,7 @@
       <Name>SampleHandlers</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZazServer\ZazServer.csproj">
-      <Project>{e8194996-1d59-4d0f-a618-96c0fc6221ee}</Project>
+      <Project>{E8194996-1D59-4D0F-A618-96C0FC6221EE}</Project>
       <Name>ZazServer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -99,7 +99,7 @@ namespace Zaz.Server
                 configuration.StateProvider
             );
 
-            var controllerActivator = new SimpleControllerActicator(prefix, nestedActivator, serverContext);
+            var controllerActivator = new CommandsControllerActicator(prefix, nestedActivator, serverContext);
             config.Services.Replace(typeof(IHttpControllerActivator), controllerActivator);
 
 
@@ -131,13 +131,13 @@ namespace Zaz.Server
             //    </configuration>
         }
 
-        class SimpleControllerActicator : IHttpControllerActivator
+        class CommandsControllerActicator : IHttpControllerActivator
         {
             readonly string _prefix;
             readonly IHttpControllerActivator _nestedActivator;
             readonly ServerContext _context;
 
-            public SimpleControllerActicator(string prefix, IHttpControllerActivator nestedActivator, ServerContext context)
+            public CommandsControllerActicator(string prefix, IHttpControllerActivator nestedActivator, ServerContext context)
             {
                 _prefix = prefix;
                 _nestedActivator = nestedActivator;
@@ -149,21 +149,27 @@ namespace Zaz.Server
                 if (controllerType == typeof(CommandsController) && PrefixMatches(request))
                     return new CommandsController(_context);
 
+                if (controllerType == typeof(CommandsController) && _nestedActivator.GetType() != typeof(CommandsControllerActicator))
+                {
+                    // We can't activate CommandsController
+                    throw new InvalidOperationException("Couldn't activate CommandsController instance");
+                }
+
                 return _nestedActivator.Create(request, controllerDescriptor, controllerType);
             }
 
             bool PrefixMatches(HttpRequestMessage request)
             {
                 if (!request.Properties.ContainsKey("MS_HttpRouteData"))
-                    return false;
+                    throw new InvalidOperationException("Couldn't get MS_HttpRouteData property");
 
                 var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
 
                 if (route == null)
-                    return false;
+                    throw new InvalidOperationException("Unrecognized MS_HttpRouteData property type");
 
                 if (!route.Values.ContainsKey("x_zaz_prefx"))
-                    return false;
+                    throw new InvalidOperationException("Missing x_zaz_prefx property");
 
                 var prefix = (string)route.Values["x_zaz_prefx"];
 
