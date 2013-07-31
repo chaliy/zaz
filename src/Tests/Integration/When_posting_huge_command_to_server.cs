@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Reactive.Subjects;
-using Microsoft.ApplicationServer.Http;
-using NUnit.Framework;
+using System.Web.Http.SelfHost;
 using FluentAssertions;
+using NUnit.Framework;
 using SampleCommands;
-using Zaz.Client;
 using Zaz.Client.Avanced;
+using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Registry;
-using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Integration.CustomBroker;
+using LogEntry = Zaz.Client.LogEntry;
 
 namespace Zaz.Tests.Integration
 {
     public class When_posting_huge_command_to_server
     {
-        private HttpServiceHost _host;
+        //        private HttpSelfHostServer _host;
         private NullCommandBroker _commandBroker;
 
         private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/HugeCommands/";
@@ -24,35 +24,32 @@ namespace Zaz.Tests.Integration
         public void Given_command_server_runnig()
         {
             _commandBroker = new NullCommandBroker();
-            var instance = new CommandsService(new ServerContext
-            (
-                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                broker: _commandBroker
-            ));            
-            var config = ConfigurationHelper.CreateConfiguration(instance);
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
-            _host.Open();
-        }
 
-        [TestFixtureTearDown]
-        public void Cleanup()
-        {            
-            _host.Close();
+            var config = ZazServer.ConfigureAsSelfHosted(URL, new ServerConfiguration
+            {
+                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                Broker = _commandBroker,
+            });
+
+            using (var host = new HttpSelfHostServer(config))
+            {
+                host.OpenAsync().Wait();
+
+                var bus = new AdvancedZazClient(URL);
+                bus.PostScheduled(new CommandEnvelope
+                {
+                    Key = "HugeFoo",
+                    Command = new HugeFoo
+                    {
+                        Data = new String('a', 2097152)
+                    }
+                }, new Subject<LogEntry>()).Wait();
+            }
         }
 
         [Test]
         public void Should_successfully_send_command()
         {
-            var bus = new AdvancedZazClient(URL);
-            bus.PostScheduled(new CommandEnvelope
-                          {
-                              Key = "HugeFoo",
-                              Command = new HugeFoo
-                              {
-                                  Data = new String('a', 2097152)
-                              }
-                          }, new Subject<LogEntry>()).Wait();
-
             _commandBroker.CommandsPosted.Should().NotBeEmpty();
         }
     }

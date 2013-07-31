@@ -50,7 +50,7 @@ namespace Zaz.Server.Advanced.Executor
         public ExecutionStats GetExecutionStats(ExecutionId id, DateTime? token)
         {
 
-            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider);
+            var stateProvider = (_context.StateProvider ?? Implementations.StateProvider.Value);
             var lastTrace = stateProvider
                 .QueryEntries(id)
                 .OrderBy(x => x.Timestamp)

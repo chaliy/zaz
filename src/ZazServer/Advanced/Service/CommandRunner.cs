@@ -19,7 +19,7 @@ namespace Zaz.Server.Advanced.Service
 
         public HttpResponseMessage RunCommand(string cmdKey, object cmd, string[] tags)
         {
-            var broker = (_context.Broker ?? Implementations.Broker);
+            var broker = (_context.Broker ?? Implementations.Broker.Value);
 
             var log = new ZazLogToStringAdapter();
             var ctx = new CommandHandlingContext(tags, Thread.CurrentPrincipal, log);
@@ -30,7 +30,7 @@ namespace Zaz.Server.Advanced.Service
             catch (AggregateException ex)
             {
                 foreach (var child in ex.Flatten().InnerExceptions)
-                {                    
+                {
                     log.Error(child.Message);
                 }
             }

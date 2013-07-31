@@ -24,33 +24,29 @@ namespace WebApiContrib.Formatters.JsonNet
 
         public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
         {
-            var serializer = CreateSerializer();
-
             return Task.Factory.StartNew(() =>
             {
-                using (var streamReader = new StreamReader(readStream, _defaultEncoding))
-                {
-                    using (var jsonTextReader = new JsonTextReader(streamReader))
-                    {
-                        return serializer.Deserialize(jsonTextReader, type);
-                    }
-                }
+                var serializer = CreateSerializer();
+                var streamReader = new StreamReader(readStream, _defaultEncoding);
+                var jsonTextReader = new JsonTextReader(streamReader);
+                var deserialized = serializer.Deserialize(jsonTextReader, type);
+                return deserialized;
             });
         }
 
         public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
         {
-            var serializer = CreateSerializer();
-
             return Task.Factory.StartNew(() =>
             {
-                using (var streamWriter = new StreamWriter(writeStream, _defaultEncoding))
-                {
-                    using (var jsonTextWriter = new JsonTextWriter(streamWriter))
-                    {
-                        serializer.Serialize(jsonTextWriter, value);
-                    }
-                }
+                var serializer = CreateSerializer();
+
+                var streamWriter = new StreamWriter(writeStream, _defaultEncoding);
+                var jsonTextWriter = new JsonTextWriter(streamWriter);
+
+                serializer.Serialize(jsonTextWriter, value);
+
+                jsonTextWriter.Flush();
+                streamWriter.Flush();
             });
         }
 
@@ -85,7 +81,7 @@ namespace WebApiContrib.Formatters.JsonNet
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
         }
 
-        /*protected override*/
+        //        protected override 
         object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
             var serializer = CreateSerializer();
@@ -96,7 +92,7 @@ namespace WebApiContrib.Formatters.JsonNet
             return result;
         }
 
-        /*protected override*/
+        //        protected override 
         void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context)
         {
             var serializer = CreateSerializer();

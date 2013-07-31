@@ -46,7 +46,29 @@ To install Server execute:
 	Install-Package ZazServer
 	
 If you need other distribution, pls contact me.
+
+Upgrade
+=======
+
+In case if you have updated to the latest version you would have compilation errors. The following changes been introduced while upgraded the project to the new Web API.
+
+Instead of routes based initialization
+
+    RouteTable.Routes.MapCommandsService("Commands",
+        new ServerConfiguration
+        {
+            Registry = registry,
+            Broker = new NventreeCommandBroker()
+        });
+
+New central initialization class been introduced
 	
+    ZazServer.ConfigureAsWebHost("Commands", new ServerConfiguration
+    {
+        Registry = registry,
+        Broker = new NventreeCommandBroker()
+    });
+
 License
 =======
 
