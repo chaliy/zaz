@@ -131,6 +131,8 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="FortyTwo.cs" />
+    <Compile Include="Integration\Security\When_posting_command_to_server_with_custom_auth.cs" />
+    <Compile Include="Integration\Security\When_setting_up_multiple_endpoints_with_auth.cs" />
     <Compile Include="Integration\When_configuring_multiple_endpoints_within_1_webhost.cs" />
     <Compile Include="Integration\When_posting_20_commands_through_shared_client.cs" />
     <Compile Include="Integration\When_posting_20_commands_through_separated_clients.cs" />

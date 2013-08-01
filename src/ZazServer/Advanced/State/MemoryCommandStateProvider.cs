@@ -1,29 +1,26 @@
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace Zaz.Server.Advanced.State
 {
     public class MemoryCommandStateProvider : BaseCommandStateProvider
-    {		
-        private readonly IDictionary<string, List<ProgressEntry>> _storage = new Dictionary<string, List<ProgressEntry>>();
-		
+    {
+        readonly ConcurrentDictionary<string, ConcurrentBag<ProgressEntry>> _storage = new ConcurrentDictionary<string, ConcurrentBag<ProgressEntry>>();
+
         public override IQueryable<ProgressEntry> QueryEntries(string key)
-        {				
-            if (_storage.ContainsKey(key))
-            {
-                return _storage[key].AsQueryable();
-            }
-            return Enumerable.Empty<ProgressEntry>().AsQueryable();
+        {
+            var res = _storage.GetOrAdd(key, new ConcurrentBag<ProgressEntry>());
+
+            return res.ToArray().AsQueryable();
         }
-		
+
         protected override void WriteEntry(string key, ProgressEntry entry)
         {
-            if (!_storage.ContainsKey(key))
+            _storage.AddOrUpdate(key, new ConcurrentBag<ProgressEntry>(new[] { entry }), (s, bag) =>
             {
-                _storage[key] = new List<ProgressEntry>();
-            }
-			
-            _storage[key].Add(entry);
-        }		
+                bag.Add(entry);
+                return bag;
+            });
+        }
     }
 }
