@@ -150,11 +150,15 @@
     <Compile Include="..\JsonNetFormatter.cs">
       <Link>JsonNetFormatter.cs</Link>
     </Compile>
+    <Compile Include="Advanced\Service\Security\BasicAuthenticationIdentity.cs" />
+    <Compile Include="Advanced\Service\Security\CustomAuthenticationFilter.cs" />
+    <Compile Include="Advanced\Service\Security\SimpleBasicAuthenticationFilter.cs" />
+    <Compile Include="Advanced\Service\Security\ZazAuthenticaion.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="LogEntryExtensions.cs" />
     <Compile Include="Advanced\Logging\ZazLogToStringAdapter.cs" />
     <Compile Include="Advanced\Registry\SimpleCommandRegistry.cs" />
-    <Compile Include="Advanced\Service\Security\SimpleBasicAuthenticationHelper.cs" />
+    <Compile Include="Advanced\Service\Security\ZazAuthenticationExtentions.cs" />
     <Compile Include="Advanced\Service\CommandResolver.cs" />
     <Compile Include="Advanced\Service\CommandRunner.cs" />
     <Compile Include="Advanced\Service\Contract\PostCommandRequest.cs" />

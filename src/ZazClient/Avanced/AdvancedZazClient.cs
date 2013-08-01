@@ -8,14 +8,14 @@ using Zaz.Client.Avanced.Contract;
 namespace Zaz.Client.Avanced
 {
     public class AdvancedZazClient
-    {        
+    {
         private readonly ZazServerClient _client;
 
         public AdvancedZazClient(string url, ZazConfiguration configuration = null)
         {
             _client = new ZazServerClient(url, configuration);
-        }        
-                
+        }
+
         public Task<string> Post(CommandEnvelope envelope)
         {
             var req = CreatePostCommandRequest(envelope);
@@ -24,21 +24,21 @@ namespace Zaz.Client.Avanced
                 {
                     if (!x.Result.IsSuccessStatusCode)
                     {
-                        throw new ZazTransportException("An error occured while sending request.", x.Result);
+                        throw new ZazTransportException("An error occurred while sending request.", x.Result);
                     }
                     return x.Result.Content.ReadAsStringAsync().Result;
-                });                
+                });
         }
 
         public Task PostScheduled(CommandEnvelope envelope, IObserver<LogEntry> log)
-        {            
+        {
             var req = CreatePostCommandRequest(envelope);
             return _client.PostScheduled(req)
                 .ContinueWith(x =>
-                {                    
+                {
                     var resp = x.Result;
-                    var id = resp.Id;                    
-                    
+                    var id = resp.Id;
+
                     Action<string> traceStatus = m => log.OnNext(new LogEntry
                     {
                         Message = m,
@@ -62,8 +62,8 @@ namespace Zaz.Client.Avanced
                         }
 
                         // Take maximum available timestamp
-                        token = serverLog.Select(xx => xx.Timestamp).Union(new[] { token }).Max();                        
-                        
+                        token = serverLog.Select(xx => xx.Timestamp).Union(new[] { token }).Max();
+
                         switch (resp2.Status)
                         {
                             case ScheduledCommandStatus.Pending:
@@ -83,7 +83,7 @@ namespace Zaz.Client.Avanced
                                 return;
                         }
 
-                        Thread.Sleep(300);       
+                        Thread.Sleep(300);
                     }
                 });
         }
@@ -96,6 +96,6 @@ namespace Zaz.Client.Avanced
                 Key = envelope.Key,
                 Tags = envelope.Tags
             };
-        }        
+        }
     }
 }

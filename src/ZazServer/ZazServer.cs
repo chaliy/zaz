@@ -31,15 +31,9 @@ namespace Zaz.Server
             return config;
         }
 
-
-        // Yep, all these templates could be moved to the controller itself
-        // to describe them more conventionaly in some way. 
-        // But for now this solution id good enough. 
-        // Just had to focus on the other things.
-        public static void Configure(HttpConfiguration httpConfig, string prefix = "Commands/", ServerConfiguration serverConfig = null)
+        internal static string NormalizePrefix(string prefix)
         {
             prefix = prefix ?? "";
-            var configuration = serverConfig ?? new ServerConfiguration();
 
             if (!prefix.EndsWith("/"))
                 prefix += "/";
@@ -47,7 +41,18 @@ namespace Zaz.Server
             if (prefix.StartsWith("/"))
                 prefix = prefix.Substring(1, prefix.Length - 1);
 
-            var config = httpConfig;
+            return prefix;
+        }
+
+
+        // Yep, all these templates could be moved to the controller itself
+        // to describe them more conventionaly in some way. 
+        // But for now this solution id good enough. 
+        // Just had to focus on the other things.
+        public static void Configure(HttpConfiguration config, string prefix = "Commands/", ServerConfiguration serverConfig = null)
+        {
+            var configuration = serverConfig ?? new ServerConfiguration();
+            prefix = NormalizePrefix(prefix);
 
             // POST
 
@@ -102,9 +107,10 @@ namespace Zaz.Server
             var controllerActivator = new CommandsControllerActicator(prefix, nestedActivator, serverContext);
             config.Services.Replace(typeof(IHttpControllerActivator), controllerActivator);
 
-
             if (configuration.ConfigureHttp != null)
-                configuration.ConfigureHttp(httpConfig);
+            {
+                configuration.ConfigureHttp(config);
+            }
 
             SetUp(config);
         }
@@ -131,6 +137,24 @@ namespace Zaz.Server
             //    </configuration>
         }
 
+        internal static bool PrefixMatches(HttpRequestMessage request, string prefix)
+        {
+            if (!request.Properties.ContainsKey("MS_HttpRouteData"))
+                throw new InvalidOperationException("Couldn't get MS_HttpRouteData property");
+
+            var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
+
+            if (route == null)
+                throw new InvalidOperationException("Unrecognized MS_HttpRouteData property type");
+
+            if (!route.Values.ContainsKey("x_zaz_prefx"))
+                throw new InvalidOperationException("Missing x_zaz_prefx property");
+
+            var attachedPrefix = (string)route.Values["x_zaz_prefx"];
+
+            return attachedPrefix == prefix;
+        }
+
         class CommandsControllerActicator : IHttpControllerActivator
         {
             readonly string _prefix;
@@ -146,7 +170,7 @@ namespace Zaz.Server
 
             public IHttpController Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)
             {
-                if (controllerType == typeof(CommandsController) && PrefixMatches(request))
+                if (controllerType == typeof(CommandsController) && PrefixMatches(request, _prefix))
                     return new CommandsController(_context);
 
                 if (controllerType == typeof(CommandsController) && _nestedActivator.GetType() != typeof(CommandsControllerActicator))
@@ -156,24 +180,6 @@ namespace Zaz.Server
                 }
 
                 return _nestedActivator.Create(request, controllerDescriptor, controllerType);
-            }
-
-            bool PrefixMatches(HttpRequestMessage request)
-            {
-                if (!request.Properties.ContainsKey("MS_HttpRouteData"))
-                    throw new InvalidOperationException("Couldn't get MS_HttpRouteData property");
-
-                var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
-
-                if (route == null)
-                    throw new InvalidOperationException("Unrecognized MS_HttpRouteData property type");
-
-                if (!route.Values.ContainsKey("x_zaz_prefx"))
-                    throw new InvalidOperationException("Missing x_zaz_prefx property");
-
-                var prefix = (string)route.Values["x_zaz_prefx"];
-
-                return prefix == _prefix;
             }
         }
     }
