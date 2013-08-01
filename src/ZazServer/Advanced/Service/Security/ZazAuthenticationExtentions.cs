@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace Zaz.Server.Advanced.Service.Security
 {
+    // This 'prefix' parameter looks ugly. It will be fixed in next builds
     public static class ZazAuthenticationExtentions
     {
         public static void SetupBasicAuthentication(this HttpConfiguration http, string username, string password, string prefix)

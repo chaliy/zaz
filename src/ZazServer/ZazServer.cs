@@ -107,9 +107,10 @@ namespace Zaz.Server
             var controllerActivator = new CommandsControllerActicator(prefix, nestedActivator, serverContext);
             config.Services.Replace(typeof(IHttpControllerActivator), controllerActivator);
 
-
             if (configuration.ConfigureHttp != null)
+            {
                 configuration.ConfigureHttp(config);
+            }
 
             SetUp(config);
         }
