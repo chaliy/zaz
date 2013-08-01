@@ -31,15 +31,9 @@ namespace Zaz.Server
             return config;
         }
 
-
-        // Yep, all these templates could be moved to the controller itself
-        // to describe them more conventionaly in some way. 
-        // But for now this solution id good enough. 
-        // Just had to focus on the other things.
-        public static void Configure(HttpConfiguration httpConfig, string prefix = "Commands/", ServerConfiguration serverConfig = null)
+        internal static string NormalizePrefix(string prefix)
         {
             prefix = prefix ?? "";
-            var configuration = serverConfig ?? new ServerConfiguration();
 
             if (!prefix.EndsWith("/"))
                 prefix += "/";
@@ -47,7 +41,18 @@ namespace Zaz.Server
             if (prefix.StartsWith("/"))
                 prefix = prefix.Substring(1, prefix.Length - 1);
 
-            var config = httpConfig;
+            return prefix;
+        }
+
+
+        // Yep, all these templates could be moved to the controller itself
+        // to describe them more conventionaly in some way. 
+        // But for now this solution id good enough. 
+        // Just had to focus on the other things.
+        public static void Configure(HttpConfiguration config, string prefix = "Commands/", ServerConfiguration serverConfig = null)
+        {
+            var configuration = serverConfig ?? new ServerConfiguration();
+            prefix = NormalizePrefix(prefix);
 
             // POST
 
@@ -104,7 +109,7 @@ namespace Zaz.Server
 
 
             if (configuration.ConfigureHttp != null)
-                configuration.ConfigureHttp(httpConfig);
+                configuration.ConfigureHttp(config);
 
             SetUp(config);
         }

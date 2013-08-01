@@ -43,7 +43,7 @@ namespace Zaz.Tests.Integration.Security
             {
                 Registry = new FooCommandRegistry(),
                 Broker = new DelegatingCommandBroker((cmd, ctx) => Task.Factory.StartNew(() => { })),
-                ConfigureHttp = http => http.SetupBasicAuthentications("supr", "booper", "")
+                ConfigureHttp = http => http.SetupBasicAuthentication("supr", "booper", Prefix2)
             };
 
             var config = new HttpSelfHostConfiguration(URL);
@@ -76,7 +76,6 @@ namespace Zaz.Tests.Integration.Security
         [Test]
         public void Should_execute_the_command_sent_trough_endpoint1()
         {
-
             var bus = new ZazClient(URL1, new ZazConfiguration());
             bus.Post(new FooCommand { Message = "Hello world" });
 
