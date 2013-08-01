@@ -131,6 +131,24 @@ namespace Zaz.Server
             //    </configuration>
         }
 
+        internal static bool PrefixMatches(HttpRequestMessage request, string prefix)
+        {
+            if (!request.Properties.ContainsKey("MS_HttpRouteData"))
+                throw new InvalidOperationException("Couldn't get MS_HttpRouteData property");
+
+            var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
+
+            if (route == null)
+                throw new InvalidOperationException("Unrecognized MS_HttpRouteData property type");
+
+            if (!route.Values.ContainsKey("x_zaz_prefx"))
+                throw new InvalidOperationException("Missing x_zaz_prefx property");
+
+            var attachedPrefix = (string)route.Values["x_zaz_prefx"];
+
+            return attachedPrefix == prefix;
+        }
+
         class CommandsControllerActicator : IHttpControllerActivator
         {
             readonly string _prefix;
@@ -146,7 +164,7 @@ namespace Zaz.Server
 
             public IHttpController Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)
             {
-                if (controllerType == typeof(CommandsController) && PrefixMatches(request))
+                if (controllerType == typeof(CommandsController) && PrefixMatches(request, _prefix))
                     return new CommandsController(_context);
 
                 if (controllerType == typeof(CommandsController) && _nestedActivator.GetType() != typeof(CommandsControllerActicator))
@@ -156,24 +174,6 @@ namespace Zaz.Server
                 }
 
                 return _nestedActivator.Create(request, controllerDescriptor, controllerType);
-            }
-
-            bool PrefixMatches(HttpRequestMessage request)
-            {
-                if (!request.Properties.ContainsKey("MS_HttpRouteData"))
-                    throw new InvalidOperationException("Couldn't get MS_HttpRouteData property");
-
-                var route = request.Properties["MS_HttpRouteData"] as IHttpRouteData;
-
-                if (route == null)
-                    throw new InvalidOperationException("Unrecognized MS_HttpRouteData property type");
-
-                if (!route.Values.ContainsKey("x_zaz_prefx"))
-                    throw new InvalidOperationException("Missing x_zaz_prefx property");
-
-                var prefix = (string)route.Values["x_zaz_prefx"];
-
-                return prefix == _prefix;
             }
         }
     }

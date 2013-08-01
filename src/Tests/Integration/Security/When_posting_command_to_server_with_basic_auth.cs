@@ -39,7 +39,7 @@ namespace Zaz.Tests.Integration.Security
 
                     return Task.Factory.StartNew(() => { });
                 }),
-                ConfigureHttp = http => http.SetupBasicAuthentications("supr", "booper")
+                ConfigureHttp = http => http.SetupBasicAuthentications("supr", "booper", "")
             };
 
             var config = ZazServer.ConfigureAsSelfHosted(URL, serverConfiguration);

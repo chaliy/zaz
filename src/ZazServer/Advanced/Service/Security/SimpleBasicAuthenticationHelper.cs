@@ -12,20 +12,22 @@ namespace Zaz.Server.Advanced.Service.Security
     // Used this http://www.west-wind.com/weblog/posts/2013/Apr/30/A-WebAPI-Basic-Authentication-MessageHandler
     public static class SimpleBasicAuthenticationHelper
     {
-        public static void SetupBasicAuthentications(this HttpConfiguration http, string username, string password)
+        public static void SetupBasicAuthentications(this HttpConfiguration http, string username, string password, string prefix)
         {
-            http.Filters.Add(new SimpleAuthentication(username, password));
+            http.Filters.Add(new SimpleAuthentication(username, password, prefix));
         }
 
         private class SimpleAuthentication : AuthorizeAttribute
         {
             readonly string _username;
             readonly string _password;
+            readonly string _prefix;
 
-            public SimpleAuthentication(string username, string password)
+            public SimpleAuthentication(string username, string password, string prefix)
             {
                 _username = username;
                 _password = password;
+                _prefix = prefix;
             }
 
             public override void OnAuthorization(HttpActionContext actionContext)
@@ -33,10 +35,12 @@ namespace Zaz.Server.Advanced.Service.Security
                 var controllerType = actionContext.ControllerContext.Controller.GetType();
 
                 if (controllerType != typeof(CommandsController))
-                {
-                    HandleUnauthorizedRequest(actionContext);
                     return;
-                }
+
+                var request = actionContext.Request;
+
+                if (ZazServer.PrefixMatches(request, _prefix) == false)
+                    return;
 
                 var identity = ParseAuthorizationHeader(actionContext.Request);
 
