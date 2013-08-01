@@ -1,40 +1,30 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
-using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
+using FluentAssertions;
 using NUnit.Framework;
-using SampleCommands;
-using SampleHandlers;
 using Zaz.Client;
-using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
-using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
-using Zaz.Server.Advanced.Service.Security;
 using Zaz.Tests.Stubs;
-using FluentAssertions;
 
 namespace Zaz.Tests.Integration.Errors
 {
     public class When_posting_command_that_not_exists
     {
-        HttpServiceHost _host;
+        static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/NotExistingCommands/";
 
-        static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/NotExistingCommands/";        
-        
         Exception _resultEx;
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = new CommandsService(new ServerContext
+            var instance = new CommandsController(new ServerContext
             (
                 registry: new FooCommandRegistry(),
                 broker: new DelegatingCommandBroker((cmd, ctx) =>
                 {
-                    return Task.Factory.StartNew(() => {});
+                    return Task.Factory.StartNew(() => { });
                 })
             ));
             using (instance.OpenConfiguredServiceHost(URL))
@@ -52,13 +42,13 @@ namespace Zaz.Tests.Integration.Errors
                 {
                     _resultEx = ex;
                 }
-            }            
+            }
         }
-        
+
         [Test]
         public void Should_throw_exception()
         {
             _resultEx.Should().NotBeNull();
-        }      
+        }
     }
 }

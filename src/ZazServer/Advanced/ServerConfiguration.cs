@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.ApplicationServer.Http;
+using System.Web.Http;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.State;
@@ -7,7 +7,7 @@ using Zaz.Server.Advanced.State;
 namespace Zaz.Server.Advanced
 {
     public class ServerConfiguration
-    {        
+    {
         public Action<HttpConfiguration> ConfigureHttp { get; set; }
 
         public ICommandRegistry Registry { get; set; }

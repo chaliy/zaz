@@ -1,12 +1,11 @@
 ﻿using System;
-using Microsoft.ApplicationServer.Http.Dispatcher;
+using System.Web.Http;
+using FluentAssertions;
 using NUnit.Framework;
-using Zaz.Server;
+using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
-using FluentAssertions;
-using Zaz.Server.Advanced;
 
 namespace Zaz.Tests.Server.Service
 {
@@ -85,8 +84,9 @@ namespace Zaz.Tests.Server.Service
         [Test]
         public void Should_fail_to_resolve_if_more_then_one()
         {
-            Action resolve = () => {
-                var type = _commandResolver.ResolveCommandType("Key");                
+            Action resolve = () =>
+            {
+                var type = _commandResolver.ResolveCommandType("Key");
             };
 
             resolve.ShouldThrow<HttpResponseException>();
@@ -108,6 +108,6 @@ namespace Zaz.Tests.Server.Service
         {
             var type = _commandResolver.ResolveCommandType("FooKey");
             type.FullName.Should().Be("Some.FooKey");
-        }        
+        }
     }
 }

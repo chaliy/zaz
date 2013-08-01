@@ -2,10 +2,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Microsoft.ApplicationServer.Http;
-using NUnit.Framework;
 using FluentAssertions;
-using Zaz.Server;
+using NUnit.Framework;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Service;
 using Zaz.Tests.Server.Stubs;
@@ -13,17 +11,17 @@ using Zaz.Tests.Server.Stubs;
 namespace Zaz.Tests.Server
 {
     public class When_posting_legacy_form_url_encoded_command
-    {        
+    {
         private HttpResponseMessage _result;
         private CommandBrokerStub _broker;
-        
+
         [TestFixtureSetUp]
         public void Given_service_by_default()
         {
             _broker = new CommandBrokerStub();
-            var service = new CommandsService(new ServerContext(broker: _broker));
-            var cmdKey = typeof (FooCommand).FullName;
-            var cmdContent = new StringContent("Zaz-Command-Id=" + cmdKey + "&Value1=Foo");            
+            var service = new CommandsController(new ServerContext(broker: _broker));
+            var cmdKey = typeof(FooCommand).FullName;
+            var cmdContent = new StringContent("Zaz-Command-Id=" + cmdKey + "&Value1=Foo");
             cmdContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             var cmdMessage = new HttpRequestMessage
                 {
@@ -42,7 +40,7 @@ namespace Zaz.Tests.Server
         [Test]
         public void Should_post_command()
         {
-            _broker.HandledCommands.Should().Contain(x => x.GetType() == typeof (FooCommand));
+            _broker.HandledCommands.Should().Contain(x => x.GetType() == typeof(FooCommand));
         }
 
         [Test]

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.ApplicationServer.Http;
-using Microsoft.ApplicationServer.Http.Activation;
+﻿using System.Web.Http.SelfHost;
 using NUnit.Framework;
 using SampleCommands;
 using SampleHandlers;
@@ -9,33 +7,33 @@ using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Registry;
-using Zaz.Server.Advanced.Service;
 
 namespace Zaz.Tests.Integration
 {
     public class When_posting_command_to_server
     {
-        private HttpServiceHost _host;
+        private HttpSelfHostServer _host;
 
-        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/SomeCommands/";        
+        private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/SomeCommands/";
 
         [TestFixtureSetUp]
         public void Given_command_server_runnig()
         {
-            var instance = new CommandsService(new ServerContext
-            (
-                registry: new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
-                broker: new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly)
-            ));            
-            var config = ConfigurationHelper.CreateConfiguration(instance);
-            _host = new HttpServiceHost(typeof(CommandsService), config, new Uri(URL));
-            _host.Open();
+            var config = ZazServer.ConfigureAsSelfHosted(URL, new ServerConfiguration
+            {
+                Registry = new ReflectionCommandRegistry(typeof(__SampleCommandsMarker).Assembly),
+                Broker = new ReflectionCommandBroker(typeof(__SampleHandlersMarker).Assembly),
+            });
+
+            _host = new HttpSelfHostServer(config);
+
+            _host.OpenAsync().Wait();
         }
 
         [TestFixtureTearDown]
         public void Cleanup()
-        {            
-            _host.Close();
+        {
+            _host.CloseAsync().Wait();
         }
 
         [Test]

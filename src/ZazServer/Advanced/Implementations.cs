@@ -8,14 +8,8 @@ namespace Zaz.Server.Advanced
 {
     public static class Implementations
     {
-        public static readonly ICommandStateProvider StateProvider =
-        	new MemoryCommandStateProvider();
-
-        public static readonly ICommandBroker Broker =
-            new ReflectionCommandBroker(Assembly.GetEntryAssembly());
-
-        public static readonly ICommandRegistry CommandRegistry =
-            new ReflectionCommandRegistry(AppDomain.CurrentDomain
-                                            .GetAssemblies());
+        public static readonly Lazy<ICommandStateProvider> StateProvider = new Lazy<ICommandStateProvider>(() => new MemoryCommandStateProvider());
+        public static readonly Lazy<ICommandBroker> Broker = new Lazy<ICommandBroker>(() => new ReflectionCommandBroker(Assembly.GetEntryAssembly()));
+        public static readonly Lazy<ICommandRegistry> CommandRegistry = new Lazy<ICommandRegistry>(() => new ReflectionCommandRegistry(AppDomain.CurrentDomain.GetAssemblies()));
     }
 }

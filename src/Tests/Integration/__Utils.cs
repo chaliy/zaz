@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.ApplicationServer.Http;
+using System.Web.Http.SelfHost;
+using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
 using Zaz.Server.Advanced.Service;
@@ -10,20 +11,20 @@ namespace Zaz.Tests.Integration
 {
     static class __CommandsServiceExt
     {
-        public static HttpServiceHost OpenConfiguredServiceHost(this CommandsService @this, string url)
+        public static HttpSelfHostServer OpenConfiguredServiceHost(this CommandsController @this, string url)
         {
-            var config = ConfigurationHelper.CreateConfiguration(@this);            
-            var host = new HttpServiceHost(typeof(CommandsService), config, new Uri(url));
-            host.Open();
+            var config = ZazServer.ConfigureAsSelfHosted(url);
+            var host = new HttpSelfHostServer(config);
+            host.OpenAsync().Wait();
             return host;
         }
     }
 
     static class Create
     {
-        public static CommandsService FooCommandsService(Func<object, CommandHandlingContext, Task> delegatex)
+        public static CommandsController FooCommandsService(Func<object, CommandHandlingContext, Task> delegatex)
         {
-            var instance = new CommandsService(new ServerContext
+            var instance = new CommandsController(new ServerContext
             (
                 registry: new FooCommandRegistry(),
                 broker: new DelegatingCommandBroker(delegatex)
