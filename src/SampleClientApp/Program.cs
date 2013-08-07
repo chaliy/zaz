@@ -1,17 +1,20 @@
-﻿using Zaz.Client;
+﻿
+
+
 using SampleCommands;
+using Zaz.Client;
 
 namespace SampleClientApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var bus = new ZazClient("http://localhost.fiddler:9302/Commands");            
-            bus.Post(new PrintMessage
-                        {
-                            Message = "Hello world"
-                        });
+            var bus = new ZazClient("http://localhost.fiddler:9302/Commands");
+            bus.PostAsync(new PrintMessage
+            {
+                Message = "Hello world"
+            }).Wait();
         }
-    }    
+    }
 }

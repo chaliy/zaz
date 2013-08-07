@@ -22,10 +22,10 @@ namespace Zaz.Tests.Integration.Errors
             var bus = new ZazClient(URL);
             try
             {
-                bus.Post(new FooCommand
+                bus.PostAsync(new FooCommand
                 {
                     Message = "Hello world"
-                });
+                }).Wait();
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Zaz.Tests.Integration.Errors
         [Test]
         public void Should_be_zaz_exception()
         {
-            _resultEx.Should().BeAssignableTo<ZazException>();
+            _resultEx.InnerException.Should().BeAssignableTo<ZazException>();
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Zaz.Tests.Integration.Security
             Action send = () =>
             {
                 var bus = new ZazClient(URL2, new ZazConfiguration());
-                bus.Post(new FooCommand { Message = "Hello world" });
+                bus.PostAsync(new FooCommand { Message = "Hello world" }).Wait();
             };
 
             send.ShouldThrow<Exception>();
@@ -77,7 +77,7 @@ namespace Zaz.Tests.Integration.Security
         public void Should_execute_the_command_sent_trough_endpoint1()
         {
             var bus = new ZazClient(URL1, new ZazConfiguration());
-            bus.Post(new FooCommand { Message = "Hello world" });
+            bus.PostAsync(new FooCommand { Message = "Hello world" }).Wait();
 
             _postedCommand.Should().NotBeNull();
         }

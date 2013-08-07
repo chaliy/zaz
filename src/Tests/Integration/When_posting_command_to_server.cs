@@ -40,10 +40,10 @@ namespace Zaz.Tests.Integration
         public void Should_successfully_send_command()
         {
             var bus = new ZazClient(URL);
-            bus.Post(new PrintMessage
+            bus.PostAsync(new PrintMessage
             {
                 Message = "Hello world"
-            });
+            }).Wait();
         }
     }
 }

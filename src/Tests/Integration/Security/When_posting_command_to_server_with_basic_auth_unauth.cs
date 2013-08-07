@@ -53,10 +53,10 @@ namespace Zaz.Tests.Integration.Security
                 configuration.SetupSimpleBasicAuthentication("user", "unknown");
                 var bus = new ZazClient(URL, configuration);
 
-                bus.Post(new FooCommand
+                bus.PostAsync(new FooCommand
                 {
                     Message = "Hello world"
-                });
+                }).Wait();
             };
 
             send.ShouldThrow<Exception>();
