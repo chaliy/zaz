@@ -7,7 +7,7 @@ namespace Zaz.Client
 {
     public class ZazClient
     {
-        readonly AdvancedZazClient _underlineClient;        
+        readonly AdvancedZazClient _underlineClient;
 
         public ZazClient(string url, ZazConfiguration configuration = null)
         {
@@ -50,7 +50,7 @@ namespace Zaz.Client
         public void Post(object cmd, string[] tags = null, IObserver<LogEntry> log = null)
         {
             try
-            {                
+            {
                 var posting = _underlineClient.PostScheduled(new CommandEnvelope
                 {
                     Key = cmd.GetType().FullName,
@@ -72,7 +72,7 @@ namespace Zaz.Client
             }
         }
 
-        public Task PostAsync(object cmd, params string[] tags)
+        public Task<string> PostAsync(object cmd, params string[] tags)
         {
             return _underlineClient.Post(new CommandEnvelope
             {

@@ -23,9 +23,8 @@ namespace Zaz.Client.Avanced
                 .ContinueWith(x =>
                 {
                     if (!x.Result.IsSuccessStatusCode)
-                    {
                         throw new ZazTransportException("An error occurred while sending request.", x.Result);
-                    }
+
                     return x.Result.Content.ReadAsStringAsync().Result;
                 });
         }
