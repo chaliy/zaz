@@ -51,10 +51,10 @@ namespace Zaz.Tests.Integration
                 host.OpenAsync().Wait();
 
                 var bus = new ZazClient(URL);
-                bus.Post(new FooCommand
+                bus.PostAsync(new FooCommand
                 {
                     Message = "Heeeeelllllloooooo!"
-                });
+                }).Wait();
             }
         }
 

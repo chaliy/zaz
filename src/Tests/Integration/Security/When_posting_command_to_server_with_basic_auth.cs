@@ -57,10 +57,10 @@ namespace Zaz.Tests.Integration.Security
 
                 var client = new ZazClient(URL, configuration);
 
-                client.Post(new FooCommand
+                client.PostAsync(new FooCommand
                 {
                     Message = "Hello world"
-                });
+                }).Wait();
             }
         }
 

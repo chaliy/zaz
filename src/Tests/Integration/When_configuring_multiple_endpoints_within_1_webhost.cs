@@ -73,8 +73,8 @@ namespace Zaz.Tests.Integration
                 Message = "Command #2"
             };
 
-            client1.Post(cmd1);
-            client2.Post(cmd2);
+            client1.PostAsync(cmd1).Wait();
+            client2.PostAsync(cmd2).Wait();
 
             _api1Command.Message.Should().Be(cmd1.Message);
             _api2Command.Message.Should().Be(cmd2.Message);
