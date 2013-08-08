@@ -4,7 +4,6 @@ using System.Web.Http.SelfHost;
 using FluentAssertions;
 using NUnit.Framework;
 using Zaz.Client;
-using Zaz.Client.Avanced.Logging;
 using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
@@ -36,12 +35,10 @@ namespace Zaz.Tests.Integration.Errors
 
                 // Client side
                 var bus = new ZazClient(URL);
-                var log = new ZazLogToStringAdapter();
-                bus.Post(new FooCommand
+                _resultLog = bus.PostAsync(new FooCommand
                 {
                     Message = "Hey!, anybody out there?"
-                }, log: log);
-                _resultLog = log.ToString();
+                }).Result;
             }
         }
 

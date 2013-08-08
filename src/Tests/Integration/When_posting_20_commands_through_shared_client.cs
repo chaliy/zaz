@@ -8,7 +8,6 @@ using NUnit.Framework;
 using SampleCommands;
 using SampleHandlers;
 using Zaz.Client;
-using Zaz.Client.Avanced.Logging;
 using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Broker;
@@ -57,10 +56,8 @@ namespace Zaz.Tests.Integration
                 var local = i;
                 var task = Task.Factory.StartNew(() =>
                 {
-                    var logAdapter = new ZazLogToStringAdapter();
                     var cmd = new PrintMessage { Message = "Hello world #" + (local + 1) };
-                    _client.Post(cmd, new[] { "Tag1" }, logAdapter);
-                    var result = logAdapter.ToString();
+                    var result = _client.PostAsync(cmd, new[] { "Tag1" }).Result;
                     return result;
                 });
 

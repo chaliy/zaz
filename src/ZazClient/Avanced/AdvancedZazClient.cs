@@ -16,17 +16,17 @@ namespace Zaz.Client.Avanced
             _client = new ZazServerClient(url, configuration);
         }
 
-        public Task<string> Post(CommandEnvelope envelope)
+        public Task<string> PostAsync(CommandEnvelope envelope)
         {
             var req = CreatePostCommandRequest(envelope);
             return _client.Post(req)
                 .ContinueWith(x =>
                 {
                     if (!x.Result.IsSuccessStatusCode)
-                    {
                         throw new ZazTransportException("An error occurred while sending request.", x.Result);
-                    }
-                    return x.Result.Content.ReadAsStringAsync().Result;
+
+                    var log = x.Result.Content.ReadAsStringAsync().Result;
+                    return log;
                 });
         }
 

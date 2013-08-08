@@ -34,9 +34,9 @@ namespace Zaz.Tests.Integration.Errors
                 var bus = new ZazClient(URL);
                 try
                 {
-                    bus.Post(new NotExistingCommand
+                    bus.PostAsync(new NotExistingCommand
                     {
-                    });
+                    }).Wait();
                 }
                 catch (Exception ex)
                 {

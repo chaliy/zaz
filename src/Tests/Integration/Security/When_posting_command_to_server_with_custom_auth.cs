@@ -63,7 +63,7 @@ namespace Zaz.Tests.Integration.Security
             {
                 ConfigureDefaultHeaders = c => c.Add("X-Api-Token", "ValidToken")
             });
-            bus.Post(new FooCommand { Message = "Hello world" });
+            bus.PostAsync(new FooCommand { Message = "Hello world" }).Wait();
 
             _postedCommand.Should().NotBeNull();
         }
@@ -76,7 +76,7 @@ namespace Zaz.Tests.Integration.Security
                 ConfigureDefaultHeaders = c => c.Add("X-Api-Token", "InvalidToken")
             });
 
-            Action res = () => bus.Post(new FooCommand { Message = "Hello world" });
+            Action res = () => bus.PostAsync(new FooCommand { Message = "Hello world" }).Wait();
 
             res.ShouldThrow<Exception>();
         }

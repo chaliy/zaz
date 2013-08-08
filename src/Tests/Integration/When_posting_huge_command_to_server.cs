@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Reactive.Subjects;
 using System.Web.Http.SelfHost;
 using FluentAssertions;
 using NUnit.Framework;
 using SampleCommands;
-using Zaz.Client.Avanced;
+using Zaz.Client;
 using Zaz.Server;
 using Zaz.Server.Advanced;
 using Zaz.Server.Advanced.Registry;
 using Zaz.Tests.Integration.CustomBroker;
-using LogEntry = Zaz.Client.LogEntry;
 
 namespace Zaz.Tests.Integration
 {
     public class When_posting_huge_command_to_server
     {
-        //        private HttpSelfHostServer _host;
         private NullCommandBroker _commandBroker;
 
         private static readonly string URL = "http://" + FortyTwo.LocalHost + ":9303/HugeCommands/";
@@ -35,15 +32,11 @@ namespace Zaz.Tests.Integration
             {
                 host.OpenAsync().Wait();
 
-                var bus = new AdvancedZazClient(URL);
-                bus.PostScheduled(new CommandEnvelope
+                var bus = new ZazClient(URL);
+                bus.PostAsync(new HugeFoo
                 {
-                    Key = "HugeFoo",
-                    Command = new HugeFoo
-                    {
-                        Data = new String('a', 2097152)
-                    }
-                }, new Subject<LogEntry>()).Wait();
+                    Data = new String('a', 2097152)
+                }).Wait();
             }
         }
 
